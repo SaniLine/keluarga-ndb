@@ -1,0 +1,2016 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keluarga NDB - RT 06 RW 70</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #3498db;
+      --accent-color: #e74c3c;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f9fa;
+      padding-top: 60px;
+    }
+    
+    .navbar {
+      background-color: var(--primary-color);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .saldo-display {
+      background: linear-gradient(135deg, var(--secondary-color), #2980b9);
+      color: white;
+      border-radius: 10px;
+      padding: 15px;
+      margin: 15px 0;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    .saldo-amount {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+    
+    .card {
+      border-radius: 10px;
+      border: none;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      margin-bottom: 15px;
+      transition: transform 0.2s;
+    }
+    
+    .card:hover {
+      transform: translateY(-2px);
+    }
+    
+    .card-header {
+      background-color: white;
+      border-bottom: 1px solid #eee;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    
+    .card-header.collapsed .fa-chevron-down {
+      transform: rotate(-90deg);
+    }
+    
+    .btn-primary {
+      background-color: var(--secondary-color);
+      border: none;
+    }
+    
+    .btn-primary:hover {
+      background-color: #2980b9;
+    }
+    
+    .warga-item {
+      cursor: pointer;
+      padding: 12px 15px;
+      border-bottom: 1px solid #eee;
+      transition: background-color 0.2s;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      background-color: white;
+      border: 1px solid #e9ecef;
+    }
+    
+    .warga-item:hover {
+      background-color: #f8f9fa;
+      border-color: #3498db;
+    }
+    
+    #wargaList {
+      min-height: 200px;
+    }
+    
+    .card-body {
+      pointer-events: auto !important;
+    }
+    
+    .modal-header {
+      background: linear-gradient(135deg, var(--secondary-color), #2980b9) !important;
+      color: white;
+      border-bottom: none;
+    }
+    
+    .login-container {
+      max-width: 420px;
+      margin: 100px auto;
+      padding: 2.5rem;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    
+    .login-container:hover {
+      transform: translateY(-5px);
+    }
+    
+    .logo-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .logo-circle {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--primary-color), #1a3a75);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 5px 15px rgba(44, 90, 160, 0.3);
+    }
+    
+    .logo-icon {
+      color: white;
+      font-size: 2.2rem;
+    }
+    
+    .header-text {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    .header-text h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+    
+    .header-text .subtitle {
+      font-size: 1rem;
+      color: #6c757d;
+      margin-bottom: 0.3rem;
+    }
+    
+    .header-text .organization {
+      font-size: 0.9rem;
+      color: #6c757d;
+      font-weight: 500;
+    }
+    
+    .form-label {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+    
+    .form-control {
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      border: 1px solid #ddd;
+      transition: all 0.3s;
+    }
+    
+    .form-control:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 0.2rem rgba(44, 90, 160, 0.2);
+    }
+    
+    .login-btn {
+      background-color: var(--primary-color);
+      border: none;
+      border-radius: 8px;
+      padding: 0.75rem;
+      font-weight: 600;
+      transition: all 0.3s;
+      color: white !important;
+    }
+    
+    .login-btn:hover {
+      background-color: #1a3a75;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(44, 90, 160, 0.3);
+      color: white;
+    }
+    
+    .btn-loading {
+      position: relative;
+      color: transparent !important;
+    }
+    
+    .btn-loading::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      top: 50%;
+      left: 50%;
+      margin-left: -10px;
+      margin-top: -10px;
+      border: 2px solid #ffffff;
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 1s ease-in-out infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      display: none;
+    }
+    
+    .loading-spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid var(--primary-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    .sticky-top {
+      position: sticky;
+      top: 0;
+      z-index: 1020;
+    }
+    
+    .nav-tabs .nav-link.active {
+      font-weight: bold;
+      color: var(--secondary-color);
+      border-bottom: 2px solid var(--secondary-color);
+    }
+    
+    .fa-chevron-down {
+      transition: transform 0.3s ease;
+    }
+    
+    .search-container {
+      position: relative;
+      margin-bottom: 15px;
+    }
+    
+    .search-input {
+      padding-right: 40px;
+    }
+    
+    .search-icon {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #6c757d;
+    }
+    
+    .no-results {
+      text-align: center;
+      padding: 20px;
+      color: #6c757d;
+      font-style: italic;
+    }
+    
+    .status-lunas {
+      color: #28a745;
+      font-weight: bold;
+    }
+    
+    .status-belum {
+      color: #dc3545;
+      font-weight: bold;
+    }
+    
+    @media (max-width: 768px) {
+      .saldo-amount {
+        font-size: 2rem;
+      }
+      
+      body {
+        padding-top: 56px;
+      }
+      
+      .login-container {
+        margin: 50px auto;
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="globalLoading">
+    <div class="loading-spinner"></div>
+  </div>
+
+  <!-- Login Screen -->
+  <div id="loginScreen" class="container">
+    <div class="login-container">
+      <div class="logo-container">
+        <div class="logo-circle">
+          <i class="fas fa-home logo-icon"></i>
+        </div>
+      </div>
+      
+      <div class="header-text">
+        <p class="subtitle">RT 06 RW 70</p>
+        <h1>Keluarga NDB</h1>
+        <p class="organization">Angkasa Pura Indonesia</p>
+      </div>
+      
+      <form id="loginForm">
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input type="text" class="form-control" id="username" placeholder="Nomor Rumah (contoh: C06)" required>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password" placeholder="Password" required>
+        </div>
+        <button type="submit" class="btn login-btn w-100" id="loginButton">
+          <span id="loginButtonText">Masuk</span>
+        </button>
+      </form>
+      <div id="loginMessage" class="mt-3"></div>
+    </div>
+  </div>
+
+  <!-- Main App -->
+  <div id="mainApp" style="display: none;">
+    <!-- Header -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+      <div class="container">
+        <span class="navbar-brand fw-bold">
+          <i class="fas fa-home me-2"></i>Keluarga NDB
+        </span>
+        <span class="navbar-text ms-auto" id="userInfo"></span>
+        <button class="btn btn-outline-light btn-sm ms-2" onclick="logout()" id="logoutButton">
+          <span id="logoutButtonText">Keluar</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Saldo Display -->
+    <div class="container">
+      <div class="saldo-display">
+        <div class="saldo-label">Total Saldo Kas</div>
+        <div class="saldo-amount" id="saldoAmount">Rp 0</div>
+        <div class="saldo-update">Update Terakhir: <span id="lastUpdate"></span></div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="container">
+      <ul class="nav nav-tabs mb-3" id="mainTabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-bs-toggle="tab" href="#dataWarga">Data Warga</a>
+        </li>
+        <li class="nav-item" id="kelolaWargaTab" style="display: none;">
+          <a class="nav-link" data-bs-toggle="tab" href="#kelolaWarga">Kelola Warga</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="tab" href="#iuran">Iuran</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="tab" href="#pengeluaran">Pengeluaran</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="tab" href="#catatan">Catatan</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Tab Content -->
+    <div class="container">
+      <div class="tab-content">
+        <!-- Data Warga Tab -->
+        <div class="tab-pane fade show active" id="dataWarga">
+          <div class="card">
+            <div class="card-header collapsed" data-bs-toggle="collapse" data-bs-target="#wargaCollapse">
+              <h5 class="mb-0 d-flex justify-content-between align-items-center">
+                Data Warga
+                <i class="fas fa-chevron-down"></i>
+              </h5>
+            </div>
+            <div class="collapse" id="wargaCollapse">
+              <div class="card-body">
+                <!-- Search Box -->
+                <div class="search-container">
+                  <input type="text" class="form-control search-input" id="searchWarga" placeholder="Cari...">
+                  <i class="fas fa-search search-icon"></i>
+                </div>
+                <div id="wargaList"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kelola Warga Tab -->
+        <div class="tab-pane fade" id="kelolaWarga">
+          <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5 class="mb-0">Kelola Data Warga</h5>
+              <button class="btn btn-primary btn-sm" onclick="showAddWargaModal()" id="addWargaButton">
+                <i class="fas fa-plus"></i> <span id="addWargaButtonText">Warga</span>
+              </button>
+            </div>
+            <div class="card-body">
+              <div id="kelolaWargaList"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Iuran Tab -->
+        <div class="tab-pane fade" id="iuran">
+          <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5 class="mb-0">Data Iuran</h5>
+              <button class="btn btn-primary btn-sm" id="addIuranBtn" style="display: none;" onclick="showAddIuranModal()">
+                <i class="fas fa-plus"></i> <span id="addIuranButtonText">Iuran</span>
+              </button>
+            </div>
+            <div class="card-body">
+              <div id="iuranList"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pengeluaran Tab -->
+        <div class="tab-pane fade" id="pengeluaran">
+          <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5 class="mb-0">Data Pengeluaran</h5>
+              <button class="btn btn-primary btn-sm" id="addPengeluaranBtn" style="display: none;" onclick="showAddPengeluaranModal()">
+                <i class="fas fa-plus"></i> <span id="addPengeluaranButtonText">Pengeluaran</span>
+              </button>
+            </div>
+            <div class="card-body">
+              <div id="pengeluaranList"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Catatan Tab -->
+        <div class="tab-pane fade" id="catatan">
+          <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5 class="mb-0">Catatan</h5>
+              <button class="btn btn-primary btn-sm" id="addCatatanBtn" style="display: none;" onclick="showAddCatatanModal()">
+                <i class="fas fa-plus"></i> <span id="addCatatanButtonText">Catatan</span>
+              </button>
+            </div>
+            <div class="card-body">
+              <div id="catatanList"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modals -->
+  <!-- Modal Detail Warga -->
+  <div class="modal fade" id="detailWargaModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <i class="fas fa-home me-2"></i>
+            Detail Warga - <span id="detailNomorRumah"></span>
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+            <div id="wargaDetailContent" class="row"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <i class="fas fa-times me-1"></i><span>Tutup</span>
+          </button>
+          <button type="button" class="btn btn-primary" id="editWargaBtn" style="display: none;" onclick="showEditWargaModal()">
+            <i class="fas fa-edit me-1"></i><span id="editWargaButtonText">Edit Data</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Edit Warga -->
+  <div class="modal fade" id="editWargaModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Data Saya</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="editWargaForm">
+            <input type="hidden" id="editUsername">
+            <div class="mb-3">
+              <label class="form-label">Nomor Rumah</label>
+              <input type="text" class="form-control" id="editNomorRumah" readonly>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Password</label>
+              <input type="text" class="form-control" id="editPassword" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Dinas</label>
+              <select class="form-select" id="editDinas" required>
+                <option value="JOG">JOG</option>
+                <option value="YIA">YIA</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Nama Suami</label>
+              <input type="text" class="form-control" id="editNamaSuami">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Nama Istri</label>
+              <input type="text" class="form-control" id="editNamaIstri">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Anak (pisahkan dengan koma)</label>
+              <input type="text" class="form-control" id="editAnak" placeholder="Contoh: Ani, Budi, Cici">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <span>Batal</span>
+          </button>
+          <button type="button" class="btn btn-primary" onclick="saveEditWarga()" id="saveEditWargaButton">
+            <span id="saveEditWargaButtonText">Simpan Perubahan</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Tambah Iuran -->
+  <div class="modal fade" id="addIuranModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Tambah Iuran</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="addIuranForm">
+            <div class="mb-3">
+              <label class="form-label">Nomor Rumah</label>
+              <select class="form-select" id="iuranNomorRumah" required>
+                <option value="">Pilih Nomor Rumah</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Bulan</label>
+              <select class="form-select" id="iuranBulan" required>
+                <option value="">Pilih Bulan</option>
+                <option value="Januari">Januari</option>
+                <option value="Februari">Februari</option>
+                <option value="Maret">Maret</option>
+                <option value="April">April</option>
+                <option value="Mei">Mei</option>
+                <option value="Juni">Juni</option>
+                <option value="Juli">Juli</option>
+                <option value="Agustus">Agustus</option>
+                <option value="September">September</option>
+                <option value="Oktober">Oktober</option>
+                <option value="November">November</option>
+                <option value="Desember">Desember</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Tahun</label>
+              <input type="number" class="form-control" id="iuranTahun" min="2023" max="2030" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Jenis Iuran</label>
+              <select class="form-select" id="iuranJenis" required>
+                <option value="">Pilih Jenis Iuran</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Jumlah</label>
+              <input type="number" class="form-control" id="iuranJumlah" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Status</label>
+              <select class="form-select" id="iuranStatus" required>
+                <option value="lunas">Lunas</option>
+                <option value="belum">Belum Bayar</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <span>Batal</span>
+          </button>
+          <button type="button" class="btn btn-primary" onclick="saveIuran()" id="saveIuranButton">
+            <span id="saveIuranButtonText">Simpan</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Edit Iuran -->
+  <div class="modal fade" id="editIuranModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Iuran</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="editIuranForm">
+            <input type="hidden" id="editIuranOriginalData">
+            <div class="mb-3">
+              <label class="form-label">Nomor Rumah</label>
+              <input type="text" class="form-control" id="editIuranNomorRumah" readonly>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Bulan</label>
+              <input type="text" class="form-control" id="editIuranBulan" readonly>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Tahun</label>
+              <input type="text" class="form-control" id="editIuranTahun" readonly>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Jenis Iuran</label>
+              <input type="text" class="form-control" id="editIuranJenis" readonly>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Jumlah</label>
+              <input type="number" class="form-control" id="editIuranJumlah" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Status</label>
+              <select class="form-select" id="editIuranStatus" required>
+                <option value="lunas">Lunas</option>
+                <option value="belum">Belum Bayar</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <span>Batal</span>
+          </button>
+          <button type="button" class="btn btn-primary" onclick="saveEditIuran()" id="saveEditIuranButton">
+            <span id="saveEditIuranButtonText">Simpan Perubahan</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Tambah Warga -->
+  <div class="modal fade" id="addWargaModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Tambah Warga Baru</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="addWargaForm">
+            <div class="mb-3">
+              <label class="form-label">Nomor Rumah</label>
+              <input type="text" class="form-control" id="newNomorRumah" required placeholder="Contoh: C06">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Password</label>
+              <input type="text" class="form-control" id="newPassword" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Dinas</label>
+              <select class="form-select" id="newDinas" required>
+                <option value="JOG">JOG</option>
+                <option value="YIA">YIA</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Nama Suami</label>
+              <input type="text" class="form-control" id="newNamaSuami">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Nama Istri</label>
+              <input type="text" class="form-control" id="newNamaIstri">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Anak (pisahkan dengan koma)</label>
+              <input type="text" class="form-control" id="newAnak" placeholder="Contoh: Ani, Budi, Cici">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <span>Batal</span>
+          </button>
+          <button type="button" class="btn btn-primary" onclick="saveNewWarga()" id="saveNewWargaButton">
+            <span id="saveNewWargaButtonText">Simpan</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Edit Warga Admin -->
+  <div class="modal fade" id="editWargaAdminModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Data Warga</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="editWargaAdminForm">
+            <input type="hidden" id="editWargaAdminUsername">
+            <div class="mb-3">
+              <label class="form-label">Nomor Rumah</label>
+              <input type="text" class="form-control" id="editWargaAdminNomorRumah" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Password</label>
+              <input type="text" class="form-control" id="editWargaAdminPassword" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Dinas</label>
+              <select class="form-select" id="editWargaAdminDinas" required>
+                <option value="JOG">JOG</option>
+                <option value="YIA">YIA</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Nama Suami</label>
+              <input type="text" class="form-control" id="editWargaAdminNamaSuami">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Nama Istri</label>
+              <input type="text" class="form-control" id="editWargaAdminNamaIstri">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Anak (pisahkan dengan koma)</label>
+              <input type="text" class="form-control" id="editWargaAdminAnak" placeholder="Contoh: Ani, Budi, Cici">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <span>Batal</span>
+          </button>
+          <button type="button" class="btn btn-primary" onclick="saveEditWargaAdmin()" id="saveEditWargaAdminButton">
+            <span id="saveEditWargaAdminButtonText">Simpan Perubahan</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Tambah Pengeluaran -->
+  <div class="modal fade" id="addPengeluaranModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Tambah Pengeluaran</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="addPengeluaranForm">
+            <div class="mb-3">
+              <label class="form-label">Tanggal</label>
+              <input type="date" class="form-control" id="pengeluaranTanggal" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Keterangan</label>
+              <input type="text" class="form-control" id="pengeluaranKeterangan" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Jumlah</label>
+              <input type="number" class="form-control" id="pengeluaranJumlah" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <span>Batal</span>
+          </button>
+          <button type="button" class="btn btn-primary" onclick="savePengeluaran()" id="savePengeluaranButton">
+            <span id="savePengeluaranButtonText">Simpan</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Edit Pengeluaran -->
+  <div class="modal fade" id="editPengeluaranModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Pengeluaran</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="editPengeluaranForm">
+            <input type="hidden" id="editPengeluaranOriginalData">
+            <div class="mb-3">
+              <label class="form-label">Tanggal</label>
+              <input type="date" class="form-control" id="editPengeluaranTanggal" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Keterangan</label>
+              <input type="text" class="form-control" id="editPengeluaranKeterangan" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Jumlah</label>
+              <input type="number" class="form-control" id="editPengeluaranJumlah" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <span>Batal</span>
+          </button>
+          <button type="button" class="btn btn-primary" onclick="saveEditPengeluaran()" id="saveEditPengeluaranButton">
+            <span id="saveEditPengeluaranButtonText">Simpan Perubahan</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Tambah Catatan -->
+  <div class="modal fade" id="addCatatanModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Tambah Catatan</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="addCatatanForm">
+            <div class="mb-3">
+              <label class="form-label">Tanggal</label>
+              <input type="date" class="form-control" id="catatanTanggal" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Jenis</label>
+              <select class="form-select" id="catatanJenis" required>
+                <option value="info">Info</option>
+                <option value="pengumuman">Pengumuman</option>
+                <option value="laporan">Laporan</option>
+                <option value="iuran">Iuran</option>
+                <option value="pengeluaran">Pengeluaran</option>
+                <option value="lainnya">Lainnya</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Keterangan</label>
+              <textarea class="form-control" id="catatanKeterangan" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Jumlah (jika ada)</label>
+              <input type="number" class="form-control" id="catatanJumlah" value="0">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <span>Batal</span>
+          </button>
+          <button type="button" class="btn btn-primary" onclick="saveCatatan()" id="saveCatatanButton">
+            <span id="saveCatatanButtonText">Simpan</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Edit Catatan -->
+  <div class="modal fade" id="editCatatanModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Catatan</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="editCatatanForm">
+            <input type="hidden" id="editCatatanOriginalData">
+            <div class="mb-3">
+              <label class="form-label">Tanggal</label>
+              <input type="date" class="form-control" id="editCatatanTanggal" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Jenis</label>
+              <select class="form-select" id="editCatatanJenis" required>
+                <option value="info">Info</option>
+                <option value="pengumuman">Pengumuman</option>
+                <option value="laporan">Laporan</option>
+                <option value="iuran">Iuran</option>
+                <option value="pengeluaran">Pengeluaran</option>
+                <option value="lainnya">Lainnya</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Keterangan</label>
+              <textarea class="form-control" id="editCatatanKeterangan" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Jumlah</label>
+              <input type="number" class="form-control" id="editCatatanJumlah" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <span>Batal</span>
+          </button>
+          <button type="button" class="btn btn-primary" onclick="saveEditCatatan()" id="saveEditCatatanButton">
+            <span id="saveEditCatatanButtonText">Simpan Perubahan</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // ==================== KONFIGURASI ====================
+    // URL APPS SCRIPT ANDA
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxWMKh6ERbLLCNyceVHLZZ2ge08GBKHyX_X2v8ELfFTnYjh5S2BKHT7DugtHgUQorsv/exec';
+    
+    let currentUser = null;
+    let currentWargaDetail = null;
+    let allWargaData = [];
+
+    // ==================== FUNGSI API CALL ====================
+    async function callAppsScript(action, parameters = {}) {
+      try {
+        const url = APPS_SCRIPT_URL;
+        const formData = new URLSearchParams();
+        formData.append('action', action);
+        
+        Object.keys(parameters).forEach(key => {
+          if (typeof parameters[key] === 'object') {
+            formData.append(key, JSON.stringify(parameters[key]));
+          } else {
+            formData.append(key, parameters[key]);
+          }
+        });
+
+        const response = await fetch(url, {
+          method: 'POST',
+          body: formData
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error calling Apps Script:', error);
+        throw error;
+      }
+    }
+
+    // ==================== FUNGSI UTAMA ====================
+    function showButtonLoading(buttonId) {
+      const button = document.getElementById(buttonId);
+      if (button) {
+        button.disabled = true;
+        button.classList.add('btn-loading');
+      }
+    }
+
+    function hideButtonLoading(buttonId) {
+      const button = document.getElementById(buttonId);
+      if (button) {
+        button.disabled = false;
+        button.classList.remove('btn-loading');
+      }
+    }
+
+    function showGlobalLoading() {
+      document.getElementById('globalLoading').style.display = 'flex';
+    }
+
+    function hideGlobalLoading() {
+      document.getElementById('globalLoading').style.display = 'none';
+    }
+
+    function formatRupiah(amount) {
+      const num = parseFloat(amount);
+      if (isNaN(num) || num === 0) {
+        return '';
+      }
+      return 'Rp ' + num.toLocaleString('id-ID');
+    }
+
+    // ==================== AUTHENTICATION ====================
+    async function login() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const messageDiv = document.getElementById('loginMessage');
+      
+      showButtonLoading('loginButton');
+      
+      try {
+        const result = await callAppsScript('login', { username, password });
+        
+        hideButtonLoading('loginButton');
+        
+        if (result.success) {
+          currentUser = result.user;
+          sessionStorage.setItem('ndb_user', JSON.stringify(currentUser));
+          showMainApp();
+        } else {
+          messageDiv.innerHTML = `<div class="alert alert-danger">${result.message}</div>`;
+        }
+      } catch (error) {
+        hideButtonLoading('loginButton');
+        messageDiv.innerHTML = `<div class="alert alert-danger">Terjadi kesalahan: ${error.message}</div>`;
+      }
+    }
+
+    function logout() {
+      showButtonLoading('logoutButton');
+      
+      setTimeout(function() {
+        sessionStorage.removeItem('ndb_user');
+        currentUser = null;
+        document.getElementById('mainApp').style.display = 'none';
+        document.getElementById('loginScreen').style.display = 'block';
+        document.getElementById('loginForm').reset();
+        document.getElementById('loginMessage').innerHTML = '';
+        
+        hideButtonLoading('logoutButton');
+      }, 500);
+    }
+
+    // ==================== MAIN APP ====================
+    function showMainApp() {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('mainApp').style.display = 'block';
+      
+      document.getElementById('userInfo').textContent = `${currentUser.username} (${currentUser.role})`;
+      
+      if (currentUser.role === 'admin') {
+        document.getElementById('kelolaWargaTab').style.display = 'block';
+        document.getElementById('addIuranBtn').style.display = 'block';
+        document.getElementById('addPengeluaranBtn').style.display = 'block';
+        document.getElementById('addCatatanBtn').style.display = 'block';
+      }
+      
+      loadSaldo();
+      loadWarga();
+      loadIuran();
+      loadCatatan();
+      loadPengeluaran();
+      
+      if (currentUser.role === 'admin') {
+        loadKelolaWarga();
+      }
+      
+      loadJenisIuran();
+      setupSearch();
+    }
+
+    function setupSearch() {
+      const searchInput = document.getElementById('searchWarga');
+      searchInput.addEventListener('input', function(e) {
+        filterWargaList(e.target.value);
+      });
+    }
+
+    function filterWargaList(query) {
+      const filteredWarga = allWargaData.filter(item => {
+        const searchText = query.toLowerCase();
+        return (
+          item.username.toLowerCase().includes(searchText) ||
+          item.dinas.toLowerCase().includes(searchText) ||
+          (item.nama_suami && item.nama_suami.toLowerCase().includes(searchText)) ||
+          (item.nama_istri && item.nama_istri.toLowerCase().includes(searchText))
+        );
+      });
+      
+      renderWargaList(filteredWarga);
+    }
+
+    function renderWargaList(warga) {
+      const wargaList = document.getElementById('wargaList');
+      wargaList.innerHTML = '';
+      
+      if (warga.length === 0) {
+        wargaList.innerHTML = '<div class="no-results">Tidak ada data yang sesuai dengan pencarian</div>';
+        return;
+      }
+      
+      warga.forEach(function(item, index) {
+        const wargaItem = document.createElement('div');
+        wargaItem.className = 'warga-item';
+        wargaItem.style.cursor = 'pointer';
+        wargaItem.setAttribute('data-index', index);
+        
+        wargaItem.innerHTML = `
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <strong class="text-primary">${item.username || 'N/A'}</strong>
+              <div class="text-muted small mt-1">
+                ${item.dinas || 'N/A'} - ${item.nama_suami || item.nama_istri || 'N/A'}
+              </div>
+            </div>
+            <div>
+              <i class="fas fa-chevron-right text-muted"></i>
+            </div>
+          </div>
+        `;
+        
+        wargaItem.addEventListener('click', function(e) {
+          e.stopPropagation();
+          showWargaDetail(item);
+        });
+        
+        wargaList.appendChild(wargaItem);
+      });
+    }
+
+    // ==================== LOAD DATA FUNCTIONS ====================
+    async function loadSaldo() {
+      try {
+        const result = await callAppsScript('getSaldo');
+        document.getElementById('saldoAmount').textContent = formatRupiah(result.saldo);
+        document.getElementById('lastUpdate').textContent = new Date().toLocaleString('id-ID');
+      } catch (error) {
+        console.error('Error loading saldo:', error);
+      }
+    }
+
+    async function loadWarga() {
+      try {
+        const warga = await callAppsScript('getWarga');
+        allWargaData = warga;
+        renderWargaList(warga);
+      } catch (error) {
+        console.error('Error loading warga:', error);
+        document.getElementById('wargaList').innerHTML = '<p class="text-danger text-center">Error loading data</p>';
+      }
+    }
+
+    async function loadIuran() {
+      try {
+        const iuran = await callAppsScript('getIuran', {
+          username: currentUser.username,
+          role: currentUser.role
+        });
+        
+        const iuranList = document.getElementById('iuranList');
+        iuranList.innerHTML = '';
+        
+        if (iuran.length === 0) {
+          iuranList.innerHTML = '<p class="text-muted text-center">Tidak ada data iuran</p>';
+          return;
+        }
+        
+        iuran.forEach(function(item) {
+          const iuranItem = document.createElement('div');
+          iuranItem.className = 'card mb-2';
+          const canEdit = currentUser.role === 'admin';
+          const statusClass = item.status === 'lunas' ? 'status-lunas' : 'status-belum';
+          const statusText = item.status === 'lunas' ? 'LUNAS' : 'BELUM BAYAR';
+          
+          iuranItem.innerHTML = `
+            <div class="card-body py-2">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <strong>${item.nomor_rumah}</strong> - ${item.bulan} ${item.tahun}
+                  <div class="text-muted small">${item.jenis_iuran} - ${formatRupiah(item.jumlah)} - <span class="${statusClass}">${statusText}</span></div>
+                </div>
+                ${canEdit ? `
+                <div>
+                  <button class="btn btn-sm btn-outline-primary me-1" onclick="showEditIuranModal('${item.nomor_rumah}', '${item.bulan}', '${item.tahun}', '${item.jenis_iuran}', '${item.jumlah}', '${item.status}')">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger" onclick="deleteIuran('${item.nomor_rumah}', '${item.bulan}', '${item.tahun}', '${item.jenis_iuran}')">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+                ` : ''}
+              </div>
+            </div>
+          `;
+          iuranList.appendChild(iuranItem);
+        });
+      } catch (error) {
+        console.error('Error loading iuran:', error);
+      }
+    }
+
+    async function loadPengeluaran() {
+      try {
+        const pengeluaran = await callAppsScript('getPengeluaran');
+        const pengeluaranList = document.getElementById('pengeluaranList');
+        pengeluaranList.innerHTML = '';
+        
+        if (pengeluaran.length === 0) {
+          pengeluaranList.innerHTML = '<p class="text-muted text-center">Tidak ada data pengeluaran</p>';
+          return;
+        }
+        
+        pengeluaran.forEach(function(item) {
+          const pengeluaranItem = document.createElement('div');
+          pengeluaranItem.className = 'card mb-2';
+          const canEdit = currentUser.role === 'admin';
+          
+          pengeluaranItem.innerHTML = `
+            <div class="card-body py-2">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <strong>${item.keterangan}</strong>
+                  <div class="text-muted small">${item.tanggal} - ${formatRupiah(item.jumlah)}</div>
+                </div>
+                ${canEdit ? `
+                <div>
+                  <button class="btn btn-sm btn-outline-primary me-1" onclick="showEditPengeluaranModal('${item.tanggal}', '${item.keterangan}', '${item.jumlah}')">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger" onclick="deletePengeluaran('${item.tanggal}', '${item.keterangan}', '${item.jumlah}')">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+                ` : ''}
+              </div>
+            </div>
+          `;
+          pengeluaranList.appendChild(pengeluaranItem);
+        });
+      } catch (error) {
+        console.error('Error loading pengeluaran:', error);
+      }
+    }
+
+    async function loadCatatan() {
+      try {
+        const catatan = await callAppsScript('getCatatan');
+        const catatanList = document.getElementById('catatanList');
+        catatanList.innerHTML = '';
+        
+        if (catatan.length === 0) {
+          catatanList.innerHTML = '<p class="text-muted text-center">Tidak ada catatan</p>';
+          return;
+        }
+        
+        catatan.forEach(function(item) {
+          const catatanItem = document.createElement('div');
+          catatanItem.className = 'card mb-2';
+          const canEdit = currentUser.role === 'admin';
+          const jumlah = parseFloat(item.jumlah) || 0;
+          const tampilkanJumlah = jumlah > 0;
+          
+          catatanItem.innerHTML = `
+            <div class="card-body py-2">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <strong>${item.jenis.toUpperCase()}</strong>
+                  <div class="text-muted small">${item.tanggal} - ${item.keterangan}</div>
+                </div>
+                <div class="text-end">
+                  ${tampilkanJumlah ? `
+                  <div class="${item.jenis === 'pengeluaran' ? 'text-danger' : item.jenis === 'iuran' ? 'text-success' : 'text-info'}">
+                    ${item.jenis === 'pengeluaran' ? '-' : item.jenis === 'iuran' ? '+' : ''} ${formatRupiah(item.jumlah)}
+                  </div>
+                  ` : ''}
+                  <div class="text-muted small">Oleh: ${item.created_by}</div>
+                  ${canEdit ? `
+                  <div class="mt-1">
+                    <button class="btn btn-sm btn-outline-primary" onclick="showEditCatatanModal('${item.tanggal}', '${item.jenis}', '${item.keterangan}', '${item.jumlah}')">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger" onclick="deleteCatatan('${item.tanggal}', '${item.jenis}', '${item.keterangan}', '${item.jumlah}')">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                  ` : ''}
+                </div>
+              </div>
+            </div>
+          `;
+          catatanList.appendChild(catatanItem);
+        });
+      } catch (error) {
+        console.error('Error loading catatan:', error);
+      }
+    }
+
+    async function loadKelolaWarga() {
+      try {
+        const users = await callAppsScript('getAllUsers');
+        const wargaList = document.getElementById('kelolaWargaList');
+        wargaList.innerHTML = '';
+        
+        const warga = users.filter(user => user.role === 'warga');
+        
+        if (warga.length === 0) {
+          wargaList.innerHTML = '<p class="text-muted text-center">Tidak ada data warga</p>';
+          return;
+        }
+        
+        warga.forEach(function(item) {
+          const wargaItem = document.createElement('div');
+          wargaItem.className = 'card mb-2';
+          wargaItem.innerHTML = `
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <strong>${item.username}</strong>
+                  <div class="text-muted small">
+                    ${item.dinas} - ${item.nama_suami || ''} ${item.nama_istri ? '& ' + item.nama_istri : ''}
+                    ${item.anak ? '<br>Anak: ' + item.anak : ''}
+                  </div>
+                </div>
+                <div>
+                  <button class="btn btn-sm btn-outline-primary me-1" onclick="showEditWargaAdminModal('${item.username}', '${item.password}', '${item.dinas}', '${item.nama_suami}', '${item.nama_istri}', '${item.anak}')">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger" onclick="deleteWarga('${item.username}')">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+          wargaList.appendChild(wargaItem);
+        });
+      } catch (error) {
+        console.error('Error loading kelola warga:', error);
+      }
+    }
+
+    async function loadJenisIuran() {
+      try {
+        const jenisIuran = await callAppsScript('getJenisIuran');
+        const select = document.getElementById('iuranJenis');
+        select.innerHTML = '<option value="">Pilih Jenis Iuran</option>';
+        
+        jenisIuran.forEach(function(jenis) {
+          const option = document.createElement('option');
+          option.value = jenis;
+          option.textContent = jenis;
+          select.appendChild(option);
+        });
+      } catch (error) {
+        console.error('Error loading jenis iuran:', error);
+      }
+    }
+
+    // ==================== Warga Functions ====================
+    function showWargaDetail(warga) {
+      currentWargaDetail = warga;
+      document.getElementById('detailNomorRumah').textContent = warga.username || 'N/A';
+      
+      const detailContent = document.getElementById('wargaDetailContent');
+      detailContent.innerHTML = `
+        <div class="mb-3">
+          <strong>Nomor Rumah:</strong> <span class="text-primary">${warga.username || 'N/A'}</span>
+        </div>
+        <div class="mb-3">
+          <strong>Dinas:</strong> ${warga.dinas || 'N/A'}
+        </div>
+        <div class="mb-3">
+          <strong>Nama Suami:</strong> ${warga.nama_suami || 'Tidak ada'}
+        </div>
+        <div class="mb-3">
+          <strong>Nama Istri:</strong> ${warga.nama_istri || 'Tidak ada'}
+        </div>
+        <div class="mb-3">
+          <strong>Anak:</strong> ${warga.anak ? (Array.isArray(warga.anak) ? warga.anak.join(', ') : warga.anak) : 'Tidak ada'}
+        </div>
+      `;
+      
+      const editBtn = document.getElementById('editWargaBtn');
+      if (currentUser.role === 'warga' && currentUser.username === warga.username) {
+        editBtn.style.display = 'inline-block';
+      } else {
+        editBtn.style.display = 'none';
+      }
+      
+      const modal = new bootstrap.Modal(document.getElementById('detailWargaModal'));
+      modal.show();
+    }
+
+    async function showEditWargaModal() {
+      if (!currentWargaDetail) return;
+      
+      try {
+        const users = await callAppsScript('getAllUsers');
+        const userData = users.find(user => user.username === currentWargaDetail.username);
+        
+        if (userData) {
+          document.getElementById('editUsername').value = userData.username;
+          document.getElementById('editNomorRumah').value = userData.username;
+          document.getElementById('editPassword').value = userData.password || '';
+          document.getElementById('editDinas').value = userData.dinas || 'JOG';
+          document.getElementById('editNamaSuami').value = userData.nama_suami || '';
+          document.getElementById('editNamaIstri').value = userData.nama_istri || '';
+          document.getElementById('editAnak').value = userData.anak ? 
+            (Array.isArray(userData.anak) ? userData.anak.join(', ') : userData.anak) : '';
+          
+          const detailModal = bootstrap.Modal.getInstance(document.getElementById('detailWargaModal'));
+          if (detailModal) {
+            detailModal.hide();
+          }
+          
+          const editModal = new bootstrap.Modal(document.getElementById('editWargaModal'));
+          editModal.show();
+        }
+      } catch (error) {
+        console.error('Error loading user data:', error);
+      }
+    }
+
+    async function saveEditWarga() {
+      const username = document.getElementById('editUsername').value;
+      
+      const updatedData = {
+        username: document.getElementById('editNomorRumah').value,
+        password: document.getElementById('editPassword').value,
+        dinas: document.getElementById('editDinas').value,
+        nama_suami: document.getElementById('editNamaSuami').value,
+        nama_istri: document.getElementById('editNamaIstri').value,
+        anak: document.getElementById('editAnak').value
+      };
+      
+      if (!username) {
+        alert('Error: Username tidak valid');
+        return;
+      }
+      
+      showButtonLoading('saveEditWargaButton');
+      
+      try {
+        const result = await callAppsScript('updateWarga', {
+          username: username,
+          updatedData: updatedData
+        });
+        
+        hideButtonLoading('saveEditWargaButton');
+        alert(result.message);
+        
+        if (result.success) {
+          const modal = bootstrap.Modal.getInstance(document.getElementById('editWargaModal'));
+          modal.hide();
+          loadWarga();
+          
+          if (currentUser.username === username) {
+            currentUser.username = updatedData.username;
+            currentUser.dinas = updatedData.dinas;
+            currentUser.nama_suami = updatedData.nama_suami;
+            currentUser.nama_istri = updatedData.nama_istri;
+            currentUser.anak = updatedData.anak ? updatedData.anak.split(',').map(a => a.trim()).filter(a => a !== '') : [];
+            sessionStorage.setItem('ndb_user', JSON.stringify(currentUser));
+            document.getElementById('userInfo').textContent = `${currentUser.username} (${currentUser.role})`;
+          }
+        }
+      } catch (error) {
+        hideButtonLoading('saveEditWargaButton');
+        alert('Terjadi kesalahan: ' + error.message);
+      }
+    }
+
+    // ==================== Iuran Functions ====================
+    async function showAddIuranModal() {
+      showButtonLoading('addIuranButton');
+      
+      try {
+        const warga = await callAppsScript('getWarga');
+        hideButtonLoading('addIuranButton');
+        
+        const dropdown = document.getElementById('iuranNomorRumah');
+        dropdown.innerHTML = '<option value="">Pilih Nomor Rumah</option>';
+        
+        warga.forEach(function(item) {
+          const option = document.createElement('option');
+          option.value = item.username;
+          option.textContent = item.username;
+          dropdown.appendChild(option);
+        });
+      } catch (error) {
+        hideButtonLoading('addIuranButton');
+        console.error('Error loading warga for dropdown:', error);
+      }
+      
+      const modal = new bootstrap.Modal(document.getElementById('addIuranModal'));
+      modal.show();
+    }
+
+    async function saveIuran() {
+      const iuranData = {
+        nomor_rumah: document.getElementById('iuranNomorRumah').value,
+        bulan: document.getElementById('iuranBulan').value,
+        tahun: document.getElementById('iuranTahun').value,
+        jenis_iuran: document.getElementById('iuranJenis').value,
+        jumlah: document.getElementById('iuranJumlah').value,
+        status: document.getElementById('iuranStatus').value,
+        tanggal_bayar: document.getElementById('iuranStatus').value === 'lunas' ? new Date().toISOString().split('T')[0] : '',
+        created_by: currentUser.username
+      };
+      
+      showButtonLoading('saveIuranButton');
+      
+      try {
+        const result = await callAppsScript('addIuran', { data: iuranData });
+        hideButtonLoading('saveIuranButton');
+        
+        alert(result.message);
+        if (result.success) {
+          const modal = bootstrap.Modal.getInstance(document.getElementById('addIuranModal'));
+          modal.hide();
+          document.getElementById('addIuranForm').reset();
+          document.getElementById('iuranTahun').value = new Date().getFullYear();
+          loadIuran();
+          loadSaldo();
+          loadCatatan();
+        }
+      } catch (error) {
+        hideButtonLoading('saveIuranButton');
+        alert('Terjadi kesalahan: ' + error.message);
+      }
+    }
+
+    function showEditIuranModal(nomorRumah, bulan, tahun, jenisIuran, jumlah, status) {
+      document.getElementById('editIuranOriginalData').value = JSON.stringify({
+        nomor_rumah: nomorRumah,
+        bulan: bulan,
+        tahun: tahun,
+        jenis_iuran: jenisIuran,
+        jumlah: jumlah,
+        status: status
+      });
+      
+      document.getElementById('editIuranNomorRumah').value = nomorRumah;
+      document.getElementById('editIuranBulan').value = bulan;
+      document.getElementById('editIuranTahun').value = tahun;
+      document.getElementById('editIuranJenis').value = jenisIuran;
+      document.getElementById('editIuranJumlah').value = jumlah;
+      document.getElementById('editIuranStatus').value = status;
+      
+      const modal = new bootstrap.Modal(document.getElementById('editIuranModal'));
+      modal.show();
+    }
+
+    async function saveEditIuran() {
+      const originalData = JSON.parse(document.getElementById('editIuranOriginalData').value);
+      const updatedData = {
+        jumlah: document.getElementById('editIuranJumlah').value,
+        status: document.getElementById('editIuranStatus').value,
+        tanggal_bayar: document.getElementById('editIuranStatus').value === 'lunas' ? new Date().toISOString().split('T')[0] : ''
+      };
+      
+      showButtonLoading('saveEditIuranButton');
+      
+      try {
+        const result = await callAppsScript('updateIuran', {
+          nomorRumah: originalData.nomor_rumah,
+          bulan: originalData.bulan,
+          tahun: originalData.tahun,
+          jenisIuran: originalData.jenis_iuran,
+          updatedData: updatedData
+        });
+        
+        hideButtonLoading('saveEditIuranButton');
+        alert(result.message);
+        
+        if (result.success) {
+          const modal = bootstrap.Modal.getInstance(document.getElementById('editIuranModal'));
+          modal.hide();
+          loadIuran();
+          loadSaldo();
+          loadCatatan();
+        }
+      } catch (error) {
+        hideButtonLoading('saveEditIuranButton');
+        alert('Terjadi kesalahan: ' + error.message);
+      }
+    }
+
+    async function deleteIuran(nomorRumah, bulan, tahun, jenisIuran) {
+      if (confirm(`Apakah Anda yakin ingin menghapus iuran ${jenisIuran} ${nomorRumah} untuk ${bulan} ${tahun}?`)) {
+        showGlobalLoading();
+        
+        try {
+          const result = await callAppsScript('deleteIuran', {
+            nomorRumah: nomorRumah,
+            bulan: bulan,
+            tahun: tahun,
+            jenisIuran: jenisIuran
+          });
+          
+          hideGlobalLoading();
+          alert(result.message);
+          
+          if (result.success) {
+            loadIuran();
+            loadSaldo();
+            loadCatatan();
+          }
+        } catch (error) {
+          hideGlobalLoading();
+          alert('Terjadi kesalahan: ' + error.message);
+        }
+      }
+    }
+
+    // ==================== Pengeluaran Functions ====================
+    function showAddPengeluaranModal() {
+      document.getElementById('addPengeluaranForm').reset();
+      document.getElementById('pengeluaranTanggal').value = new Date().toISOString().split('T')[0];
+      const modal = new bootstrap.Modal(document.getElementById('addPengeluaranModal'));
+      modal.show();
+    }
+
+    async function savePengeluaran() {
+      const pengeluaranData = {
+        tanggal: document.getElementById('pengeluaranTanggal').value,
+        keterangan: document.getElementById('pengeluaranKeterangan').value,
+        jumlah: document.getElementById('pengeluaranJumlah').value,
+        created_by: currentUser.username
+      };
+      
+      showButtonLoading('savePengeluaranButton');
+      
+      try {
+        const result = await callAppsScript('addPengeluaran', { data: pengeluaranData });
+        hideButtonLoading('savePengeluaranButton');
+        
+        alert(result.message);
+        if (result.success) {
+          const modal = bootstrap.Modal.getInstance(document.getElementById('addPengeluaranModal'));
+          modal.hide();
+          loadPengeluaran();
+          loadSaldo();
+          loadCatatan();
+        }
+      } catch (error) {
+        hideButtonLoading('savePengeluaranButton');
+        alert('Terjadi kesalahan: ' + error.message);
+      }
+    }
+
+    function showEditPengeluaranModal(tanggal, keterangan, jumlah) {
+      document.getElementById('editPengeluaranOriginalData').value = JSON.stringify({
+        tanggal: tanggal,
+        keterangan: keterangan,
+        jumlah: jumlah
+      });
+      
+      document.getElementById('editPengeluaranTanggal').value = tanggal;
+      document.getElementById('editPengeluaranKeterangan').value = keterangan;
+      document.getElementById('editPengeluaranJumlah').value = jumlah;
+      
+      const modal = new bootstrap.Modal(document.getElementById('editPengeluaranModal'));
+      modal.show();
+    }
+
+    async function saveEditPengeluaran() {
+      const originalData = JSON.parse(document.getElementById('editPengeluaranOriginalData').value);
+      const updatedData = {
+        tanggal: document.getElementById('editPengeluaranTanggal').value,
+        keterangan: document.getElementById('editPengeluaranKeterangan').value,
+        jumlah: document.getElementById('editPengeluaranJumlah').value
+      };
+      
+      showButtonLoading('saveEditPengeluaranButton');
+      
+      try {
+        const result = await callAppsScript('updatePengeluaran', {
+          tanggal: originalData.tanggal,
+          keterangan: originalData.keterangan,
+          jumlah: originalData.jumlah,
+          updatedData: updatedData
+        });
+        
+        hideButtonLoading('saveEditPengeluaranButton');
+        alert(result.message);
+        
+        if (result.success) {
+          const modal = bootstrap.Modal.getInstance(document.getElementById('editPengeluaranModal'));
+          modal.hide();
+          loadPengeluaran();
+          loadSaldo();
+          loadCatatan();
+        }
+      } catch (error) {
+        hideButtonLoading('saveEditPengeluaranButton');
+        alert('Terjadi kesalahan: ' + error.message);
+      }
+    }
+
+    async function deletePengeluaran(tanggal, keterangan, jumlah) {
+      if (confirm(`Apakah Anda yakin ingin menghapus pengeluaran "${keterangan}"?`)) {
+        showGlobalLoading();
+        
+        try {
+          const result = await callAppsScript('deletePengeluaran', {
+            tanggal: tanggal,
+            keterangan: keterangan,
+            jumlah: jumlah
+          });
+          
+          hideGlobalLoading();
+          alert(result.message);
+          
+          if (result.success) {
+            loadPengeluaran();
+            loadSaldo();
+            loadCatatan();
+          }
+        } catch (error) {
+          hideGlobalLoading();
+          alert('Terjadi kesalahan: ' + error.message);
+        }
+      }
+    }
+
+    // ==================== Catatan Functions ====================
+    function showAddCatatanModal() {
+      document.getElementById('addCatatanForm').reset();
+      document.getElementById('catatanTanggal').value = new Date().toISOString().split('T')[0];
+      const modal = new bootstrap.Modal(document.getElementById('addCatatanModal'));
+      modal.show();
+    }
+
+    async function saveCatatan() {
+      const catatanData = {
+        tanggal: document.getElementById('catatanTanggal').value,
+        jenis: document.getElementById('catatanJenis').value,
+        keterangan: document.getElementById('catatanKeterangan').value,
+        jumlah: document.getElementById('catatanJumlah').value || 0,
+        created_by: currentUser.username
+      };
+      
+      showButtonLoading('saveCatatanButton');
+      
+      try {
+        const result = await callAppsScript('addCatatan', { data: catatanData });
+        hideButtonLoading('saveCatatanButton');
+        
+        alert(result.message);
+        if (result.success) {
+          const modal = bootstrap.Modal.getInstance(document.getElementById('addCatatanModal'));
+          modal.hide();
+          loadCatatan();
+        }
+      } catch (error) {
+        hideButtonLoading('saveCatatanButton');
+        alert('Terjadi kesalahan: ' + error.message);
+      }
+    }
+
+    function showEditCatatanModal(tanggal, jenis, keterangan, jumlah) {
+      document.getElementById('editCatatanOriginalData').value = JSON.stringify({
+        tanggal: tanggal,
+        jenis: jenis,
+        keterangan: keterangan,
+        jumlah: jumlah
+      });
+      
+      document.getElementById('editCatatanTanggal').value = tanggal;
+      document.getElementById('editCatatanJenis').value = jenis;
+      document.getElementById('editCatatanKeterangan').value = keterangan;
+      document.getElementById('editCatatanJumlah').value = jumlah;
+      
+      const modal = new bootstrap.Modal(document.getElementById('editCatatanModal'));
+      modal.show();
+    }
+
+    async function saveEditCatatan() {
+      const originalData = JSON.parse(document.getElementById('editCatatanOriginalData').value);
+      const updatedData = {
+        tanggal: document.getElementById('editCatatanTanggal').value,
+        jenis: document.getElementById('editCatatanJenis').value,
+        keterangan: document.getElementById('editCatatanKeterangan').value,
+        jumlah: document.getElementById('editCatatanJumlah').value
+      };
+      
+      showButtonLoading('saveEditCatatanButton');
+      
+      try {
+        const result = await callAppsScript('updateCatatan', {
+          tanggal: originalData.tanggal,
+          jenis: originalData.jenis,
+          keterangan: originalData.keterangan,
+          jumlah: originalData.jumlah,
+          updatedData: updatedData
+        });
+        
+        hideButtonLoading('saveEditCatatanButton');
+        alert(result.message);
+        
+        if (result.success) {
+          const modal = bootstrap.Modal.getInstance(document.getElementById('editCatatanModal'));
+          modal.hide();
+          loadCatatan();
+        }
+      } catch (error) {
+        hideButtonLoading('saveEditCatatanButton');
+        alert('Terjadi kesalahan: ' + error.message);
+      }
+    }
+
+    async function deleteCatatan(tanggal, jenis, keterangan, jumlah) {
+      if (confirm(`Apakah Anda yakin ingin menghapus catatan "${keterangan}"?`)) {
+        showGlobalLoading();
+        
+        try {
+          const result = await callAppsScript('deleteCatatan', {
+            tanggal: tanggal,
+            jenis: jenis,
+            keterangan: keterangan,
+            jumlah: jumlah
+          });
+          
+          hideGlobalLoading();
+          alert(result.message);
+          
+          if (result.success) {
+            loadCatatan();
+          }
+        } catch (error) {
+          hideGlobalLoading();
+          alert('Terjadi kesalahan: ' + error.message);
+        }
+      }
+    }
+
+    // ==================== Admin Warga Functions ====================
+    function showAddWargaModal() {
+      document.getElementById('addWargaForm').reset();
+      const modal = new bootstrap.Modal(document.getElementById('addWargaModal'));
+      modal.show();
+    }
+
+    async function saveNewWarga() {
+      const userData = {
+        username: document.getElementById('newNomorRumah').value,
+        password: document.getElementById('newPassword').value,
+        role: 'warga',
+        dinas: document.getElementById('newDinas').value,
+        nama_suami: document.getElementById('newNamaSuami').value,
+        nama_istri: document.getElementById('newNamaIstri').value,
+        anak: document.getElementById('newAnak').value
+      };
+      
+      showButtonLoading('saveNewWargaButton');
+      
+      try {
+        const result = await callAppsScript('addUser', { data: userData });
+        hideButtonLoading('saveNewWargaButton');
+        
+        alert(result.message);
+        if (result.success) {
+          const modal = bootstrap.Modal.getInstance(document.getElementById('addWargaModal'));
+          modal.hide();
+          loadKelolaWarga();
+          loadWarga();
+        }
+      } catch (error) {
+        hideButtonLoading('saveNewWargaButton');
+        alert('Terjadi kesalahan: ' + error.message);
+      }
+    }
+
+    function showEditWargaAdminModal(username, password, dinas, namaSuami, namaIstri, anak) {
+      document.getElementById('editWargaAdminUsername').value = username;
+      document.getElementById('editWargaAdminNomorRumah').value = username;
+      document.getElementById('editWargaAdminPassword').value = password || '';
+      document.getElementById('editWargaAdminDinas').value = dinas || 'JOG';
+      document.getElementById('editWargaAdminNamaSuami').value = namaSuami || '';
+      document.getElementById('editWargaAdminNamaIstri').value = namaIstri || '';
+      document.getElementById('editWargaAdminAnak').value = anak || '';
+      
+      const modal = new bootstrap.Modal(document.getElementById('editWargaAdminModal'));
+      modal.show();
+    }
+
+    async function saveEditWargaAdmin() {
+      const originalUsername = document.getElementById('editWargaAdminUsername').value;
+      const newUsername = document.getElementById('editWargaAdminNomorRumah').value;
+      
+      const updatedData = {
+        username: newUsername,
+        password: document.getElementById('editWargaAdminPassword').value,
+        dinas: document.getElementById('editWargaAdminDinas').value,
+        nama_suami: document.getElementById('editWargaAdminNamaSuami').value,
+        nama_istri: document.getElementById('editWargaAdminNamaIstri').value,
+        anak: document.getElementById('editWargaAdminAnak').value
+      };
+      
+      if (!originalUsername || !newUsername) {
+        alert('Error: Username tidak valid');
+        return;
+      }
+      
+      showButtonLoading('saveEditWargaAdminButton');
+      
+      try {
+        const result = await callAppsScript('updateWarga', {
+          username: originalUsername,
+          updatedData: updatedData
+        });
+        
+        hideButtonLoading('saveEditWargaAdminButton');
+        alert(result.message);
+        
+        if (result.success) {
+          const modal = bootstrap.Modal.getInstance(document.getElementById('editWargaAdminModal'));
+          modal.hide();
+          loadKelolaWarga();
+          loadWarga();
+          
+          if (currentUser.username === originalUsername) {
+            currentUser.username = newUsername;
+            currentUser.dinas = updatedData.dinas;
+            currentUser.nama_suami = updatedData.nama_suami;
+            currentUser.nama_istri = updatedData.nama_istri;
+            currentUser.anak = updatedData.anak ? updatedData.anak.split(',').map(a => a.trim()).filter(a => a !== '') : [];
+            sessionStorage.setItem('ndb_user', JSON.stringify(currentUser));
+            document.getElementById('userInfo').textContent = `${currentUser.username} (${currentUser.role})`;
+          }
+        }
+      } catch (error) {
+        hideButtonLoading('saveEditWargaAdminButton');
+        alert('Terjadi kesalahan: ' + error.message);
+      }
+    }
+
+    async function deleteWarga(username) {
+      if (confirm(`Apakah Anda yakin ingin menghapus warga ${username}?`)) {
+        showGlobalLoading();
+        
+        try {
+          const result = await callAppsScript('deleteUser', { username: username });
+          hideGlobalLoading();
+          
+          alert(result.message);
+          if (result.success) {
+            loadKelolaWarga();
+            loadWarga();
+          }
+        } catch (error) {
+          hideGlobalLoading();
+          alert('Terjadi kesalahan: ' + error.message);
+        }
+      }
+    }
+
+    // ==================== INITIALIZATION ====================
+    document.addEventListener('DOMContentLoaded', function() {
+      const currentDate = new Date().toISOString().split('T')[0];
+      document.getElementById('iuranTahun').value = new Date().getFullYear();
+      document.getElementById('pengeluaranTanggal').value = currentDate;
+      document.getElementById('catatanTanggal').value = currentDate;
+      
+      const savedUser = sessionStorage.getItem('ndb_user');
+      if (savedUser) {
+        currentUser = JSON.parse(savedUser);
+        showMainApp();
+      }
+      
+      document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        login();
+      });
+    });
+
+    // Auto-refresh data every 30 seconds
+    setInterval(function() {
+      if (currentUser) {
+        loadSaldo();
+      }
+    }, 30000);
+  </script>
+</body>
+</html>
