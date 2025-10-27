@@ -508,7 +508,7 @@
             <div class="card-body">
               <div class="filter-container">
                 <div class="row g-3">
-                  <div class="col-md-3">
+                  <div class="col-md-4">
                     <label class="form-label">Bulan</label>
                     <select class="form-select" id="detailIuranBulan">
                       <option value="Januari">Januari</option>
@@ -525,7 +525,7 @@
                       <option value="Desember">Desember</option>
                     </select>
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-4">
                     <label class="form-label">Tahun</label>
                     <input type="number" class="form-control" id="detailIuranTahun" min="2023" max="2030" value="2024">
                   </div>
@@ -535,16 +535,18 @@
                       <option value="">Pilih Jenis Iuran</option>
                     </select>
                   </div>
-                  <div class="col-md-2 d-flex align-items-end">
+                </div>
+                <div class="row mt-3">
+                  <div class="col-12">
                     <button class="btn btn-primary w-100" onclick="loadDetailIuran()">
-                      <i class="fas fa-search"></i> <span>Cari</span>
+                      <i class="fas fa-search me-2"></i>Tampilkan Status Iuran
                     </button>
                   </div>
                 </div>
               </div>
               
-              <div class="row mb-3">
-                <div class="col-md-3">
+              <div class="row mb-3 mt-4">
+                <div class="col-md-6">
                   <div class="card bg-success text-white">
                     <div class="card-body text-center">
                       <h5 id="totalLunas">0</h5>
@@ -552,44 +554,13 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-6">
                   <div class="card bg-danger text-white">
                     <div class="card-body text-center">
                       <h5 id="totalBelum">0</h5>
                       <p class="mb-0">Belum Bayar</p>
                     </div>
                   </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="card bg-warning text-white">
-                    <div class="card-body text-center">
-                      <h5 id="totalTidakAda">0</h5>
-                      <p class="mb-0">Belum Ada Data</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="card bg-info text-white">
-                    <div class="card-body text-center">
-                      <h5 id="totalWarga">0</h5>
-                      <p class="mb-0">Total Warga</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="mb-3">
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="filterLunas" checked>
-                  <label class="form-check-label" for="filterLunas">Sudah Bayar</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="filterBelum" checked>
-                  <label class="form-check-label" for="filterBelum">Belum Bayar</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="filterTidakAda" checked>
-                  <label class="form-check-label" for="filterTidakAda">Belum Ada Data</label>
                 </div>
               </div>
               
@@ -1692,134 +1663,130 @@
         
         hideGlobalLoading();
         
-        currentDetailIuran = detailIuran;
-        
         // Hitung statistik
-        const totalWarga = detailIuran.length;
         const totalLunas = detailIuran.filter(item => item.status === 'lunas').length;
-        const totalBelum = detailIuran.filter(item => item.status === 'belum' && item.memiliki_data).length;
-        const totalTidakAda = detailIuran.filter(item => !item.memiliki_data).length;
+        const totalBelum = detailIuran.filter(item => item.status !== 'lunas').length;
         
-        document.getElementById('totalWarga').textContent = totalWarga;
         document.getElementById('totalLunas').textContent = totalLunas;
         document.getElementById('totalBelum').textContent = totalBelum;
-        document.getElementById('totalTidakAda').textContent = totalTidakAda;
         
         // Render detail iuran
-        filterDetailIuran();
+        renderDetailIuranList(detailIuran, jenisIuran, bulan, tahun);
       } catch (error) {
         hideGlobalLoading();
         console.error('Error loading detail iuran:', error);
         document.getElementById('detailIuranList').innerHTML = '<p class="text-danger text-center">Error loading data</p>';
       }
     }
-
-    function filterDetailIuran() {
-      if (!currentDetailIuran || currentDetailIuran.length === 0) {
-        document.getElementById('detailIuranList').innerHTML = '<p class="text-muted text-center">Tidak ada data iuran untuk periode ini</p>';
-        return;
-      }
-      
-      const showLunas = document.getElementById('filterLunas').checked;
-      const showBelum = document.getElementById('filterBelum').checked;
-      const showTidakAda = document.getElementById('filterTidakAda').checked;
-      
-      const filteredData = currentDetailIuran.filter(item => {
-        if (item.status === 'lunas' && showLunas) return true;
-        if (item.status === 'belum' && item.memiliki_data && showBelum) return true;
-        if (!item.memiliki_data && showTidakAda) return true;
-        return false;
-      });
-      
-      renderDetailIuranList(filteredData);
-    }
-
-    function renderDetailIuranList(detailIuran) {
+    
+    function renderDetailIuranList(detailIuran, jenisIuran, bulan, tahun) {
       const detailIuranList = document.getElementById('detailIuranList');
       detailIuranList.innerHTML = '';
       
       if (detailIuran.length === 0) {
-        detailIuranList.innerHTML = '<p class="text-muted text-center">Tidak ada data yang sesuai dengan filter</p>';
+        detailIuranList.innerHTML = '<p class="text-muted text-center">Tidak ada data iuran untuk periode ini</p>';
         return;
       }
       
-      const jenisIuran = document.getElementById('detailIuranJenis').value;
-      const bulan = document.getElementById('detailIuranBulan').value;
-      const tahun = document.getElementById('detailIuranTahun').value;
+      // Pisahkan data menjadi sudah bayar dan belum bayar
+      const sudahBayar = detailIuran.filter(item => item.status === 'lunas');
+      const belumBayar = detailIuran.filter(item => item.status !== 'lunas');
       
-      detailIuran.forEach(function(item) {
-        const detailItem = document.createElement('div');
-        let statusClass = '';
-        let statusText = '';
-        let statusDescription = '';
+      // Tampilkan yang sudah bayar
+      if (sudahBayar.length > 0) {
+        const sudahBayarSection = document.createElement('div');
+        sudahBayarSection.className = 'mb-4';
+        sudahBayarSection.innerHTML = `
+          <h6 class="text-success mb-3">
+            <i class="fas fa-check-circle me-2"></i>
+            Sudah Bayar Iuran ${jenisIuran} ${bulan} ${tahun} (${sudahBayar.length} warga)
+          </h6>
+        `;
         
-        if (item.status === 'lunas') {
-          statusClass = 'status-lunas-card';
-          statusText = 'SUDAH BAYAR';
-          statusDescription = `Lunas - ${item.tanggal_bayar ? `Bayar: ${item.tanggal_bayar}` : ''}`;
-        } else if (item.status === 'belum' && item.memiliki_data) {
-          statusClass = 'status-belum-card';
-          statusText = 'BELUM BAYAR';
-          statusDescription = 'Sudah ada data iuran tapi belum bayar';
-        } else {
-          statusClass = 'status-tidak-ada-card';
-          statusText = 'BELUM ADA DATA';
-          statusDescription = 'Belum ada data iuran untuk jenis ini';
-        }
-        
-        detailItem.className = `card mb-2 status-card ${statusClass}`;
-        detailItem.innerHTML = `
-          <div class="card-body">
-            <div class="d-flex justify-content-between align-items-center">
-              <div>
-                <strong>${item.nomor_rumah}</strong>
-                <div class="text-muted small">
-                  ${item.dinas} - ${item.nama_suami || ''} ${item.nama_istri ? '& ' + item.nama_istri : ''}
+        sudahBayar.forEach(function(item) {
+          const wargaItem = document.createElement('div');
+          wargaItem.className = 'card mb-2 border-success';
+          wargaItem.innerHTML = `
+            <div class="card-body py-2">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <strong class="text-success">${item.nomor_rumah}</strong>
+                  <div class="text-muted small">
+                    ${item.dinas} - ${item.nama_suami || ''} ${item.nama_istri ? '& ' + item.nama_istri : ''}
+                  </div>
+                  ${item.tanggal_bayar ? `<div class="text-muted small">Tanggal Bayar: ${item.tanggal_bayar}</div>` : ''}
                 </div>
-                <div class="mt-1">
-                  <small class="text-muted">${statusDescription}</small>
+                <div class="text-end">
+                  <span class="badge bg-success">LUNAS</span>
+                  <div class="text-success small mt-1">${formatRupiah(item.jumlah)}</div>
                 </div>
-              </div>
-              <div class="text-end">
-                <span class="badge ${item.status === 'lunas' ? 'bg-success' : item.memiliki_data ? 'bg-danger' : 'bg-secondary'}">${statusText}</span>
-                <div class="mt-1">
-                  <small class="text-muted">${formatRupiah(item.jumlah)}</small>
-                </div>
-                ${item.memiliki_data && item.status === 'belum' ? `
-                <div class="mt-1">
-                  <button class="btn btn-sm btn-outline-primary" onclick="showAddIuranForWarga('${item.nomor_rumah}', '${bulan}', '${tahun}', '${jenisIuran}', '${item.jumlah}')">
-                    <i class="fas fa-edit"></i> Update
-                  </button>
-                </div>
-                ` : !item.memiliki_data ? `
-                <div class="mt-1">
-                  <button class="btn btn-sm btn-outline-success" onclick="showAddIuranForWarga('${item.nomor_rumah}', '${bulan}', '${tahun}', '${jenisIuran}', '')">
-                    <i class="fas fa-plus"></i> Tambah
-                  </button>
-                </div>
-                ` : ''}
               </div>
             </div>
-          </div>
-        `;
-        detailIuranList.appendChild(detailItem);
-      });
-    }
-
-    function showAddIuranForWarga(nomorRumah, bulan, tahun, jenisIuran, jumlah) {
-      // Isi form tambah iuran dengan data yang sudah ada
-      document.getElementById('iuranNomorRumah').value = nomorRumah;
-      document.getElementById('iuranBulan').value = bulan;
-      document.getElementById('iuranTahun').value = tahun;
-      document.getElementById('iuranJenis').value = jenisIuran;
-      document.getElementById('iuranJumlah').value = jumlah || '';
-      document.getElementById('iuranStatus').value = 'belum';
+          `;
+          sudahBayarSection.appendChild(wargaItem);
+        });
+        
+        detailIuranList.appendChild(sudahBayarSection);
+      }
       
-      // Tampilkan modal tambah iuran
-      const modal = new bootstrap.Modal(document.getElementById('addIuranModal'));
-      modal.show();
+      // Tampilkan yang belum bayar
+      if (belumBayar.length > 0) {
+        const belumBayarSection = document.createElement('div');
+        belumBayarSection.innerHTML = `
+          <h6 class="text-danger mb-3">
+            <i class="fas fa-times-circle me-2"></i>
+            Belum Bayar Iuran ${jenisIuran} ${bulan} ${tahun} (${belumBayar.length} warga)
+          </h6>
+        `;
+        
+        belumBayar.forEach(function(item) {
+          const wargaItem = document.createElement('div');
+          wargaItem.className = 'card mb-2 border-danger';
+          const statusText = item.memiliki_data ? 'BELUM BAYAR' : 'BELUM ADA DATA';
+          const statusDescription = item.memiliki_data ? 'Sudah ada data tapi belum bayar' : 'Belum ada data iuran';
+          
+          wargaItem.innerHTML = `
+            <div class="card-body py-2">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <strong class="text-danger">${item.nomor_rumah}</strong>
+                  <div class="text-muted small">
+                    ${item.dinas} - ${item.nama_suami || ''} ${item.nama_istri ? '& ' + item.nama_istri : ''}
+                  </div>
+                  <div class="text-muted small">${statusDescription}</div>
+                </div>
+                <div class="text-end">
+                  <span class="badge bg-danger">${statusText}</span>
+                  ${item.memiliki_data ? `<div class="text-danger small mt-1">${formatRupiah(item.jumlah)}</div>` : ''}
+                </div>
+              </div>
+            </div>
+          `;
+          belumBayarSection.appendChild(wargaItem);
+        });
+        
+        detailIuranList.appendChild(belumBayarSection);
+      }
     }
-
+    
+    // Load jenis iuran untuk dropdown
+    async function loadJenisIuran() {
+      try {
+        const jenisIuran = await callAppsScript('getJenisIuran');
+        const detailSelect = document.getElementById('detailIuranJenis');
+        
+        detailSelect.innerHTML = '<option value="">Pilih Jenis Iuran</option>';
+        
+        jenisIuran.forEach(function(jenis) {
+          const option = document.createElement('option');
+          option.value = jenis;
+          option.textContent = jenis;
+          detailSelect.appendChild(option);
+        });
+      } catch (error) {
+        console.error('Error loading jenis iuran:', error);
+      }
+    }
     // ==================== Warga Functions ====================
     function showWargaDetail(warga) {
       currentWargaDetail = warga;
