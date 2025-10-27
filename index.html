@@ -307,6 +307,17 @@
       border-left-color: #dc3545;
     }
     
+    .status-tidak-ada-card {
+      border-left-color: #6c757d;
+    }
+    
+    .filter-container {
+      background-color: #f8f9fa;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    
     @media (max-width: 768px) {
       .saldo-amount {
         font-size: 2rem;
@@ -491,48 +502,73 @@
         <!-- Detail Iuran Tab -->
         <div class="tab-pane fade" id="detailIuran">
           <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
+            <div class="card-header">
               <h5 class="mb-0">Detail Iuran</h5>
-              <div>
-                <select class="form-select me-2 d-inline-block w-auto" id="detailIuranBulan">
-                  <option value="Januari">Januari</option>
-                  <option value="Februari">Februari</option>
-                  <option value="Maret">Maret</option>
-                  <option value="April">April</option>
-                  <option value="Mei">Mei</option>
-                  <option value="Juni">Juni</option>
-                  <option value="Juli">Juli</option>
-                  <option value="Agustus">Agustus</option>
-                  <option value="September">September</option>
-                  <option value="Oktober">Oktober</option>
-                  <option value="November">November</option>
-                  <option value="Desember">Desember</option>
-                </select>
-                <input type="number" class="form-control d-inline-block w-auto" id="detailIuranTahun" min="2023" max="2030" value="2024">
-                <button class="btn btn-primary btn-sm ms-2" onclick="loadDetailIuran()">
-                  <i class="fas fa-search"></i> <span>Cari</span>
-                </button>
-              </div>
             </div>
             <div class="card-body">
+              <div class="filter-container">
+                <div class="row g-3">
+                  <div class="col-md-3">
+                    <label class="form-label">Bulan</label>
+                    <select class="form-select" id="detailIuranBulan">
+                      <option value="Januari">Januari</option>
+                      <option value="Februari">Februari</option>
+                      <option value="Maret">Maret</option>
+                      <option value="April">April</option>
+                      <option value="Mei">Mei</option>
+                      <option value="Juni">Juni</option>
+                      <option value="Juli">Juli</option>
+                      <option value="Agustus">Agustus</option>
+                      <option value="September">September</option>
+                      <option value="Oktober">Oktober</option>
+                      <option value="November">November</option>
+                      <option value="Desember">Desember</option>
+                    </select>
+                  </div>
+                  <div class="col-md-3">
+                    <label class="form-label">Tahun</label>
+                    <input type="number" class="form-control" id="detailIuranTahun" min="2023" max="2030" value="2024">
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label">Jenis Iuran</label>
+                    <select class="form-select" id="detailIuranJenis">
+                      <option value="">Pilih Jenis Iuran</option>
+                    </select>
+                  </div>
+                  <div class="col-md-2 d-flex align-items-end">
+                    <button class="btn btn-primary w-100" onclick="loadDetailIuran()">
+                      <i class="fas fa-search"></i> <span>Cari</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
               <div class="row mb-3">
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <div class="card bg-success text-white">
                     <div class="card-body text-center">
                       <h5 id="totalLunas">0</h5>
-                      <p class="mb-0">Warga Lunas</p>
+                      <p class="mb-0">Sudah Bayar</p>
                     </div>
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <div class="card bg-danger text-white">
                     <div class="card-body text-center">
                       <h5 id="totalBelum">0</h5>
-                      <p class="mb-0">Warga Belum</p>
+                      <p class="mb-0">Belum Bayar</p>
                     </div>
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
+                  <div class="card bg-warning text-white">
+                    <div class="card-body text-center">
+                      <h5 id="totalTidakAda">0</h5>
+                      <p class="mb-0">Belum Ada Data</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
                   <div class="card bg-info text-white">
                     <div class="card-body text-center">
                       <h5 id="totalWarga">0</h5>
@@ -541,6 +577,22 @@
                   </div>
                 </div>
               </div>
+              
+              <div class="mb-3">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="filterLunas" checked>
+                  <label class="form-check-label" for="filterLunas">Sudah Bayar</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="filterBelum" checked>
+                  <label class="form-check-label" for="filterBelum">Belum Bayar</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="filterTidakAda" checked>
+                  <label class="form-check-label" for="filterTidakAda">Belum Ada Data</label>
+                </div>
+              </div>
+              
               <div id="detailIuranList"></div>
             </div>
           </div>
@@ -1124,6 +1176,7 @@
     let currentUser = null;
     let currentWargaDetail = null;
     let allWargaData = [];
+    let currentDetailIuran = [];
 
     // ==================== FUNGSI API CALL ====================
     async function callAppsScript(action, parameters = {}) {
@@ -1260,6 +1313,7 @@
       
       loadJenisIuran();
       setupSearch();
+      setupFilterCheckboxes();
     }
 
     function setupSearch() {
@@ -1267,6 +1321,13 @@
       searchInput.addEventListener('input', function(e) {
         filterWargaList(e.target.value);
       });
+    }
+
+    function setupFilterCheckboxes() {
+      // Setup event listeners untuk filter checkbox
+      document.getElementById('filterLunas').addEventListener('change', filterDetailIuran);
+      document.getElementById('filterBelum').addEventListener('change', filterDetailIuran);
+      document.getElementById('filterTidakAda').addEventListener('change', filterDetailIuran);
     }
 
     function filterWargaList(query) {
@@ -1537,9 +1598,11 @@
         const jenisIuran = await callAppsScript('getJenisIuran');
         const select = document.getElementById('iuranJenis');
         const sebarSelect = document.getElementById('sebarIuranJenis');
+        const detailSelect = document.getElementById('detailIuranJenis');
         
         select.innerHTML = '<option value="">Pilih Jenis Iuran</option>';
         sebarSelect.innerHTML = '<option value="">Pilih Jenis Iuran</option>';
+        detailSelect.innerHTML = '<option value="">Pilih Jenis Iuran</option>';
         
         jenisIuran.forEach(function(jenis) {
           const option = document.createElement('option');
@@ -1551,6 +1614,11 @@
           sebarOption.value = jenis;
           sebarOption.textContent = jenis;
           sebarSelect.appendChild(sebarOption);
+          
+          const detailOption = document.createElement('option');
+          detailOption.value = jenis;
+          detailOption.textContent = jenis;
+          detailSelect.appendChild(detailOption);
         });
       } catch (error) {
         console.error('Error loading jenis iuran:', error);
@@ -1606,9 +1674,10 @@
     async function loadDetailIuran() {
       const bulan = document.getElementById('detailIuranBulan').value;
       const tahun = document.getElementById('detailIuranTahun').value;
+      const jenisIuran = document.getElementById('detailIuranJenis').value;
       
-      if (!bulan || !tahun) {
-        alert('Pilih bulan dan tahun terlebih dahulu!');
+      if (!bulan || !tahun || !jenisIuran) {
+        alert('Pilih bulan, tahun, dan jenis iuran terlebih dahulu!');
         return;
       }
       
@@ -1617,63 +1686,138 @@
       try {
         const detailIuran = await callAppsScript('getDetailIuran', {
           bulan: bulan,
-          tahun: tahun
+          tahun: tahun,
+          jenisIuran: jenisIuran
         });
         
         hideGlobalLoading();
         
+        currentDetailIuran = detailIuran;
+        
         // Hitung statistik
         const totalWarga = detailIuran.length;
         const totalLunas = detailIuran.filter(item => item.status === 'lunas').length;
-        const totalBelum = totalWarga - totalLunas;
+        const totalBelum = detailIuran.filter(item => item.status === 'belum' && item.memiliki_data).length;
+        const totalTidakAda = detailIuran.filter(item => !item.memiliki_data).length;
         
         document.getElementById('totalWarga').textContent = totalWarga;
         document.getElementById('totalLunas').textContent = totalLunas;
         document.getElementById('totalBelum').textContent = totalBelum;
+        document.getElementById('totalTidakAda').textContent = totalTidakAda;
         
         // Render detail iuran
-        const detailIuranList = document.getElementById('detailIuranList');
-        detailIuranList.innerHTML = '';
-        
-        if (detailIuran.length === 0) {
-          detailIuranList.innerHTML = '<p class="text-muted text-center">Tidak ada data iuran untuk periode ini</p>';
-          return;
-        }
-        
-        detailIuran.forEach(function(item) {
-          const detailItem = document.createElement('div');
-          const statusClass = item.status === 'lunas' ? 'status-lunas-card' : 'status-belum-card';
-          const statusText = item.status === 'lunas' ? 'LUNAS' : 'BELUM';
-          
-          detailItem.className = `card mb-2 status-card ${statusClass}`;
-          detailItem.innerHTML = `
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center">
-                <div>
-                  <strong>${item.nomor_rumah}</strong>
-                  <div class="text-muted small">
-                    ${item.dinas} - ${item.nama_suami || ''} ${item.nama_istri ? '& ' + item.nama_istri : ''}
-                  </div>
-                  <div class="mt-1">
-                    <small class="text-muted">Jenis Iuran: ${item.jenis_iuran.length > 0 ? item.jenis_iuran.join(', ') : 'Tidak ada'}</small>
-                  </div>
-                </div>
-                <div class="text-end">
-                  <span class="badge ${item.status === 'lunas' ? 'bg-success' : 'bg-danger'}">${statusText}</span>
-                  <div class="mt-1">
-                    <small class="text-muted">Total: ${formatRupiah(item.total_iuran)}</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-          `;
-          detailIuranList.appendChild(detailItem);
-        });
+        filterDetailIuran();
       } catch (error) {
         hideGlobalLoading();
         console.error('Error loading detail iuran:', error);
         document.getElementById('detailIuranList').innerHTML = '<p class="text-danger text-center">Error loading data</p>';
       }
+    }
+
+    function filterDetailIuran() {
+      if (!currentDetailIuran || currentDetailIuran.length === 0) {
+        document.getElementById('detailIuranList').innerHTML = '<p class="text-muted text-center">Tidak ada data iuran untuk periode ini</p>';
+        return;
+      }
+      
+      const showLunas = document.getElementById('filterLunas').checked;
+      const showBelum = document.getElementById('filterBelum').checked;
+      const showTidakAda = document.getElementById('filterTidakAda').checked;
+      
+      const filteredData = currentDetailIuran.filter(item => {
+        if (item.status === 'lunas' && showLunas) return true;
+        if (item.status === 'belum' && item.memiliki_data && showBelum) return true;
+        if (!item.memiliki_data && showTidakAda) return true;
+        return false;
+      });
+      
+      renderDetailIuranList(filteredData);
+    }
+
+    function renderDetailIuranList(detailIuran) {
+      const detailIuranList = document.getElementById('detailIuranList');
+      detailIuranList.innerHTML = '';
+      
+      if (detailIuran.length === 0) {
+        detailIuranList.innerHTML = '<p class="text-muted text-center">Tidak ada data yang sesuai dengan filter</p>';
+        return;
+      }
+      
+      const jenisIuran = document.getElementById('detailIuranJenis').value;
+      const bulan = document.getElementById('detailIuranBulan').value;
+      const tahun = document.getElementById('detailIuranTahun').value;
+      
+      detailIuran.forEach(function(item) {
+        const detailItem = document.createElement('div');
+        let statusClass = '';
+        let statusText = '';
+        let statusDescription = '';
+        
+        if (item.status === 'lunas') {
+          statusClass = 'status-lunas-card';
+          statusText = 'SUDAH BAYAR';
+          statusDescription = `Lunas - ${item.tanggal_bayar ? `Bayar: ${item.tanggal_bayar}` : ''}`;
+        } else if (item.status === 'belum' && item.memiliki_data) {
+          statusClass = 'status-belum-card';
+          statusText = 'BELUM BAYAR';
+          statusDescription = 'Sudah ada data iuran tapi belum bayar';
+        } else {
+          statusClass = 'status-tidak-ada-card';
+          statusText = 'BELUM ADA DATA';
+          statusDescription = 'Belum ada data iuran untuk jenis ini';
+        }
+        
+        detailItem.className = `card mb-2 status-card ${statusClass}`;
+        detailItem.innerHTML = `
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <strong>${item.nomor_rumah}</strong>
+                <div class="text-muted small">
+                  ${item.dinas} - ${item.nama_suami || ''} ${item.nama_istri ? '& ' + item.nama_istri : ''}
+                </div>
+                <div class="mt-1">
+                  <small class="text-muted">${statusDescription}</small>
+                </div>
+              </div>
+              <div class="text-end">
+                <span class="badge ${item.status === 'lunas' ? 'bg-success' : item.memiliki_data ? 'bg-danger' : 'bg-secondary'}">${statusText}</span>
+                <div class="mt-1">
+                  <small class="text-muted">${formatRupiah(item.jumlah)}</small>
+                </div>
+                ${item.memiliki_data && item.status === 'belum' ? `
+                <div class="mt-1">
+                  <button class="btn btn-sm btn-outline-primary" onclick="showAddIuranForWarga('${item.nomor_rumah}', '${bulan}', '${tahun}', '${jenisIuran}', '${item.jumlah}')">
+                    <i class="fas fa-edit"></i> Update
+                  </button>
+                </div>
+                ` : !item.memiliki_data ? `
+                <div class="mt-1">
+                  <button class="btn btn-sm btn-outline-success" onclick="showAddIuranForWarga('${item.nomor_rumah}', '${bulan}', '${tahun}', '${jenisIuran}', '')">
+                    <i class="fas fa-plus"></i> Tambah
+                  </button>
+                </div>
+                ` : ''}
+              </div>
+            </div>
+          </div>
+        `;
+        detailIuranList.appendChild(detailItem);
+      });
+    }
+
+    function showAddIuranForWarga(nomorRumah, bulan, tahun, jenisIuran, jumlah) {
+      // Isi form tambah iuran dengan data yang sudah ada
+      document.getElementById('iuranNomorRumah').value = nomorRumah;
+      document.getElementById('iuranBulan').value = bulan;
+      document.getElementById('iuranTahun').value = tahun;
+      document.getElementById('iuranJenis').value = jenisIuran;
+      document.getElementById('iuranJumlah').value = jumlah || '';
+      document.getElementById('iuranStatus').value = 'belum';
+      
+      // Tampilkan modal tambah iuran
+      const modal = new bootstrap.Modal(document.getElementById('addIuranModal'));
+      modal.show();
     }
 
     // ==================== Warga Functions ====================
@@ -1843,6 +1987,11 @@
           loadIuran();
           loadSaldo();
           loadCatatan();
+          
+          // Reload detail iuran jika sedang di tab detail
+          if (document.getElementById('detailIuran').classList.contains('active')) {
+            loadDetailIuran();
+          }
         }
       } catch (error) {
         hideButtonLoading('saveIuranButton');
@@ -1899,6 +2048,11 @@
           loadIuran();
           loadSaldo();
           loadCatatan();
+          
+          // Reload detail iuran jika sedang di tab detail
+          if (document.getElementById('detailIuran').classList.contains('active')) {
+            loadDetailIuran();
+          }
         }
       } catch (error) {
         hideButtonLoading('saveEditIuranButton');
@@ -1925,6 +2079,11 @@
             loadIuran();
             loadSaldo();
             loadCatatan();
+            
+            // Reload detail iuran jika sedang di tab detail
+            if (document.getElementById('detailIuran').classList.contains('active')) {
+              loadDetailIuran();
+            }
           }
         } catch (error) {
           hideGlobalLoading();
@@ -2279,11 +2438,18 @@
     // ==================== INITIALIZATION ====================
     document.addEventListener('DOMContentLoaded', function() {
       const currentDate = new Date().toISOString().split('T')[0];
-      document.getElementById('iuranTahun').value = new Date().getFullYear();
-      document.getElementById('sebarIuranTahun').value = new Date().getFullYear();
-      document.getElementById('detailIuranTahun').value = new Date().getFullYear();
+      const currentYear = new Date().getFullYear();
+      
+      document.getElementById('iuranTahun').value = currentYear;
+      document.getElementById('sebarIuranTahun').value = currentYear;
+      document.getElementById('detailIuranTahun').value = currentYear;
       document.getElementById('pengeluaranTanggal').value = currentDate;
       document.getElementById('catatanTanggal').value = currentDate;
+      
+      // Set bulan saat ini
+      const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+      const currentMonth = months[new Date().getMonth()];
+      document.getElementById('detailIuranBulan').value = currentMonth;
       
       const savedUser = sessionStorage.getItem('ndb_user');
       if (savedUser) {
