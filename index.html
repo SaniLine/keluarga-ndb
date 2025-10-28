@@ -1737,13 +1737,13 @@
           <strong>Dinas:</strong> ${warga.dinas || 'N/A'}
         </div>
         <div class="mb-3">
-          <strong>Nama Suami:</strong> ${warga.nama_suami || 'Tidak ada'}
+          <strong>Nama Suami:</strong> ${warga.nama_suami || '-'}
         </div>
         <div class="mb-3">
-          <strong>Nama Istri:</strong> ${warga.nama_istri || 'Tidak ada'}
+          <strong>Nama Istri:</strong> ${warga.nama_istri || '-'}
         </div>
         <div class="mb-3">
-          <strong>Anak:</strong> ${warga.anak ? (Array.isArray(warga.anak) ? warga.anak.join(', ') : warga.anak) : 'Tidak ada'}
+          <strong>Anak:</strong> ${warga.anak ? (Array.isArray(warga.anak) ? warga.anak.join(', ') : warga.anak) : '-'}
         </div>
       `;
       
