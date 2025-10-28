@@ -320,6 +320,22 @@
         height: 38px; /* atau tinggi yang diinginkan */
     }
     
+    .show-more-container {
+      text-align: center;
+      margin-top: 15px;
+      padding: 10px;
+    }
+    
+    .show-more-btn {
+      cursor: pointer;
+      color: var(--secondary-color);
+      font-weight: bold;
+    }
+    
+    .show-more-btn:hover {
+      color: var(--primary-color);
+    }
+    
     @media (max-width: 768px) {
       .saldo-amount {
         font-size: 2rem;
@@ -450,6 +466,12 @@
                   <i class="fas fa-search search-icon"></i>
                 </div>
                 <div id="wargaList"></div>
+                <div class="show-more-container" id="wargaShowMore" style="display: none;">
+                  <div class="show-more-btn" onclick="toggleShowAll('warga')">
+                    <i class="fas fa-chevron-down me-1"></i>
+                    <span>Tampilkan Semua</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -466,6 +488,12 @@
             </div>
             <div class="card-body">
               <div id="kelolaWargaList"></div>
+              <div class="show-more-container" id="kelolaWargaShowMore" style="display: none;">
+                <div class="show-more-btn" onclick="toggleShowAll('kelolaWarga')">
+                  <i class="fas fa-chevron-down me-1"></i>
+                  <span>Tampilkan Semua</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -481,6 +509,12 @@
             </div>
             <div class="card-body">
               <div id="iuranList"></div>
+              <div class="show-more-container" id="iuranShowMore" style="display: none;">
+                <div class="show-more-btn" onclick="toggleShowAll('iuran')">
+                  <i class="fas fa-chevron-down me-1"></i>
+                  <span>Tampilkan Semua</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -580,6 +614,12 @@
 
               <!-- Results Section -->
               <div id="detailIuranList"></div>
+              <div class="show-more-container" id="detailIuranShowMore" style="display: none;">
+                <div class="show-more-btn" onclick="toggleShowAll('detailIuran')">
+                  <i class="fas fa-chevron-down me-1"></i>
+                  <span>Tampilkan Semua</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -595,6 +635,12 @@
             </div>
             <div class="card-body">
               <div id="pengeluaranList"></div>
+              <div class="show-more-container" id="pengeluaranShowMore" style="display: none;">
+                <div class="show-more-btn" onclick="toggleShowAll('pengeluaran')">
+                  <i class="fas fa-chevron-down me-1"></i>
+                  <span>Tampilkan Semua</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -610,6 +656,12 @@
             </div>
             <div class="card-body">
               <div id="catatanList"></div>
+              <div class="show-more-container" id="catatanShowMore" style="display: none;">
+                <div class="show-more-btn" onclick="toggleShowAll('catatan')">
+                  <i class="fas fa-chevron-down me-1"></i>
+                  <span>Tampilkan Semua</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1162,6 +1214,22 @@
     let currentUser = null;
     let currentWargaDetail = null;
     let allWargaData = [];
+    let allData = {
+      warga: [],
+      iuran: [],
+      pengeluaran: [],
+      catatan: [],
+      kelolaWarga: [],
+      detailIuran: []
+    };
+    let showAllData = {
+      warga: false,
+      iuran: false,
+      pengeluaran: false,
+      catatan: false,
+      kelolaWarga: false,
+      detailIuran: false
+    };
 
     // ==================== FUNGSI API CALL ====================
     async function callAppsScript(action, parameters = {}) {
@@ -1323,14 +1391,19 @@
 
     function renderWargaList(warga) {
       const wargaList = document.getElementById('wargaList');
-      wargaList.innerHTML = '';
+      const showMoreContainer = document.getElementById('wargaShowMore');
       
       if (warga.length === 0) {
         wargaList.innerHTML = '<div class="no-results">Tidak ada data yang sesuai dengan pencarian</div>';
+        showMoreContainer.style.display = 'none';
         return;
       }
       
-      warga.forEach(function(item, index) {
+      const displayData = showAllData.warga ? warga : warga.slice(0, 20);
+      
+      wargaList.innerHTML = '';
+      
+      displayData.forEach(function(item, index) {
         const wargaItem = document.createElement('div');
         wargaItem.className = 'warga-item';
         wargaItem.style.cursor = 'pointer';
@@ -1357,6 +1430,44 @@
         
         wargaList.appendChild(wargaItem);
       });
+      
+      // Tampilkan tombol "Tampilkan Semua" jika data lebih dari 20
+      if (warga.length > 20) {
+        showMoreContainer.style.display = 'block';
+        const showMoreBtn = showMoreContainer.querySelector('.show-more-btn');
+        if (showAllData.warga) {
+          showMoreBtn.innerHTML = '<i class="fas fa-chevron-up me-1"></i><span>Tampilkan Sedikit</span>';
+        } else {
+          showMoreBtn.innerHTML = '<i class="fas fa-chevron-down me-1"></i><span>Tampilkan Semua</span>';
+        }
+      } else {
+        showMoreContainer.style.display = 'none';
+      }
+    }
+
+    function toggleShowAll(type) {
+      showAllData[type] = !showAllData[type];
+      
+      switch(type) {
+        case 'warga':
+          renderWargaList(allData.warga);
+          break;
+        case 'iuran':
+          renderIuranList(allData.iuran);
+          break;
+        case 'pengeluaran':
+          renderPengeluaranList(allData.pengeluaran);
+          break;
+        case 'catatan':
+          renderCatatanList(allData.catatan);
+          break;
+        case 'kelolaWarga':
+          renderKelolaWargaList(allData.kelolaWarga);
+          break;
+        case 'detailIuran':
+          renderDetailIuranList(allData.detailIuran);
+          break;
+      }
     }
 
     // ==================== LOAD DATA FUNCTIONS ====================
@@ -1374,6 +1485,7 @@
       try {
         const warga = await callAppsScript('getWarga');
         allWargaData = warga;
+        allData.warga = warga;
         renderWargaList(warga);
       } catch (error) {
         console.error('Error loading warga:', error);
@@ -1388,185 +1500,276 @@
           role: currentUser.role
         });
         
-        const iuranList = document.getElementById('iuranList');
-        iuranList.innerHTML = '';
-        
-        if (iuran.length === 0) {
-          iuranList.innerHTML = '<p class="text-muted text-center">Tidak ada data iuran</p>';
-          return;
-        }
-        
-        iuran.forEach(function(item) {
-          const iuranItem = document.createElement('div');
-          iuranItem.className = 'card mb-2';
-          const canEdit = currentUser.role === 'admin';
-          const statusClass = item.status === 'lunas' ? 'status-lunas' : 'status-belum';
-          const statusText = item.status === 'lunas' ? 'LUNAS' : 'BELUM BAYAR';
-          
-          iuranItem.innerHTML = `
-            <div class="card-body py-2">
-              <div class="d-flex justify-content-between align-items-center">
-                <div>
-                  <strong>${item.nomor_rumah}</strong> - ${item.bulan} ${item.tahun}
-                  <div class="text-muted small">${item.jenis_iuran} - ${formatRupiah(item.jumlah)} - <span class="${statusClass}">${statusText}</span></div>
-                </div>
-                ${canEdit ? `
-                <div>
-                  <button class="btn btn-sm btn-outline-primary me-1" onclick="showEditIuranModal('${item.nomor_rumah}', '${item.bulan}', '${item.tahun}', '${item.jenis_iuran}', '${item.jumlah}', '${item.status}')">
-                    <i class="fas fa-edit"></i>
-                  </button>
-                  <button class="btn btn-sm btn-outline-danger" onclick="deleteIuran('${item.nomor_rumah}', '${item.bulan}', '${item.tahun}', '${item.jenis_iuran}')">
-                    <i class="fas fa-trash"></i>
-                  </button>
-                </div>
-                ` : ''}
-              </div>
-            </div>
-          `;
-          iuranList.appendChild(iuranItem);
-        });
+        allData.iuran = iuran;
+        renderIuranList(iuran);
       } catch (error) {
         console.error('Error loading iuran:', error);
+      }
+    }
+
+    function renderIuranList(iuran) {
+      const iuranList = document.getElementById('iuranList');
+      const showMoreContainer = document.getElementById('iuranShowMore');
+      
+      iuranList.innerHTML = '';
+      
+      if (iuran.length === 0) {
+        iuranList.innerHTML = '<p class="text-muted text-center">Tidak ada data iuran</p>';
+        showMoreContainer.style.display = 'none';
+        return;
+      }
+      
+      const displayData = showAllData.iuran ? iuran : iuran.slice(0, 20);
+      
+      displayData.forEach(function(item) {
+        const iuranItem = document.createElement('div');
+        iuranItem.className = 'card mb-2';
+        const canEdit = currentUser.role === 'admin';
+        const statusClass = item.status === 'lunas' ? 'status-lunas' : 'status-belum';
+        const statusText = item.status === 'lunas' ? 'LUNAS' : 'BELUM BAYAR';
+        
+        iuranItem.innerHTML = `
+          <div class="card-body py-2">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <strong>${item.nomor_rumah}</strong> - ${item.bulan} ${item.tahun}
+                <div class="text-muted small">${item.jenis_iuran} - ${formatRupiah(item.jumlah)} - <span class="${statusClass}">${statusText}</span></div>
+              </div>
+              ${canEdit ? `
+              <div>
+                <button class="btn btn-sm btn-outline-primary me-1" onclick="showEditIuranModal('${item.nomor_rumah}', '${item.bulan}', '${item.tahun}', '${item.jenis_iuran}', '${item.jumlah}', '${item.status}')">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger" onclick="deleteIuran('${item.nomor_rumah}', '${item.bulan}', '${item.tahun}', '${item.jenis_iuran}')">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+              ` : ''}
+            </div>
+          </div>
+        `;
+        iuranList.appendChild(iuranItem);
+      });
+      
+      // Tampilkan tombol "Tampilkan Semua" jika data lebih dari 20
+      if (iuran.length > 20) {
+        showMoreContainer.style.display = 'block';
+        const showMoreBtn = showMoreContainer.querySelector('.show-more-btn');
+        if (showAllData.iuran) {
+          showMoreBtn.innerHTML = '<i class="fas fa-chevron-up me-1"></i><span>Tampilkan Sedikit</span>';
+        } else {
+          showMoreBtn.innerHTML = '<i class="fas fa-chevron-down me-1"></i><span>Tampilkan Semua</span>';
+        }
+      } else {
+        showMoreContainer.style.display = 'none';
       }
     }
 
     async function loadPengeluaran() {
       try {
         const pengeluaran = await callAppsScript('getPengeluaran');
-        const pengeluaranList = document.getElementById('pengeluaranList');
-        pengeluaranList.innerHTML = '';
-        
-        if (pengeluaran.length === 0) {
-          pengeluaranList.innerHTML = '<p class="text-muted text-center">Tidak ada data pengeluaran</p>';
-          return;
-        }
-        
-        pengeluaran.forEach(function(item) {
-          const pengeluaranItem = document.createElement('div');
-          pengeluaranItem.className = 'card mb-2';
-          const canEdit = currentUser.role === 'admin';
-          
-          pengeluaranItem.innerHTML = `
-            <div class="card-body py-2">
-              <div class="d-flex justify-content-between align-items-center">
-                <div>
-                  <strong>${item.keterangan}</strong>
-                  <div class="text-muted small">${item.tanggal} - ${formatRupiah(item.jumlah)}</div>
-                </div>
-                ${canEdit ? `
-                <div>
-                  <button class="btn btn-sm btn-outline-primary me-1" onclick="showEditPengeluaranModal('${item.tanggal}', '${item.keterangan}', '${item.jumlah}')">
-                    <i class="fas fa-edit"></i>
-                  </button>
-                  <button class="btn btn-sm btn-outline-danger" onclick="deletePengeluaran('${item.tanggal}', '${item.keterangan}', '${item.jumlah}')">
-                    <i class="fas fa-trash"></i>
-                  </button>
-                </div>
-                ` : ''}
-              </div>
-            </div>
-          `;
-          pengeluaranList.appendChild(pengeluaranItem);
-        });
+        allData.pengeluaran = pengeluaran;
+        renderPengeluaranList(pengeluaran);
       } catch (error) {
         console.error('Error loading pengeluaran:', error);
+      }
+    }
+
+    function renderPengeluaranList(pengeluaran) {
+      const pengeluaranList = document.getElementById('pengeluaranList');
+      const showMoreContainer = document.getElementById('pengeluaranShowMore');
+      
+      pengeluaranList.innerHTML = '';
+      
+      if (pengeluaran.length === 0) {
+        pengeluaranList.innerHTML = '<p class="text-muted text-center">Tidak ada data pengeluaran</p>';
+        showMoreContainer.style.display = 'none';
+        return;
+      }
+      
+      const displayData = showAllData.pengeluaran ? pengeluaran : pengeluaran.slice(0, 20);
+      
+      displayData.forEach(function(item) {
+        const pengeluaranItem = document.createElement('div');
+        pengeluaranItem.className = 'card mb-2';
+        const canEdit = currentUser.role === 'admin';
+        
+        pengeluaranItem.innerHTML = `
+          <div class="card-body py-2">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <strong>${item.keterangan}</strong>
+                <div class="text-muted small">${item.tanggal} - ${formatRupiah(item.jumlah)}</div>
+              </div>
+              ${canEdit ? `
+              <div>
+                <button class="btn btn-sm btn-outline-primary me-1" onclick="showEditPengeluaranModal('${item.tanggal}', '${item.keterangan}', '${item.jumlah}')">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger" onclick="deletePengeluaran('${item.tanggal}', '${item.keterangan}', '${item.jumlah}')">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+              ` : ''}
+            </div>
+          </div>
+        `;
+        pengeluaranList.appendChild(pengeluaranItem);
+      });
+      
+      // Tampilkan tombol "Tampilkan Semua" jika data lebih dari 20
+      if (pengeluaran.length > 20) {
+        showMoreContainer.style.display = 'block';
+        const showMoreBtn = showMoreContainer.querySelector('.show-more-btn');
+        if (showAllData.pengeluaran) {
+          showMoreBtn.innerHTML = '<i class="fas fa-chevron-up me-1"></i><span>Tampilkan Sedikit</span>';
+        } else {
+          showMoreBtn.innerHTML = '<i class="fas fa-chevron-down me-1"></i><span>Tampilkan Semua</span>';
+        }
+      } else {
+        showMoreContainer.style.display = 'none';
       }
     }
 
     async function loadCatatan() {
       try {
         const catatan = await callAppsScript('getCatatan');
-        const catatanList = document.getElementById('catatanList');
-        catatanList.innerHTML = '';
-        
-        if (catatan.length === 0) {
-          catatanList.innerHTML = '<p class="text-muted text-center">Tidak ada catatan</p>';
-          return;
-        }
-        
-        catatan.forEach(function(item) {
-          const catatanItem = document.createElement('div');
-          catatanItem.className = 'card mb-2';
-          const canEdit = currentUser.role === 'admin';
-          const jumlah = parseFloat(item.jumlah) || 0;
-          const tampilkanJumlah = jumlah > 0;
-          
-          catatanItem.innerHTML = `
-            <div class="card-body py-2">
-              <div class="d-flex justify-content-between align-items-center">
-                <div>
-                  <strong>${item.jenis.toUpperCase()}</strong>
-                  <div class="text-muted small">${item.tanggal} - ${item.keterangan}</div>
-                </div>
-                <div class="text-end">
-                  ${tampilkanJumlah ? `
-                  <div class="${item.jenis === 'pengeluaran' ? 'text-danger' : item.jenis === 'iuran' ? 'text-success' : 'text-info'}">
-                    ${item.jenis === 'pengeluaran' ? '-' : item.jenis === 'iuran' ? '+' : ''} ${formatRupiah(item.jumlah)}
-                  </div>
-                  ` : ''}
-                  <div class="text-muted small">Oleh: ${item.created_by}</div>
-                  ${canEdit ? `
-                  <div class="mt-1">
-                    <button class="btn btn-sm btn-outline-primary" onclick="showEditCatatanModal('${item.tanggal}', '${item.jenis}', '${item.keterangan}', '${item.jumlah}')">
-                      <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="btn btn-sm btn-outline-danger" onclick="deleteCatatan('${item.tanggal}', '${item.jenis}', '${item.keterangan}', '${item.jumlah}')">
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </div>
-                  ` : ''}
-                </div>
-              </div>
-            </div>
-          `;
-          catatanList.appendChild(catatanItem);
-        });
+        allData.catatan = catatan;
+        renderCatatanList(catatan);
       } catch (error) {
         console.error('Error loading catatan:', error);
+      }
+    }
+
+    function renderCatatanList(catatan) {
+      const catatanList = document.getElementById('catatanList');
+      const showMoreContainer = document.getElementById('catatanShowMore');
+      
+      catatanList.innerHTML = '';
+      
+      if (catatan.length === 0) {
+        catatanList.innerHTML = '<p class="text-muted text-center">Tidak ada catatan</p>';
+        showMoreContainer.style.display = 'none';
+        return;
+      }
+      
+      const displayData = showAllData.catatan ? catatan : catatan.slice(0, 20);
+      
+      displayData.forEach(function(item) {
+        const catatanItem = document.createElement('div');
+        catatanItem.className = 'card mb-2';
+        const canEdit = currentUser.role === 'admin';
+        const jumlah = parseFloat(item.jumlah) || 0;
+        const tampilkanJumlah = jumlah > 0;
+        
+        catatanItem.innerHTML = `
+          <div class="card-body py-2">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <strong>${item.jenis.toUpperCase()}</strong>
+                <div class="text-muted small">${item.tanggal} - ${item.keterangan}</div>
+              </div>
+              <div class="text-end">
+                ${tampilkanJumlah ? `
+                <div class="${item.jenis === 'pengeluaran' ? 'text-danger' : item.jenis === 'iuran' ? 'text-success' : 'text-info'}">
+                  ${item.jenis === 'pengeluaran' ? '-' : item.jenis === 'iuran' ? '+' : ''} ${formatRupiah(item.jumlah)}
+                </div>
+                ` : ''}
+                <div class="text-muted small">Oleh: ${item.created_by}</div>
+                ${canEdit ? `
+                <div class="mt-1">
+                  <button class="btn btn-sm btn-outline-primary" onclick="showEditCatatanModal('${item.tanggal}', '${item.jenis}', '${item.keterangan}', '${item.jumlah}')">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger" onclick="deleteCatatan('${item.tanggal}', '${item.jenis}', '${item.keterangan}', '${item.jumlah}')">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+                ` : ''}
+              </div>
+            </div>
+          </div>
+        `;
+        catatanList.appendChild(catatanItem);
+      });
+      
+      // Tampilkan tombol "Tampilkan Semua" jika data lebih dari 20
+      if (catatan.length > 20) {
+        showMoreContainer.style.display = 'block';
+        const showMoreBtn = showMoreContainer.querySelector('.show-more-btn');
+        if (showAllData.catatan) {
+          showMoreBtn.innerHTML = '<i class="fas fa-chevron-up me-1"></i><span>Tampilkan Sedikit</span>';
+        } else {
+          showMoreBtn.innerHTML = '<i class="fas fa-chevron-down me-1"></i><span>Tampilkan Semua</span>';
+        }
+      } else {
+        showMoreContainer.style.display = 'none';
       }
     }
 
     async function loadKelolaWarga() {
       try {
         const users = await callAppsScript('getAllUsers');
-        const wargaList = document.getElementById('kelolaWargaList');
-        wargaList.innerHTML = '';
-        
         const warga = users.filter(user => user.role === 'warga');
-        
-        if (warga.length === 0) {
-          wargaList.innerHTML = '<p class="text-muted text-center">Tidak ada data warga</p>';
-          return;
-        }
-        
-        warga.forEach(function(item) {
-          const wargaItem = document.createElement('div');
-          wargaItem.className = 'card mb-2';
-          wargaItem.innerHTML = `
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center">
-                <div>
-                  <strong>${item.username}</strong>
-                  <div class="text-muted small">
-                    ${item.dinas} - ${item.nama_suami || ''} ${item.nama_istri ? '& ' + item.nama_istri : ''}
-                    ${item.anak ? '<br>Anak: ' + item.anak : ''}
-                  </div>
-                </div>
-                <div>
-                  <button class="btn btn-sm btn-outline-primary me-1" onclick="showEditWargaAdminModal('${item.username}', '${item.password}', '${item.dinas}', '${item.nama_suami}', '${item.nama_istri}', '${item.anak}')">
-                    <i class="fas fa-edit"></i>
-                  </button>
-                  <button class="btn btn-sm btn-outline-danger" onclick="deleteWarga('${item.username}')">
-                    <i class="fas fa-trash"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          `;
-          wargaList.appendChild(wargaItem);
-        });
+        allData.kelolaWarga = warga;
+        renderKelolaWargaList(warga);
       } catch (error) {
         console.error('Error loading kelola warga:', error);
+      }
+    }
+
+    function renderKelolaWargaList(warga) {
+      const wargaList = document.getElementById('kelolaWargaList');
+      const showMoreContainer = document.getElementById('kelolaWargaShowMore');
+      
+      wargaList.innerHTML = '';
+      
+      if (warga.length === 0) {
+        wargaList.innerHTML = '<p class="text-muted text-center">Tidak ada data warga</p>';
+        showMoreContainer.style.display = 'none';
+        return;
+      }
+      
+      const displayData = showAllData.kelolaWarga ? warga : warga.slice(0, 20);
+      
+      displayData.forEach(function(item) {
+        const wargaItem = document.createElement('div');
+        wargaItem.className = 'card mb-2';
+        wargaItem.innerHTML = `
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <strong>${item.username}</strong>
+                <div class="text-muted small">
+                  ${item.dinas} - ${item.nama_suami || ''} ${item.nama_istri ? '& ' + item.nama_istri : ''}
+                  ${item.anak ? '<br>Anak: ' + item.anak : ''}
+                </div>
+              </div>
+              <div>
+                <button class="btn btn-sm btn-outline-primary me-1" onclick="showEditWargaAdminModal('${item.username}', '${item.password}', '${item.dinas}', '${item.nama_suami}', '${item.nama_istri}', '${item.anak}')">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger" onclick="deleteWarga('${item.username}')">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+        wargaList.appendChild(wargaItem);
+      });
+      
+      // Tampilkan tombol "Tampilkan Semua" jika data lebih dari 20
+      if (warga.length > 20) {
+        showMoreContainer.style.display = 'block';
+        const showMoreBtn = showMoreContainer.querySelector('.show-more-btn');
+        if (showAllData.kelolaWarga) {
+          showMoreBtn.innerHTML = '<i class="fas fa-chevron-up me-1"></i><span>Tampilkan Sedikit</span>';
+        } else {
+          showMoreBtn.innerHTML = '<i class="fas fa-chevron-down me-1"></i><span>Tampilkan Semua</span>';
+        }
+      } else {
+        showMoreContainer.style.display = 'none';
       }
     }
 
@@ -1669,57 +1872,80 @@
         
         hideGlobalLoading();
         
-        // Hitung statistik
-        const totalWarga = detailIuran.length;
-        const totalLunas = detailIuran.filter(item => item.status === 'lunas').length;
-        const totalBelum = totalWarga - totalLunas;
-        
-        document.getElementById('totalWarga').textContent = totalWarga;
-        document.getElementById('totalLunas').textContent = totalLunas;
-        document.getElementById('totalBelum').textContent = totalBelum;
-        
-        // Render detail iuran
-        const detailIuranList = document.getElementById('detailIuranList');
-        detailIuranList.innerHTML = '';
-        
-        if (detailIuran.length === 0) {
-          detailIuranList.innerHTML = '<p class="text-muted text-center">Tidak ada data iuran untuk periode ini</p>';
-          return;
-        }
-        
-        detailIuran.forEach(function(item) {
-          const detailItem = document.createElement('div');
-          const statusClass = item.status === 'lunas' ? 'status-lunas-card' : 'status-belum-card';
-          const statusText = item.status === 'lunas' ? 'LUNAS' : 'BELUM';
-          
-          detailItem.className = `card mb-2 status-card ${statusClass}`;
-          detailItem.innerHTML = `
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center">
-                <div>
-                  <strong>${item.nomor_rumah}</strong>
-                  <div class="text-muted small">
-                    ${item.dinas} - ${item.nama_suami || ''} ${item.nama_istri ? '& ' + item.nama_istri : ''}
-                  </div>
-                  <div class="mt-1">
-                    <small class="text-muted">Jenis Iuran: ${item.jenis_iuran.length > 0 ? item.jenis_iuran.join(', ') : 'Tidak ada'}</small>
-                  </div>
-                </div>
-                <div class="text-end">
-                  <span class="badge ${item.status === 'lunas' ? 'bg-success' : 'bg-danger'}">${statusText}</span>
-                  <div class="mt-1">
-                    <small class="text-muted">Total: ${formatRupiah(item.total_iuran)}</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-          `;
-          detailIuranList.appendChild(detailItem);
-        });
+        allData.detailIuran = detailIuran;
+        renderDetailIuranList(detailIuran);
       } catch (error) {
         hideGlobalLoading();
         console.error('Error loading detail iuran:', error);
         document.getElementById('detailIuranList').innerHTML = '<p class="text-danger text-center">Error loading data</p>';
+      }
+    }
+
+    function renderDetailIuranList(detailIuran) {
+      const detailIuranList = document.getElementById('detailIuranList');
+      const showMoreContainer = document.getElementById('detailIuranShowMore');
+      
+      // Hitung statistik
+      const totalWarga = detailIuran.length;
+      const totalLunas = detailIuran.filter(item => item.status === 'lunas').length;
+      const totalBelum = totalWarga - totalLunas;
+      
+      document.getElementById('totalWarga').textContent = totalWarga;
+      document.getElementById('totalLunas').textContent = totalLunas;
+      document.getElementById('totalBelum').textContent = totalBelum;
+      
+      // Render detail iuran
+      detailIuranList.innerHTML = '';
+      
+      if (detailIuran.length === 0) {
+        detailIuranList.innerHTML = '<p class="text-muted text-center">Tidak ada data iuran untuk periode ini</p>';
+        showMoreContainer.style.display = 'none';
+        return;
+      }
+      
+      const displayData = showAllData.detailIuran ? detailIuran : detailIuran.slice(0, 20);
+      
+      displayData.forEach(function(item) {
+        const detailItem = document.createElement('div');
+        const statusClass = item.status === 'lunas' ? 'status-lunas-card' : 'status-belum-card';
+        const statusText = item.status === 'lunas' ? 'LUNAS' : 'BELUM';
+        
+        detailItem.className = `card mb-2 status-card ${statusClass}`;
+        detailItem.innerHTML = `
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <strong>${item.nomor_rumah}</strong>
+                <div class="text-muted small">
+                  ${item.dinas} - ${item.nama_suami || ''} ${item.nama_istri ? '& ' + item.nama_istri : ''}
+                </div>
+                <div class="mt-1">
+                  <small class="text-muted">Jenis Iuran: ${item.jenis_iuran.length > 0 ? item.jenis_iuran.join(', ') : 'Tidak ada'}</small>
+                </div>
+              </div>
+              <div class="text-end">
+                <span class="badge ${item.status === 'lunas' ? 'bg-success' : 'bg-danger'}">${statusText}</span>
+                <div class="mt-1">
+                  <small class="text-muted">Total: ${formatRupiah(item.total_iuran)}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        detailIuranList.appendChild(detailItem);
+      });
+      
+      // Tampilkan tombol "Tampilkan Semua" jika data lebih dari 20
+      if (detailIuran.length > 20) {
+        showMoreContainer.style.display = 'block';
+        const showMoreBtn = showMoreContainer.querySelector('.show-more-btn');
+        if (showAllData.detailIuran) {
+          showMoreBtn.innerHTML = '<i class="fas fa-chevron-up me-1"></i><span>Tampilkan Sedikit</span>';
+        } else {
+          showMoreBtn.innerHTML = '<i class="fas fa-chevron-down me-1"></i><span>Tampilkan Semua</span>';
+        }
+      } else {
+        showMoreContainer.style.display = 'none';
       }
     }
 
@@ -1923,7 +2149,8 @@
       const updatedData = {
         jumlah: document.getElementById('editIuranJumlah').value,
         status: document.getElementById('editIuranStatus').value,
-        tanggal_bayar: document.getElementById('editIuranStatus').value === 'lunas' ? new Date().toISOString().split('T')[0] : ''
+        tanggal_bayar: document.getElementById('editIuranStatus').value === 'lunas' ? new Date().toISOString().split('T')[0] : '',
+        created_by: currentUser.username
       };
       
       showButtonLoading('saveEditIuranButton');
