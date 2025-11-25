@@ -1503,7 +1503,7 @@
         console.error('Error loading iuran:', error);
       }
     }
-
+    
     function renderIuranList(iuran) {
       const iuranList = document.getElementById('iuranList');
       const showMoreContainer = document.getElementById('iuranShowMore');
@@ -1525,11 +1525,16 @@
         const statusClass = item.status === 'lunas' ? 'status-lunas' : 'status-belum';
         const statusText = item.status === 'lunas' ? 'LUNAS' : 'BELUM BAYAR';
         
+        // PERBAIKAN: Tampilkan nomor rumah dan nama pemilik bersamaan untuk admin
+        const displayInfo = currentUser.role === 'admin' && item.nama_pemilik ? 
+          `<strong>${item.nomor_rumah} - ${item.nama_pemilik}</strong>` : 
+          `<strong>${item.nomor_rumah}</strong>`;
+        
         iuranItem.innerHTML = `
           <div class="card-body py-2">
             <div class="d-flex justify-content-between align-items-center">
               <div>
-                <strong>${item.nomor_rumah}</strong> - ${item.bulan} ${item.tahun}
+                ${displayInfo} - ${item.bulan} ${item.tahun}
                 <div class="text-muted small">${item.jenis_iuran} - ${formatRupiah(item.jumlah)} - <span class="${statusClass}">${statusText}</span></div>
               </div>
               ${canEdit ? `
@@ -1561,7 +1566,7 @@
         showMoreContainer.style.display = 'none';
       }
     }
-
+    
     async function loadPengeluaran() {
       try {
         const pengeluaran = await callAppsScript('getPengeluaran');
