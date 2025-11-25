@@ -1525,20 +1525,37 @@
         const statusClass = item.status === 'lunas' ? 'status-lunas' : 'status-belum';
         const statusText = item.status === 'lunas' ? 'LUNAS' : 'BELUM BAYAR';
         
-        // PERBAIKAN: Tampilkan nomor rumah dan nama pemilik bersamaan untuk admin
-        const displayInfo = currentUser.role === 'admin' && item.nama_pemilik ? 
-          `<strong>${item.nomor_rumah} - ${item.nama_pemilik}</strong>` : 
-          `<strong>${item.nomor_rumah}</strong>`;
+        // PERBAIKAN: Format baru dengan nama pemilik
+        let displayName = item.nomor_rumah;
+        if (item.nama_pemilik) {
+          displayName = `${item.nomor_rumah} - ${item.nama_pemilik}`;
+        } else {
+          // Fallback: cari nama dari data warga yang sudah diload
+          const warga = allWargaData.find(w => w.username === item.nomor_rumah);
+          if (warga) {
+            displayName = `${item.nomor_rumah} - ${warga.nama_suami || warga.nama_istri || warga.username}`;
+          }
+        }
         
         iuranItem.innerHTML = `
           <div class="card-body py-2">
             <div class="d-flex justify-content-between align-items-center">
-              <div>
-                ${displayInfo} - ${item.bulan} ${item.tahun}
-                <div class="text-muted small">${item.jenis_iuran} - ${formatRupiah(item.jumlah)} - <span class="${statusClass}">${statusText}</span></div>
+              <div class="flex-grow-1">
+                <!-- Baris 1: Nomor Rumah - Nama -->
+                <div class="fw-bold text-primary">${displayName}</div>
+                <!-- Baris 2: Bulan Tahun - Jenis Iuran -->
+                <div class="text-muted small">
+                  ${item.bulan} ${item.tahun} - ${item.jenis_iuran}
+                </div>
+                <!-- Baris 3: Jumlah - Status -->
+                <div class="mt-1">
+                  <span class="fw-semibold">${formatRupiah(item.jumlah)}</span> 
+                  - 
+                  <span class="${statusClass}">${statusText}</span>
+                </div>
               </div>
               ${canEdit ? `
-              <div>
+              <div class="ms-3">
                 <button class="btn btn-sm btn-outline-primary me-1" onclick="showEditIuranModal('${item.nomor_rumah}', '${item.bulan}', '${item.tahun}', '${item.jenis_iuran}', '${item.jumlah}', '${item.status}')">
                   <i class="fas fa-edit"></i>
                 </button>
