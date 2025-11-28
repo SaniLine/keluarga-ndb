@@ -2119,8 +2119,33 @@
       const bulanAkhir = document.getElementById('saldoPeriodeBulanAkhir').value;
       const tahunAkhir = document.getElementById('saldoPeriodeTahunAkhir').value;
       
+      console.log('Parameter yang dikirim:', { bulanAwal, tahunAwal, bulanAkhir, tahunAkhir });
+      
       if (!bulanAwal || !tahunAwal || !bulanAkhir || !tahunAkhir) {
         alert('Semua field periode harus diisi!');
+        return;
+      }
+      
+      // Validasi tahun
+      if (tahunAwal < 2020 || tahunAwal > 2030 || tahunAkhir < 2020 || tahunAkhir > 2030) {
+        alert('Tahun harus antara 2020-2030!');
+        return;
+      }
+      
+      // Validasi periode (akhir tidak boleh sebelum awal)
+      const bulanKeAngka = {
+        'Januari': 1, 'Februari': 2, 'Maret': 3, 'April': 4, 'Mei': 5, 'Juni': 6,
+        'Juli': 7, 'Agustus': 8, 'September': 9, 'Oktober': 10, 'November': 11, 'Desember': 12
+      };
+      
+      const angkaBulanAwal = bulanKeAngka[bulanAwal];
+      const angkaBulanAkhir = bulanKeAngka[bulanAkhir];
+      const angkaTahunAwal = parseInt(tahunAwal);
+      const angkaTahunAkhir = parseInt(tahunAkhir);
+      
+      if (angkaTahunAkhir < angkaTahunAwal || 
+          (angkaTahunAkhir === angkaTahunAwal && angkaBulanAkhir < angkaBulanAwal)) {
+        alert('Periode akhir tidak boleh sebelum periode awal!');
         return;
       }
       
@@ -2134,6 +2159,8 @@
           tahunAkhir: tahunAkhir
         });
         
+        console.log('Response dari server:', result);
+        
         hideButtonLoading('tampilkanSaldoButton');
         
         if (result.success) {
@@ -2144,12 +2171,25 @@
           
           // Tampilkan hasil
           document.getElementById('saldoPeriodeResult').style.display = 'block';
+          
+          // Tambahkan kelas warna berdasarkan saldo
+          const saldoElement = document.getElementById('saldoAkhirPeriode');
+          saldoElement.className = 'mt-2 ' + (result.saldo >= 0 ? 'text-success' : 'text-danger');
+          
+          // Tampilkan pesan sukses jika ada
+          if (result.message) {
+            console.log('Pesan sukses:', result.message);
+          }
+          
         } else {
-          alert('Gagal memuat saldo periode: ' + result.message);
+          const errorMessage = result.message || 'Terjadi kesalahan tidak diketahui';
+          alert('Gagal memuat saldo periode: ' + errorMessage);
+          console.error('Error response:', result);
         }
       } catch (error) {
         hideButtonLoading('tampilkanSaldoButton');
-        alert('Terjadi kesalahan: ' + error.message);
+        console.error('Error loadSaldoPeriode:', error);
+        alert('Terjadi kesalahan koneksi: ' + error.message);
       }
     }
 
