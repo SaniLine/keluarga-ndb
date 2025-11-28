@@ -336,6 +336,49 @@
       color: var(--primary-color);
     }
     
+    .saldo-periode-card {
+      border: 2px solid #e9ecef;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .saldo-periode-header {
+      background: linear-gradient(135deg, #6c757d, #495057);
+      color: white;
+      padding: 15px;
+      border-radius: 8px 8px 0 0;
+    }
+    
+    .saldo-periode-body {
+      padding: 20px;
+    }
+    
+    .saldo-periode-result {
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 20px;
+      display: none;
+    }
+    
+    .saldo-periode-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #dee2e6;
+    }
+    
+    .saldo-periode-total {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--primary-color);
+      text-align: center;
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 2px solid #dee2e6;
+    }
+    
     @media (max-width: 768px) {
       .saldo-amount {
         font-size: 2rem;
@@ -436,6 +479,9 @@
         </li>
         <li class="nav-item" id="detailIuranTab" style="display: none;">
           <a class="nav-link" data-bs-toggle="tab" href="#detailIuran">Detail Iuran</a>
+        </li>
+        <li class="nav-item" id="jumlahTotalTab" style="display: none;">
+          <a class="nav-link" data-bs-toggle="tab" href="#jumlahTotal">Jumlah Total</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" data-bs-toggle="tab" href="#pengeluaran">Pengeluaran</a>
@@ -615,6 +661,103 @@
                 <div class="show-more-btn" onclick="toggleShowAll('detailIuran')">
                   <i class="fas fa-chevron-down me-1"></i>
                   <span>Tampilkan Semua</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Jumlah Total Tab -->
+        <div class="tab-pane fade" id="jumlahTotal">
+          <div class="card saldo-periode-card">
+            <div class="saldo-periode-header">
+              <h5 class="mb-0">
+                <i class="fas fa-chart-bar me-2"></i>Laporan Saldo Periode
+              </h5>
+            </div>
+            <div class="saldo-periode-body">
+              <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>
+                Fitur ini memungkinkan Anda untuk melihat jumlah total saldo kas berdasarkan periode tertentu.
+                Pilih periode awal dan akhir, kemudian klik "Tampilkan Saldo" untuk melihat rincian.
+              </div>
+              
+              <!-- Filter Section -->
+              <div class="filter-container">
+                <div class="row g-3 align-items-end">
+                  <div class="col-md-5">
+                    <label class="form-label">Periode Awal</label>
+                    <div class="row g-2">
+                      <div class="col-6">
+                        <select class="form-select" id="saldoPeriodeBulanAwal">
+                          <option value="Januari">Januari</option>
+                          <option value="Februari">Februari</option>
+                          <option value="Maret">Maret</option>
+                          <option value="April">April</option>
+                          <option value="Mei">Mei</option>
+                          <option value="Juni">Juni</option>
+                          <option value="Juli">Juli</option>
+                          <option value="Agustus">Agustus</option>
+                          <option value="September">September</option>
+                          <option value="Oktober">Oktober</option>
+                          <option value="November">November</option>
+                          <option value="Desember">Desember</option>
+                        </select>
+                      </div>
+                      <div class="col-6">
+                        <input type="number" class="form-control" id="saldoPeriodeTahunAwal" min="2023" max="2030" value="2024">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <label class="form-label">Periode Akhir</label>
+                    <div class="row g-2">
+                      <div class="col-6">
+                        <select class="form-select" id="saldoPeriodeBulanAkhir">
+                          <option value="Januari">Januari</option>
+                          <option value="Februari">Februari</option>
+                          <option value="Maret">Maret</option>
+                          <option value="April">April</option>
+                          <option value="Mei">Mei</option>
+                          <option value="Juni">Juni</option>
+                          <option value="Juli">Juli</option>
+                          <option value="Agustus">Agustus</option>
+                          <option value="September">September</option>
+                          <option value="Oktober">Oktober</option>
+                          <option value="November">November</option>
+                          <option value="Desember">Desember</option>
+                        </select>
+                      </div>
+                      <div class="col-6">
+                        <input type="number" class="form-control" id="saldoPeriodeTahunAkhir" min="2023" max="2030" value="2024">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <button class="btn btn-primary w-100" onclick="loadSaldoPeriode()" id="tampilkanSaldoButton">
+                      <i class="fas fa-chart-bar"></i> <span>Tampilkan</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Results Section -->
+              <div class="saldo-periode-result" id="saldoPeriodeResult">
+                <h5 class="text-center mb-4">Rincian Saldo Periode: <span id="periodeText"></span></h5>
+                
+                <div class="saldo-periode-item">
+                  <span>Total Pemasukan (Iuran Lunas):</span>
+                  <strong class="text-success" id="totalPemasukan">Rp 0</strong>
+                </div>
+                
+                <div class="saldo-periode-item">
+                  <span>Total Pengeluaran:</span>
+                  <strong class="text-danger" id="totalPengeluaranPeriode">Rp 0</strong>
+                </div>
+                
+                <div class="saldo-periode-total">
+                  <span>Saldo Akhir Periode:</span>
+                  <div id="saldoAkhirPeriode" class="mt-2">Rp 0</div>
                 </div>
               </div>
             </div>
@@ -1345,6 +1488,7 @@
         document.getElementById('kelolaWargaTab').style.display = 'block';
         document.getElementById('sebarIuranTab').style.display = 'block';
         document.getElementById('detailIuranTab').style.display = 'block';
+        document.getElementById('jumlahTotalTab').style.display = 'block';
         document.getElementById('addIuranBtn').style.display = 'block';
         document.getElementById('addPengeluaranBtn').style.display = 'block';
         document.getElementById('addCatatanBtn').style.display = 'block';
@@ -1968,6 +2112,47 @@
       }
     }
 
+    // ==================== FITUR BARU: SALDO PERIODE ====================
+    async function loadSaldoPeriode() {
+      const bulanAwal = document.getElementById('saldoPeriodeBulanAwal').value;
+      const tahunAwal = document.getElementById('saldoPeriodeTahunAwal').value;
+      const bulanAkhir = document.getElementById('saldoPeriodeBulanAkhir').value;
+      const tahunAkhir = document.getElementById('saldoPeriodeTahunAkhir').value;
+      
+      if (!bulanAwal || !tahunAwal || !bulanAkhir || !tahunAkhir) {
+        alert('Semua field periode harus diisi!');
+        return;
+      }
+      
+      showButtonLoading('tampilkanSaldoButton');
+      
+      try {
+        const result = await callAppsScript('getSaldoPeriode', {
+          bulanAwal: bulanAwal,
+          tahunAwal: tahunAwal,
+          bulanAkhir: bulanAkhir,
+          tahunAkhir: tahunAkhir
+        });
+        
+        hideButtonLoading('tampilkanSaldoButton');
+        
+        if (result.success) {
+          document.getElementById('periodeText').textContent = result.periode;
+          document.getElementById('totalPemasukan').textContent = formatRupiah(result.totalIuran);
+          document.getElementById('totalPengeluaranPeriode').textContent = formatRupiah(result.totalPengeluaran);
+          document.getElementById('saldoAkhirPeriode').textContent = formatRupiah(result.saldo);
+          
+          // Tampilkan hasil
+          document.getElementById('saldoPeriodeResult').style.display = 'block';
+        } else {
+          alert('Gagal memuat saldo periode: ' + result.message);
+        }
+      } catch (error) {
+        hideButtonLoading('tampilkanSaldoButton');
+        alert('Terjadi kesalahan: ' + error.message);
+      }
+    }
+
     // ==================== Warga Functions ====================
     function showWargaDetail(warga) {
       currentWargaDetail = warga;
@@ -2575,6 +2760,8 @@
       document.getElementById('iuranTahun').value = new Date().getFullYear();
       document.getElementById('sebarIuranTahun').value = new Date().getFullYear();
       document.getElementById('detailIuranTahun').value = new Date().getFullYear();
+      document.getElementById('saldoPeriodeTahunAwal').value = new Date().getFullYear();
+      document.getElementById('saldoPeriodeTahunAkhir').value = new Date().getFullYear();
       document.getElementById('pengeluaranTanggal').value = currentDate;
       document.getElementById('catatanTanggal').value = currentDate;
       
