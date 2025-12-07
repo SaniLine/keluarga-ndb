@@ -314,10 +314,9 @@
       margin-bottom: 15px;
     }
 
-    /* Atur tinggi kolom */
     .filter-container .form-control,
     .filter-container .form-select {
-        height: 38px; /* atau tinggi yang diinginkan */
+        height: 38px;
     }
     
     .show-more-container {
@@ -336,6 +335,58 @@
       color: var(--primary-color);
     }
     
+    /* STYLE UNTUK UPLOAD GAMBAR */
+    .image-gallery {
+      margin: 10px 0;
+    }
+    
+    .image-preview-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 10px 0;
+    }
+    
+    .image-preview-item {
+      position: relative;
+    }
+    
+    .upload-area {
+      border: 2px dashed #ddd;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      background-color: #f8f9fa;
+    }
+    
+    .upload-area:hover {
+      border-color: #3498db;
+      background-color: #e3f2fd;
+    }
+    
+    .upload-icon {
+      font-size: 3rem;
+      color: #6c757d;
+      margin-bottom: 10px;
+    }
+    
+    .image-counter {
+      background-color: #3498db;
+      color: white;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      position: absolute;
+      top: -8px;
+      right: -8px;
+    }
+    
     @media (max-width: 768px) {
       .saldo-amount {
         font-size: 2rem;
@@ -352,6 +403,14 @@
       
       .filter-container .row > div {
         margin-bottom: 10px;
+      }
+      
+      .upload-area {
+        padding: 15px;
+      }
+      
+      .upload-icon {
+        font-size: 2rem;
       }
     }
   </style>
@@ -449,7 +508,7 @@
     <!-- Tab Content -->
     <div class="container">
       <div class="tab-content">
-        <!-- Data Warga Tab - PERBAIKAN: Default menampilkan data, bukan tersembunyi -->
+        <!-- Data Warga Tab -->
         <div class="tab-pane fade show active" id="dataWarga">
           <div class="card">
             <div class="card-header">
@@ -458,7 +517,6 @@
               </h5>
             </div>
             <div class="card-body">
-              <!-- Search Box -->
               <div class="search-container">
                 <input type="text" class="form-control search-input" id="searchWarga" placeholder="Cari...">
                 <i class="fas fa-search search-icon"></i>
@@ -666,7 +724,8 @@
     </div>
   </div>
 
-  <!-- Modals -->
+  <!-- ==================== MODALS ==================== -->
+  
   <!-- Modal Detail Warga -->
   <div class="modal fade" id="detailWargaModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
@@ -1033,9 +1092,9 @@
     </div>
   </div>
 
-  <!-- Modal Tambah Pengeluaran -->
+  <!-- MODIFIKASI: Modal Tambah Pengeluaran dengan Upload Gambar -->
   <div class="modal fade" id="addPengeluaranModal" tabindex="-1">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Tambah Pengeluaran</h5>
@@ -1054,6 +1113,31 @@
             <div class="mb-3">
               <label class="form-label">Jumlah</label>
               <input type="number" class="form-control" id="pengeluaranJumlah" required>
+            </div>
+            
+            <!-- Bagian Upload Gambar -->
+            <div id="uploadSection">
+              <div class="mb-3">
+                <label class="form-label">Upload Bukti (Maks 5 gambar, 5MB per gambar)</label>
+                
+                <!-- Area Upload -->
+                <div class="upload-area" onclick="document.getElementById('imageUpload').click()" id="uploadArea">
+                  <div class="upload-icon">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                  </div>
+                  <p class="mb-1">Klik atau drag & drop untuk upload gambar</p>
+                  <p class="text-muted small">JPG, PNG, GIF, WebP (maks 5MB)</p>
+                  <div id="fileCounter" style="display: none;" class="image-counter">0</div>
+                </div>
+                
+                <!-- Input File Hidden -->
+                <input type="file" id="imageUpload" class="d-none" 
+                       accept="image/*" multiple 
+                       onchange="handleImageUpload(event)">
+                
+                <!-- Preview Gambar -->
+                <div id="imagePreviewContainer" class="image-preview-container mt-3"></div>
+              </div>
             </div>
           </form>
         </div>
@@ -1227,6 +1311,11 @@
       kelolaWarga: false,
       detailIuran: false
     };
+
+    // ==================== VARIABEL UPLOAD GAMBAR ====================
+    let imageFilesToUpload = [];
+    const MAX_IMAGES = 5;
+    const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
     // ==================== FUNGSI API CALL ====================
     async function callAppsScript(action, parameters = {}) {
@@ -1525,12 +1614,10 @@
         const statusClass = item.status === 'lunas' ? 'status-lunas' : 'status-belum';
         const statusText = item.status === 'lunas' ? 'LUNAS' : 'BELUM BAYAR';
         
-        // PERBAIKAN: Format baru dengan nama pemilik
         let displayName = item.nomor_rumah;
         if (item.nama_pemilik) {
           displayName = `${item.nomor_rumah} - ${item.nama_pemilik}`;
         } else {
-          // Fallback: cari nama dari data warga yang sudah diload
           const warga = allWargaData.find(w => w.username === item.nomor_rumah);
           if (warga) {
             displayName = `${item.nomor_rumah} - ${warga.nama_suami || warga.nama_istri || warga.username}`;
@@ -1541,13 +1628,10 @@
           <div class="card-body py-2">
             <div class="d-flex justify-content-between align-items-center">
               <div class="flex-grow-1">
-                <!-- Baris 1: Nomor Rumah - Nama -->
                 <div class="fw-bold text-primary">${displayName}</div>
-                <!-- Baris 2: Bulan Tahun - Jenis Iuran -->
                 <div class="text-muted small">
                   ${item.bulan} ${item.tahun} - ${item.jenis_iuran}
                 </div>
-                <!-- Baris 3: Jumlah - Status -->
                 <div class="mt-1">
                   <span class="fw-semibold">${formatRupiah(item.jumlah)}</span> 
                   - 
@@ -1570,7 +1654,6 @@
         iuranList.appendChild(iuranItem);
       });
       
-      // Tampilkan tombol "Tampilkan Semua" jika data lebih dari 20
       if (iuran.length > 20) {
         showMoreContainer.style.display = 'block';
         const showMoreBtn = showMoreContainer.querySelector('.show-more-btn');
@@ -1610,22 +1693,52 @@
       
       displayData.forEach(function(item) {
         const pengeluaranItem = document.createElement('div');
-        pengeluaranItem.className = 'card mb-2';
+        pengeluaranItem.className = 'card mb-3';
         const canEdit = currentUser.role === 'admin';
+        const images = item.images || [];
         
         pengeluaranItem.innerHTML = `
-          <div class="card-body py-2">
-            <div class="d-flex justify-content-between align-items-center">
-              <div>
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start">
+              <div class="flex-grow-1">
                 <strong>${item.keterangan}</strong>
-                <div class="text-muted small">${item.tanggal} - ${formatRupiah(item.jumlah)}</div>
+                <div class="text-muted small mb-2">${item.tanggal} - ${formatRupiah(item.jumlah)}</div>
+                
+                <!-- Tampilkan gambar jika ada -->
+                ${images.length > 0 ? `
+                <div class="mt-2">
+                  <div class="image-gallery">
+                    <div class="row g-2">
+                      ${images.map((img, index) => `
+                      <div class="col-4 col-md-3">
+                        <a href="${img.viewUrl}" target="_blank" class="d-block">
+                          <img src="${img.thumbnailUrl}" 
+                               class="img-fluid rounded border" 
+                               alt="Bukti pengeluaran"
+                               style="max-height: 100px; object-fit: cover; width: 100%;">
+                        </a>
+                        ${canEdit ? `
+                        <button class="btn btn-sm btn-danger btn-block mt-1" 
+                                onclick="deletePengeluaranImage('${item.tanggal}', '${item.keterangan}', '${item.jumlah}', '${img.id}')">
+                          <i class="fas fa-trash"></i> Hapus
+                        </button>
+                        ` : ''}
+                      </div>
+                      `).join('')}
+                    </div>
+                  </div>
+                </div>
+                ` : ''}
               </div>
+              
               ${canEdit ? `
-              <div>
-                <button class="btn btn-sm btn-outline-primary me-1" onclick="showEditPengeluaranModal('${item.tanggal}', '${item.keterangan}', '${item.jumlah}')">
+              <div class="ms-3">
+                <button class="btn btn-sm btn-outline-primary me-1" 
+                        onclick="showEditPengeluaranModal('${item.tanggal}', '${item.keterangan}', '${item.jumlah}')">
                   <i class="fas fa-edit"></i>
                 </button>
-                <button class="btn btn-sm btn-outline-danger" onclick="deletePengeluaran('${item.tanggal}', '${item.keterangan}', '${item.jumlah}')">
+                <button class="btn btn-sm btn-outline-danger" 
+                        onclick="deletePengeluaran('${item.tanggal}', '${item.keterangan}', '${item.jumlah}')">
                   <i class="fas fa-trash"></i>
                 </button>
               </div>
@@ -1636,7 +1749,6 @@
         pengeluaranList.appendChild(pengeluaranItem);
       });
       
-      // Tampilkan tombol "Tampilkan Semua" jika data lebih dari 20
       if (pengeluaran.length > 20) {
         showMoreContainer.style.display = 'block';
         const showMoreBtn = showMoreContainer.querySelector('.show-more-btn');
@@ -1712,7 +1824,6 @@
         catatanList.appendChild(catatanItem);
       });
       
-      // Tampilkan tombol "Tampilkan Semua" jika data lebih dari 20
       if (catatan.length > 20) {
         showMoreContainer.style.display = 'block';
         const showMoreBtn = showMoreContainer.querySelector('.show-more-btn');
@@ -1778,7 +1889,6 @@
         wargaList.appendChild(wargaItem);
       });
       
-      // Tampilkan tombol "Tampilkan Semua" jika data lebih dari 20
       if (warga.length > 20) {
         showMoreContainer.style.display = 'block';
         const showMoreBtn = showMoreContainer.querySelector('.show-more-btn');
@@ -1824,148 +1934,82 @@
       }
     }
 
-    // ==================== FITUR BARU: SEBAR IURAN ====================
-    function showSebarIuranModal() {
-      document.getElementById('sebarIuranForm').reset();
-      document.getElementById('sebarIuranTahun').value = new Date().getFullYear();
-      const modal = new bootstrap.Modal(document.getElementById('sebarIuranModal'));
-      modal.show();
-    }
-
-    async function saveSebarIuran() {
-      const bulan = document.getElementById('sebarIuranBulan').value;
-      const tahun = document.getElementById('sebarIuranTahun').value;
-      const jenisIuran = document.getElementById('sebarIuranJenis').value;
-      const jumlah = document.getElementById('sebarIuranJumlah').value;
+    // ==================== FUNGSI UPLOAD GAMBAR ====================
+    function handleImageUpload(event) {
+      const files = Array.from(event.target.files);
       
-      if (!bulan || !tahun || !jenisIuran || !jumlah) {
-        alert('Semua field harus diisi!');
+      // Validasi jumlah file
+      if (imageFilesToUpload.length + files.length > MAX_IMAGES) {
+        alert(`Maksimal ${MAX_IMAGES} gambar yang dapat diupload`);
+        event.target.value = '';
         return;
       }
       
-      showButtonLoading('saveSebarIuranButton');
-      
-      try {
-        const result = await callAppsScript('sebarIuran', {
-          bulan: bulan,
-          tahun: tahun,
-          jenisIuran: jenisIuran,
-          jumlah: jumlah
-        });
+      // Validasi file
+      const validFiles = files.filter(file => {
+        const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
         
-        hideButtonLoading('saveSebarIuranButton');
-        
-        if (result.success) {
-          alert(result.message);
-          const modal = bootstrap.Modal.getInstance(document.getElementById('sebarIuranModal'));
-          modal.hide();
-          loadIuran();
-        } else {
-          alert('Gagal menyebar iuran: ' + result.message);
+        if (!validTypes.includes(file.type)) {
+          alert(`File ${file.name} bukan gambar yang valid (hanya JPG, PNG, GIF, WebP)`);
+          return false;
         }
-      } catch (error) {
-        hideButtonLoading('saveSebarIuranButton');
-        alert('Terjadi kesalahan: ' + error.message);
-      }
-    }
-
-    // ==================== FITUR BARU: DETAIL IURAN ====================
-    async function loadDetailIuran() {
-      const bulan = document.getElementById('detailIuranBulan').value;
-      const tahun = document.getElementById('detailIuranTahun').value;
-      const jenisIuranFilter = document.getElementById('detailIuranJenisFilter').value;
-      
-      if (!bulan || !tahun) {
-        alert('Pilih bulan dan tahun terlebih dahulu!');
-        return;
-      }
-      
-      showGlobalLoading();
-      
-      try {
-        const detailIuran = await callAppsScript('getDetailIuran', {
-          bulan: bulan,
-          tahun: tahun,
-          jenisIuranFilter: jenisIuranFilter
-        });
         
-        hideGlobalLoading();
+        if (file.size > MAX_FILE_SIZE) {
+          alert(`File ${file.name} terlalu besar (maksimal 5MB)`);
+          return false;
+        }
         
-        allData.detailIuran = detailIuran;
-        renderDetailIuranList(detailIuran);
-      } catch (error) {
-        hideGlobalLoading();
-        console.error('Error loading detail iuran:', error);
-        document.getElementById('detailIuranList').innerHTML = '<p class="text-danger text-center">Error loading data</p>';
-      }
-    }
-
-    function renderDetailIuranList(detailIuran) {
-      const detailIuranList = document.getElementById('detailIuranList');
-      const showMoreContainer = document.getElementById('detailIuranShowMore');
-      
-      // Hitung statistik
-      const totalWarga = detailIuran.length;
-      const totalLunas = detailIuran.filter(item => item.status === 'lunas').length;
-      const totalBelum = totalWarga - totalLunas;
-      
-      document.getElementById('totalWarga').textContent = totalWarga;
-      document.getElementById('totalLunas').textContent = totalLunas;
-      document.getElementById('totalBelum').textContent = totalBelum;
-      
-      // Render detail iuran
-      detailIuranList.innerHTML = '';
-      
-      if (detailIuran.length === 0) {
-        detailIuranList.innerHTML = '<p class="text-muted text-center">Tidak ada data iuran untuk periode ini</p>';
-        showMoreContainer.style.display = 'none';
-        return;
-      }
-      
-      const displayData = showAllData.detailIuran ? detailIuran : detailIuran.slice(0, 20);
-      
-      displayData.forEach(function(item) {
-        const detailItem = document.createElement('div');
-        const statusClass = item.status === 'lunas' ? 'status-lunas-card' : 'status-belum-card';
-        const statusText = item.status === 'lunas' ? 'LUNAS' : 'BELUM';
-        
-        detailItem.className = `card mb-2 status-card ${statusClass}`;
-        detailItem.innerHTML = `
-          <div class="card-body">
-            <div class="d-flex justify-content-between align-items-center">
-              <div>
-                <strong>${item.nomor_rumah}</strong>
-                <div class="text-muted small">
-                  ${item.dinas} - ${item.nama_suami || ''} ${item.nama_istri ? '& ' + item.nama_istri : ''}
-                </div>
-                <div class="mt-1">
-                  <small class="text-muted">Jenis Iuran: ${item.jenis_iuran.length > 0 ? item.jenis_iuran.join(', ') : 'Tidak ada'}</small>
-                </div>
-              </div>
-              <div class="text-end">
-                <span class="badge ${item.status === 'lunas' ? 'bg-success' : 'bg-danger'}">${statusText}</span>
-                <div class="mt-1">
-                  <small class="text-muted">Total: ${formatRupiah(item.total_iuran)}</small>
-                </div>
-              </div>
-            </div>
-          </div>
-        `;
-        detailIuranList.appendChild(detailItem);
+        return true;
       });
       
-      // Tampilkan tombol "Tampilkan Semua" jika data lebih dari 20
-      if (detailIuran.length > 20) {
-        showMoreContainer.style.display = 'block';
-        const showMoreBtn = showMoreContainer.querySelector('.show-more-btn');
-        if (showAllData.detailIuran) {
-          showMoreBtn.innerHTML = '<i class="fas fa-chevron-up me-1"></i><span>Tampilkan Sedikit</span>';
-        } else {
-          showMoreBtn.innerHTML = '<i class="fas fa-chevron-down me-1"></i><span>Tampilkan Semua</span>';
-        }
+      imageFilesToUpload.push(...validFiles);
+      renderImagePreview();
+      updateFileCounter();
+      event.target.value = ''; // Reset input file
+    }
+
+    function renderImagePreview() {
+      const previewContainer = document.getElementById('imagePreviewContainer');
+      if (!previewContainer) return;
+      
+      previewContainer.innerHTML = '';
+      
+      // Tampilkan gambar yang akan diupload
+      imageFilesToUpload.forEach((file, index) => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const imgContainer = document.createElement('div');
+          imgContainer.className = 'image-preview-item';
+          imgContainer.innerHTML = `
+            <div class="position-relative">
+              <img src="${e.target.result}" class="img-thumbnail" style="width: 100px; height: 100px; object-fit: cover;">
+              <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0" 
+                      onclick="removeImageToUpload(${index})" style="transform: translate(50%, -50%);">
+                <i class="fas fa-times"></i>
+              </button>
+              <div class="text-center small mt-1 text-truncate" style="max-width: 100px;">${file.name}</div>
+            </div>
+          `;
+          previewContainer.appendChild(imgContainer);
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function updateFileCounter() {
+      const counter = document.getElementById('fileCounter');
+      if (imageFilesToUpload.length > 0) {
+        counter.textContent = imageFilesToUpload.length;
+        counter.style.display = 'flex';
       } else {
-        showMoreContainer.style.display = 'none';
+        counter.style.display = 'none';
       }
+    }
+
+    function removeImageToUpload(index) {
+      imageFilesToUpload.splice(index, 1);
+      renderImagePreview();
+      updateFileCounter();
     }
 
     // ==================== Warga Functions ====================
@@ -2048,8 +2092,9 @@
       if (!username) {
         alert('Error: Username tidak valid');
         return;
-      }
       
+    }
+    
       showButtonLoading('saveEditWargaButton');
       
       try {
@@ -2226,10 +2271,24 @@
       }
     }
 
-    // ==================== Pengeluaran Functions ====================
+    // ==================== MODIFIKASI: Pengeluaran Functions dengan Upload ====================
     function showAddPengeluaranModal() {
       document.getElementById('addPengeluaranForm').reset();
       document.getElementById('pengeluaranTanggal').value = new Date().toISOString().split('T')[0];
+      
+      // Reset gambar
+      imageFilesToUpload = [];
+      renderImagePreview();
+      updateFileCounter();
+      
+      // Sembunyikan bagian upload jika bukan admin
+      const uploadSection = document.getElementById('uploadSection');
+      if (currentUser.role !== 'admin') {
+        uploadSection.style.display = 'none';
+      } else {
+        uploadSection.style.display = 'block';
+      }
+      
       const modal = new bootstrap.Modal(document.getElementById('addPengeluaranModal'));
       modal.show();
     }
@@ -2242,6 +2301,48 @@
         created_by: currentUser.username
       };
       
+      // Upload gambar terlebih dahulu jika ada
+      let uploadedImages = [];
+      if (imageFilesToUpload.length > 0 && currentUser.role === 'admin') {
+        showButtonLoading('savePengeluaranButton');
+        
+        try {
+          const filesData = await Promise.all(imageFilesToUpload.map(async (file) => {
+            return new Promise((resolve) => {
+              const reader = new FileReader();
+              reader.onload = function(e) {
+                const base64 = e.target.result.split(',')[1];
+                resolve({
+                  name: file.name,
+                  data: base64,
+                  mimeType: file.type
+                });
+              };
+              reader.readAsDataURL(file);
+            });
+          }));
+          
+          const uploadResult = await callAppsScript('uploadImages', {
+            pengeluaranId: 'temp_' + Date.now(),
+            files: JSON.stringify(filesData)
+          });
+          
+          if (uploadResult.success) {
+            uploadedImages = uploadResult.images;
+            pengeluaranData.images = uploadedImages;
+          } else {
+            alert('Gagal upload gambar: ' + uploadResult.message);
+            hideButtonLoading('savePengeluaranButton');
+            return;
+          }
+        } catch (error) {
+          alert('Error upload gambar: ' + error.message);
+          hideButtonLoading('savePengeluaranButton');
+          return;
+        }
+      }
+      
+      // Simpan data pengeluaran
       showButtonLoading('savePengeluaranButton');
       
       try {
@@ -2259,6 +2360,27 @@
       } catch (error) {
         hideButtonLoading('savePengeluaranButton');
         alert('Terjadi kesalahan: ' + error.message);
+      }
+    }
+
+    async function deletePengeluaranImage(tanggal, keterangan, jumlah, imageId) {
+      if (confirm('Apakah Anda yakin ingin menghapus gambar ini?')) {
+        showGlobalLoading();
+        
+        try {
+          const result = await callAppsScript('deleteImage', { fileId: imageId });
+          
+          hideGlobalLoading();
+          alert(result.message);
+          
+          if (result.success) {
+            // Reload data pengeluaran
+            loadPengeluaran();
+          }
+        } catch (error) {
+          hideGlobalLoading();
+          alert('Terjadi kesalahan: ' + error.message);
+        }
       }
     }
 
@@ -2569,6 +2691,149 @@
       }
     }
 
+    // ==================== FITUR BARU: SEBAR IURAN ====================
+    function showSebarIuranModal() {
+      document.getElementById('sebarIuranForm').reset();
+      document.getElementById('sebarIuranTahun').value = new Date().getFullYear();
+      const modal = new bootstrap.Modal(document.getElementById('sebarIuranModal'));
+      modal.show();
+    }
+
+    async function saveSebarIuran() {
+      const bulan = document.getElementById('sebarIuranBulan').value;
+      const tahun = document.getElementById('sebarIuranTahun').value;
+      const jenisIuran = document.getElementById('sebarIuranJenis').value;
+      const jumlah = document.getElementById('sebarIuranJumlah').value;
+      
+      if (!bulan || !tahun || !jenisIuran || !jumlah) {
+        alert('Semua field harus diisi!');
+        return;
+      }
+      
+      showButtonLoading('saveSebarIuranButton');
+      
+      try {
+        const result = await callAppsScript('sebarIuran', {
+          bulan: bulan,
+          tahun: tahun,
+          jenisIuran: jenisIuran,
+          jumlah: jumlah
+        });
+        
+        hideButtonLoading('saveSebarIuranButton');
+        
+        if (result.success) {
+          alert(result.message);
+          const modal = bootstrap.Modal.getInstance(document.getElementById('sebarIuranModal'));
+          modal.hide();
+          loadIuran();
+        } else {
+          alert('Gagal menyebar iuran: ' + result.message);
+        }
+      } catch (error) {
+        hideButtonLoading('saveSebarIuranButton');
+        alert('Terjadi kesalahan: ' + error.message);
+      }
+    }
+
+    // ==================== FITUR BARU: DETAIL IURAN ====================
+    async function loadDetailIuran() {
+      const bulan = document.getElementById('detailIuranBulan').value;
+      const tahun = document.getElementById('detailIuranTahun').value;
+      const jenisIuranFilter = document.getElementById('detailIuranJenisFilter').value;
+      
+      if (!bulan || !tahun) {
+        alert('Pilih bulan dan tahun terlebih dahulu!');
+        return;
+      }
+      
+      showGlobalLoading();
+      
+      try {
+        const detailIuran = await callAppsScript('getDetailIuran', {
+          bulan: bulan,
+          tahun: tahun,
+          jenisIuranFilter: jenisIuranFilter
+        });
+        
+        hideGlobalLoading();
+        
+        allData.detailIuran = detailIuran;
+        renderDetailIuranList(detailIuran);
+      } catch (error) {
+        hideGlobalLoading();
+        console.error('Error loading detail iuran:', error);
+        document.getElementById('detailIuranList').innerHTML = '<p class="text-danger text-center">Error loading data</p>';
+      }
+    }
+
+    function renderDetailIuranList(detailIuran) {
+      const detailIuranList = document.getElementById('detailIuranList');
+      const showMoreContainer = document.getElementById('detailIuranShowMore');
+      
+      // Hitung statistik
+      const totalWarga = detailIuran.length;
+      const totalLunas = detailIuran.filter(item => item.status === 'lunas').length;
+      const totalBelum = totalWarga - totalLunas;
+      
+      document.getElementById('totalWarga').textContent = totalWarga;
+      document.getElementById('totalLunas').textContent = totalLunas;
+      document.getElementById('totalBelum').textContent = totalBelum;
+      
+      // Render detail iuran
+      detailIuranList.innerHTML = '';
+      
+      if (detailIuran.length === 0) {
+        detailIuranList.innerHTML = '<p class="text-muted text-center">Tidak ada data iuran untuk periode ini</p>';
+        showMoreContainer.style.display = 'none';
+        return;
+      }
+      
+      const displayData = showAllData.detailIuran ? detailIuran : detailIuran.slice(0, 20);
+      
+      displayData.forEach(function(item) {
+        const detailItem = document.createElement('div');
+        const statusClass = item.status === 'lunas' ? 'status-lunas-card' : 'status-belum-card';
+        const statusText = item.status === 'lunas' ? 'LUNAS' : 'BELUM';
+        
+        detailItem.className = `card mb-2 status-card ${statusClass}`;
+        detailItem.innerHTML = `
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <strong>${item.nomor_rumah}</strong>
+                <div class="text-muted small">
+                  ${item.dinas} - ${item.nama_suami || ''} ${item.nama_istri ? '& ' + item.nama_istri : ''}
+                </div>
+                <div class="mt-1">
+                  <small class="text-muted">Jenis Iuran: ${item.jenis_iuran.length > 0 ? item.jenis_iuran.join(', ') : 'Tidak ada'}</small>
+                </div>
+              </div>
+              <div class="text-end">
+                <span class="badge ${item.status === 'lunas' ? 'bg-success' : 'bg-danger'}">${statusText}</span>
+                <div class="mt-1">
+                  <small class="text-muted">Total: ${formatRupiah(item.total_iuran)}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        detailIuranList.appendChild(detailItem);
+      });
+      
+      if (detailIuran.length > 20) {
+        showMoreContainer.style.display = 'block';
+        const showMoreBtn = showMoreContainer.querySelector('.show-more-btn');
+        if (showAllData.detailIuran) {
+          showMoreBtn.innerHTML = '<i class="fas fa-chevron-up me-1"></i><span>Tampilkan Sedikit</span>';
+        } else {
+          showMoreBtn.innerHTML = '<i class="fas fa-chevron-down me-1"></i><span>Tampilkan Semua</span>';
+        }
+      } else {
+        showMoreContainer.style.display = 'none';
+      }
+    }
+
     // ==================== INITIALIZATION ====================
     document.addEventListener('DOMContentLoaded', function() {
       const currentDate = new Date().toISOString().split('T')[0];
@@ -2588,6 +2853,34 @@
         e.preventDefault();
         login();
       });
+      
+      // Setup drag and drop untuk upload gambar
+      const uploadArea = document.getElementById('uploadArea');
+      if (uploadArea) {
+        uploadArea.addEventListener('dragover', function(e) {
+          e.preventDefault();
+          this.style.borderColor = '#3498db';
+          this.style.backgroundColor = '#e3f2fd';
+        });
+        
+        uploadArea.addEventListener('dragleave', function(e) {
+          e.preventDefault();
+          this.style.borderColor = '#ddd';
+          this.style.backgroundColor = '#f8f9fa';
+        });
+        
+        uploadArea.addEventListener('drop', function(e) {
+          e.preventDefault();
+          this.style.borderColor = '#ddd';
+          this.style.backgroundColor = '#f8f9fa';
+          
+          const files = Array.from(e.dataTransfer.files);
+          if (files.length > 0) {
+            const event = { target: { files: files } };
+            handleImageUpload(event);
+          }
+        });
+      }
     });
 
     // Auto-refresh data every 30 seconds
