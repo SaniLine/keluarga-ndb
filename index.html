@@ -1320,6 +1320,9 @@
     // ==================== FUNGSI API CALL ====================
     async function callAppsScript(action, parameters = {}) {
       try {
+        console.log(`Calling Apps Script: ${action}`);
+        console.log('Parameters:', parameters);
+        
         const url = APPS_SCRIPT_URL;
         const formData = new URLSearchParams();
         formData.append('action', action);
@@ -1331,20 +1334,33 @@
             formData.append(key, parameters[key]);
           }
         });
-
+    
+        console.log('Sending request to:', url);
+        
         const response = await fetch(url, {
           method: 'POST',
           body: formData
         });
-
+    
+        console.log('Response status:', response.status);
+        console.log('Response headers:', response.headers);
+        
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          const errorText = await response.text();
+          console.error('Response error text:', errorText);
+          throw new Error(`HTTP error! status: ${response.status}, text: ${errorText}`);
         }
-
+    
         const data = await response.json();
+        console.log('Response data:', data);
+        
         return data;
       } catch (error) {
         console.error('Error calling Apps Script:', error);
+        console.error('Error details:', {
+          message: error.message,
+          stack: error.stack
+        });
         throw error;
       }
     }
@@ -2294,12 +2310,24 @@
     }
 
     async function savePengeluaran() {
+      const tanggal = document.getElementById('pengeluaranTanggal').value;
+      const keterangan = document.getElementById('pengeluaranKeterangan').value;
+      const jumlah = document.getElementById('pengeluaranJumlah').value;
+      
+      // Validasi input dasar
+      if (!tanggal || !keterangan || !jumlah) {
+        alert('Tanggal, Keterangan, dan Jumlah harus diisi!');
+        return;
+      }
+      
       const pengeluaranData = {
-        tanggal: document.getElementById('pengeluaranTanggal').value,
-        keterangan: document.getElementById('pengeluaranKeterangan').value,
-        jumlah: document.getElementById('pengeluaranJumlah').value,
+        tanggal: tanggal,
+        keterangan: keterangan,
+        jumlah: jumlah,
         created_by: currentUser.username
       };
+      
+      console.log('Starting savePengeluaran, image files:', imageFilesToUpload.length);
       
       // Upload gambar terlebih dahulu jika ada
       let uploadedImages = [];
@@ -2307,35 +2335,51 @@
         showButtonLoading('savePengeluaranButton');
         
         try {
-          const filesData = await Promise.all(imageFilesToUpload.map(async (file) => {
-            return new Promise((resolve) => {
+          console.log('Converting files to base64...');
+          const filesData = await Promise.all(imageFilesToUpload.map(async (file, index) => {
+            return new Promise((resolve, reject) => {
               const reader = new FileReader();
               reader.onload = function(e) {
-                const base64 = e.target.result.split(',')[1];
-                resolve({
-                  name: file.name,
-                  data: base64,
-                  mimeType: file.type
-                });
+                try {
+                  const base64 = e.target.result.split(',')[1];
+                  resolve({
+                    name: file.name,
+                    data: base64,
+                    mimeType: file.type,
+                    size: file.size
+                  });
+                } catch (error) {
+                  reject(error);
+                }
+              };
+              reader.onerror = function(error) {
+                reject(error);
               };
               reader.readAsDataURL(file);
             });
           }));
+          
+          console.log('Files converted, calling uploadImages API...');
+          console.log('Files data sample:', JSON.stringify(filesData[0]?.name));
           
           const uploadResult = await callAppsScript('uploadImages', {
             pengeluaranId: 'temp_' + Date.now(),
             files: JSON.stringify(filesData)
           });
           
+          console.log('Upload result:', uploadResult);
+          
           if (uploadResult.success) {
             uploadedImages = uploadResult.images;
             pengeluaranData.images = uploadedImages;
+            console.log('Images uploaded successfully:', uploadedImages.length);
           } else {
-            alert('Gagal upload gambar: ' + uploadResult.message);
+            alert('Gagal upload gambar: ' + (uploadResult.message || 'Unknown error'));
             hideButtonLoading('savePengeluaranButton');
             return;
           }
         } catch (error) {
+          console.error('Error uploading images:', error);
           alert('Error upload gambar: ' + error.message);
           hideButtonLoading('savePengeluaranButton');
           return;
@@ -2343,44 +2387,34 @@
       }
       
       // Simpan data pengeluaran
-      showButtonLoading('savePengeluaranButton');
+      console.log('Saving pengeluaran data...');
       
       try {
-        const result = await callAppsScript('addPengeluaran', { data: pengeluaranData });
+        const result = await callAppsScript('addPengeluaran', { 
+          data: JSON.stringify(pengeluaranData)  // Perhatikan perubahan di sini
+        });
+        
         hideButtonLoading('savePengeluaranButton');
+        console.log('Save result:', result);
         
         alert(result.message);
         if (result.success) {
           const modal = bootstrap.Modal.getInstance(document.getElementById('addPengeluaranModal'));
-          modal.hide();
+          if (modal) modal.hide();
+          
+          // Reset form
+          imageFilesToUpload = [];
+          renderImagePreview();
+          updateFileCounter();
+          
           loadPengeluaran();
           loadSaldo();
           loadCatatan();
         }
       } catch (error) {
         hideButtonLoading('savePengeluaranButton');
+        console.error('Error saving pengeluaran:', error);
         alert('Terjadi kesalahan: ' + error.message);
-      }
-    }
-
-    async function deletePengeluaranImage(tanggal, keterangan, jumlah, imageId) {
-      if (confirm('Apakah Anda yakin ingin menghapus gambar ini?')) {
-        showGlobalLoading();
-        
-        try {
-          const result = await callAppsScript('deleteImage', { fileId: imageId });
-          
-          hideGlobalLoading();
-          alert(result.message);
-          
-          if (result.success) {
-            // Reload data pengeluaran
-            loadPengeluaran();
-          }
-        } catch (error) {
-          hideGlobalLoading();
-          alert('Terjadi kesalahan: ' + error.message);
-        }
       }
     }
 
