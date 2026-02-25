@@ -455,7 +455,7 @@
     <!-- Saldo Display -->
     <div class="container">
       <div class="saldo-display">
-        <div class="saldo-label">Total Saldo Kas</div>
+        <div class="saldo-label">Total Saldo Kas Keamanan</div>
         <div class="saldo-amount" id="saldoAmount">Rp 0</div>
         <div class="saldo-update">Update Terakhir: <span id="lastUpdate"></span></div>
       </div>
@@ -548,13 +548,13 @@
             </div>
             <div class="card-body">
               <!-- Filter Section for Admin -->
-              <div id="iuranFilterSection" style="display: none;">
+              <div id="iuranFilterSectionAdmin" style="display: none;">
                 <div class="filter-row">
                   <div class="filter-item">
                     <input type="text" class="form-control" id="searchIuran" placeholder="Cari nomor rumah atau nama...">
                   </div>
                   <div class="filter-item">
-                    <select class="form-select" id="filterIuranBulan">
+                    <select class="form-select" id="filterIuranBulanAdmin">
                       <option value="">Semua Bulan</option>
                       <option value="Januari">Januari</option>
                       <option value="Februari">Februari</option>
@@ -571,20 +571,57 @@
                     </select>
                   </div>
                   <div class="filter-item">
-                    <input type="number" class="form-control" id="filterIuranTahun" placeholder="Tahun" min="2023" max="2030">
+                    <input type="number" class="form-control" id="filterIuranTahunAdmin" placeholder="Tahun" min="2023" max="2030">
                   </div>
                   <div class="filter-item">
-                    <select class="form-select" id="filterIuranJenis">
+                    <select class="form-select" id="filterIuranJenisAdmin">
                       <option value="">Semua Jenis</option>
                     </select>
                   </div>
                   <div class="filter-item">
-                    <button class="filter-button" onclick="applyIuranFilter()">
+                    <button class="filter-button" onclick="applyIuranFilterAdmin()">
                       <i class="fas fa-search me-1"></i>Filter
                     </button>
                   </div>
                 </div>
               </div>
+
+              <!-- Filter Section for Warga -->
+              <div id="iuranFilterSectionWarga" style="display: none;">
+                <div class="filter-row">
+                  <div class="filter-item">
+                    <select class="form-select" id="filterIuranBulanWarga">
+                      <option value="">Semua Bulan</option>
+                      <option value="Januari">Januari</option>
+                      <option value="Februari">Februari</option>
+                      <option value="Maret">Maret</option>
+                      <option value="April">April</option>
+                      <option value="Mei">Mei</option>
+                      <option value="Juni">Juni</option>
+                      <option value="Juli">Juli</option>
+                      <option value="Agustus">Agustus</option>
+                      <option value="September">September</option>
+                      <option value="Oktober">Oktober</option>
+                      <option value="November">November</option>
+                      <option value="Desember">Desember</option>
+                    </select>
+                  </div>
+                  <div class="filter-item">
+                    <input type="number" class="form-control" id="filterIuranTahunWarga" placeholder="Tahun" min="2023" max="2030">
+                  </div>
+                  <div class="filter-item">
+                    <select class="form-select" id="filterIuranJenisWarga">
+                      <option value="">Semua Jenis</option>
+                    </select>
+                  </div>
+                  <div class="filter-item">
+                    <button class="filter-button" onclick="applyIuranFilterWarga()">
+                      <i class="fas fa-search me-1"></i>Filter
+                    </button>
+                  </div>
+                </div>
+              </div>
+
               <div id="iuranList"></div>
               <div class="show-more-container" id="iuranShowMore" style="display: none;">
                 <div class="show-more-btn" onclick="toggleShowAll('iuran')">
@@ -1299,7 +1336,8 @@
       kelolaWarga: [],
       detailIuran: []
     };
-    let filteredIuranData = [];
+    let filteredIuranDataAdmin = [];
+    let filteredIuranDataWarga = [];
     let showAllData = {
       warga: false,
       iuran: false,
@@ -1429,9 +1467,11 @@
         document.getElementById('addIuranBtn').style.display = 'block';
         document.getElementById('addPengeluaranBtn').style.display = 'block';
         document.getElementById('addCatatanBtn').style.display = 'block';
-        document.getElementById('iuranFilterSection').style.display = 'block';
+        document.getElementById('iuranFilterSectionAdmin').style.display = 'block';
+        document.getElementById('iuranFilterSectionWarga').style.display = 'none';
       } else {
-        document.getElementById('iuranFilterSection').style.display = 'none';
+        document.getElementById('iuranFilterSectionAdmin').style.display = 'none';
+        document.getElementById('iuranFilterSectionWarga').style.display = 'block';
       }
       
       loadSaldo();
@@ -1462,7 +1502,7 @@
         const searchInput = document.getElementById('searchIuran');
         if (searchInput) {
           searchInput.addEventListener('input', function() {
-            applyIuranFilter();
+            applyIuranFilterAdmin();
           });
         }
       }
@@ -1546,7 +1586,11 @@
           renderWargaList(allData.warga);
           break;
         case 'iuran':
-          renderIuranList(currentUser.role === 'admin' ? filteredIuranData : allData.iuran);
+          if (currentUser.role === 'admin') {
+            renderIuranList(filteredIuranDataAdmin);
+          } else {
+            renderIuranList(filteredIuranDataWarga);
+          }
           break;
         case 'pengeluaran':
           renderPengeluaranList(allData.pengeluaran);
@@ -1596,25 +1640,26 @@
         allData.iuran = iuran;
         
         if (currentUser.role === 'admin') {
-          filteredIuranData = [...iuran];
-          renderIuranList(filteredIuranData);
+          filteredIuranDataAdmin = [...iuran];
+          renderIuranList(filteredIuranDataAdmin);
         } else {
-          renderIuranList(iuran);
+          filteredIuranDataWarga = [...iuran];
+          renderIuranList(filteredIuranDataWarga);
         }
       } catch (error) {
         console.error('Error loading iuran:', error);
       }
     }
     
-    function applyIuranFilter() {
+    function applyIuranFilterAdmin() {
       if (currentUser.role !== 'admin') return;
       
       const searchTerm = document.getElementById('searchIuran')?.value.toLowerCase() || '';
-      const bulan = document.getElementById('filterIuranBulan')?.value || '';
-      const tahun = document.getElementById('filterIuranTahun')?.value || '';
-      const jenis = document.getElementById('filterIuranJenis')?.value || '';
+      const bulan = document.getElementById('filterIuranBulanAdmin')?.value || '';
+      const tahun = document.getElementById('filterIuranTahunAdmin')?.value || '';
+      const jenis = document.getElementById('filterIuranJenisAdmin')?.value || '';
       
-      filteredIuranData = allData.iuran.filter(item => {
+      filteredIuranDataAdmin = allData.iuran.filter(item => {
         // Search filter
         let matchesSearch = true;
         if (searchTerm) {
@@ -1637,7 +1682,30 @@
         return matchesSearch && matchesBulan && matchesTahun && matchesJenis;
       });
       
-      renderIuranList(filteredIuranData);
+      renderIuranList(filteredIuranDataAdmin);
+    }
+
+    function applyIuranFilterWarga() {
+      if (currentUser.role !== 'warga') return;
+      
+      const bulan = document.getElementById('filterIuranBulanWarga')?.value || '';
+      const tahun = document.getElementById('filterIuranTahunWarga')?.value || '';
+      const jenis = document.getElementById('filterIuranJenisWarga')?.value || '';
+      
+      filteredIuranDataWarga = allData.iuran.filter(item => {
+        // Bulan filter
+        const matchesBulan = bulan ? item.bulan === bulan : true;
+        
+        // Tahun filter
+        const matchesTahun = tahun ? item.tahun.toString() === tahun : true;
+        
+        // Jenis filter
+        const matchesJenis = jenis ? item.jenis_iuran === jenis : true;
+        
+        return matchesBulan && matchesTahun && matchesJenis;
+      });
+      
+      renderIuranList(filteredIuranDataWarga);
     }
 
     function renderIuranList(iuran) {
@@ -1933,13 +2001,16 @@
         const sebarSelect = document.getElementById('sebarIuranJenis');
         // Untuk dropdown filter detail iuran
         const detailFilter = document.getElementById('detailIuranJenisFilter');
-        // Untuk dropdown filter iuran di halaman iuran
-        const filterIuranJenis = document.getElementById('filterIuranJenis');
+        // Untuk dropdown filter iuran admin
+        const filterIuranJenisAdmin = document.getElementById('filterIuranJenisAdmin');
+        // Untuk dropdown filter iuran warga
+        const filterIuranJenisWarga = document.getElementById('filterIuranJenisWarga');
         
         select.innerHTML = '<option value="">Pilih Jenis Iuran</option>';
         sebarSelect.innerHTML = '<option value="">Pilih Jenis Iuran</option>';
         detailFilter.innerHTML = '<option value="">Semua Jenis Iuran</option>';
-        filterIuranJenis.innerHTML = '<option value="">Semua Jenis</option>';
+        filterIuranJenisAdmin.innerHTML = '<option value="">Semua Jenis</option>';
+        filterIuranJenisWarga.innerHTML = '<option value="">Semua Jenis</option>';
         
         jenisIuran.forEach(function(jenis) {
           const option = document.createElement('option');
@@ -1957,10 +2028,15 @@
           filterOption.textContent = jenis;
           detailFilter.appendChild(filterOption);
           
-          const filterIuranOption = document.createElement('option');
-          filterIuranOption.value = jenis;
-          filterIuranOption.textContent = jenis;
-          filterIuranJenis.appendChild(filterIuranOption);
+          const filterAdminOption = document.createElement('option');
+          filterAdminOption.value = jenis;
+          filterAdminOption.textContent = jenis;
+          filterIuranJenisAdmin.appendChild(filterAdminOption);
+          
+          const filterWargaOption = document.createElement('option');
+          filterWargaOption.value = jenis;
+          filterWargaOption.textContent = jenis;
+          filterIuranJenisWarga.appendChild(filterWargaOption);
         });
       } catch (error) {
         console.error('Error loading jenis iuran:', error);
