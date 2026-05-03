@@ -1428,9 +1428,17 @@
     };
     
     // Variabel untuk Laporan Keuangan
-    let allMonthlyReports = []; // Array bulan unik (YYYY-MM)
+    let allMonthlyReports = [];
     let currentMonthlyStartIndex = 0;
     const MONTHLY_PAGE_SIZE = 20;
+    
+    // Variabel untuk pagination di financial detail modal
+    let currentPemasukanStartIndex = 0;
+    let currentPengeluaranStartIndex = 0;
+    let currentPemasukanData = [];
+    let currentPengeluaranData = [];
+    let currentReportData = null;
+    const DETAIL_PAGE_SIZE = 20;
 
     // ==================== FUNGSI API CALL ====================
     async function callAppsScript(action, parameters = {}) {
@@ -1564,7 +1572,7 @@
       loadIuran();
       loadCatatan();
       loadPengeluaran();
-      loadLaporanKeuangan(); // Load laporan keuangan
+      loadLaporanKeuangan();
       
       if (currentUser.role === 'admin') {
         loadKelolaWarga();
@@ -2249,14 +2257,11 @@
     async function loadLaporanKeuangan() {
       showGlobalLoading();
       try {
-        // Ambil semua iuran (keseluruhan) dan pengeluaran
-        const iuran = await callAppsScript('getIuranAll'); // Mengambil semua iuran tanpa filter user
+        const iuran = await callAppsScript('getIuranAll');
         const pengeluaran = await callAppsScript('getPengeluaran');
         
-        // Kelompokkan berdasarkan bulan-tahun
         const reportMap = new Map();
         
-        // Proses iuran (pemasukan) - semua data
         (iuran || []).forEach(item => {
           if (item.status === 'lunas') {
             const key = `${item.tahun}-${item.bulan}`;
@@ -2274,7 +2279,6 @@
           }
         });
         
-        // Proses pengeluaran
         pengeluaran.forEach(item => {
           const tanggal = item.tanggal.split('-');
           const tahun = tanggal[0];
@@ -2299,7 +2303,6 @@
           }
         });
         
-        // Konversi ke array dan urutkan dari terbaru
         const reports = Array.from(reportMap.values()).sort((a, b) => {
           if (a.tahun !== b.tahun) return b.tahun - a.tahun;
           const bulanOrder = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
@@ -2359,7 +2362,6 @@
         container.appendChild(monthCard);
       });
       
-      // Tampilkan tombol "Muat 20 Bulan Berikutnya" jika masih ada data
       if (endIndex < allMonthlyReports.length) {
         showMoreContainer.style.display = 'block';
       } else {
@@ -2373,21 +2375,41 @@
     }
     
     function showFinancialDetail(report) {
+      currentReportData = report;
+      currentPemasukanData = report.details.pemasukan || [];
+      currentPengeluaranData = report.details.pengeluaran || [];
+      currentPemasukanStartIndex = 0;
+      currentPengeluaranStartIndex = 0;
+      
       const modal = new bootstrap.Modal(document.getElementById('financialDetailModal'));
       document.getElementById('financialDetailMonth').textContent = `${report.bulan} ${report.tahun}`;
       
+      renderFinancialDetailContent();
+      modal.show();
+    }
+    
+    function renderFinancialDetailContent() {
       const canEdit = currentUser.role === 'admin';
+      const pemasukanEndIndex = Math.min(currentPemasukanStartIndex + DETAIL_PAGE_SIZE, currentPemasukanData.length);
+      const pengeluaranEndIndex = Math.min(currentPengeluaranStartIndex + DETAIL_PAGE_SIZE, currentPengeluaranData.length);
+      const displayPemasukan = currentPemasukanData.slice(0, pemasukanEndIndex);
+      const displayPengeluaran = currentPengeluaranData.slice(0, pengeluaranEndIndex);
+      
       const content = document.getElementById('financialDetailContent');
       content.innerHTML = `
         <div class="row">
           <div class="col-md-6">
             <div class="card border-success mb-3">
-              <div class="card-header bg-success text-white">Pemasukan - ${formatRupiah(report.pemasukan)}</div>
+              <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                <span>Pemasukan - ${formatRupiah(currentReportData.pemasukan)}</span>
+                ${currentPemasukanData.length > DETAIL_PAGE_SIZE && pemasukanEndIndex < currentPemasukanData.length ? 
+                  `<button class="btn btn-sm btn-light" onclick="loadMorePemasukan()">Muat 20 Berikutnya <i class="fas fa-chevron-down ms-1"></i></button>` : ''}
+              </div>
               <div class="card-body">
-                ${report.details.pemasukan.length > 0 ? `
+                ${displayPemasukan.length > 0 ? `
                   <div class="list-group">
-                    ${report.details.pemasukan.map(item => `
-                      <div class="list-group-item list-group-item-action financial-detail-row" data-type="pemasukan" data-bulan="${report.bulan}" data-tahun="${report.tahun}" data-item='${JSON.stringify(item)}'>
+                    ${displayPemasukan.map(item => `
+                      <div class="list-group-item list-group-item-action financial-detail-row" data-type="pemasukan" data-item='${JSON.stringify(item)}'>
                         <div class="d-flex justify-content-between">
                           <div>
                             <strong>${item.nomor_rumah}</strong><br>
@@ -2400,17 +2422,23 @@
                     `).join('')}
                   </div>
                 ` : '<p class="text-muted">Tidak ada pemasukan</p>'}
+                ${pemasukanEndIndex < currentPemasukanData.length ? 
+                  `<div class="text-center mt-3"><button class="btn btn-outline-success btn-sm" onclick="loadMorePemasukan()"><i class="fas fa-chevron-down me-1"></i>Muat 20 Berikutnya</button></div>` : ''}
               </div>
             </div>
           </div>
           <div class="col-md-6">
             <div class="card border-danger mb-3">
-              <div class="card-header bg-danger text-white">Pengeluaran - ${formatRupiah(report.pengeluaran)}</div>
+              <div class="card-header bg-danger text-white d-flex justify-content-between align-items-center">
+                <span>Pengeluaran - ${formatRupiah(currentReportData.pengeluaran)}</span>
+                ${currentPengeluaranData.length > DETAIL_PAGE_SIZE && pengeluaranEndIndex < currentPengeluaranData.length ? 
+                  `<button class="btn btn-sm btn-light" onclick="loadMorePengeluaran()">Muat 20 Berikutnya <i class="fas fa-chevron-down ms-1"></i></button>` : ''}
+              </div>
               <div class="card-body">
-                ${report.details.pengeluaran.length > 0 ? `
+                ${displayPengeluaran.length > 0 ? `
                   <div class="list-group">
-                    ${report.details.pengeluaran.map(item => `
-                      <div class="list-group-item list-group-item-action financial-detail-row" data-type="pengeluaran" data-bulan="${report.bulan}" data-tahun="${report.tahun}" data-item='${JSON.stringify(item)}'>
+                    ${displayPengeluaran.map(item => `
+                      <div class="list-group-item list-group-item-action financial-detail-row" data-type="pengeluaran" data-item='${JSON.stringify(item)}'>
                         <div class="d-flex justify-content-between">
                           <div>
                             <strong>${item.keterangan}</strong>
@@ -2422,15 +2450,14 @@
                     `).join('')}
                   </div>
                 ` : '<p class="text-muted">Tidak ada pengeluaran</p>'}
+                ${pengeluaranEndIndex < currentPengeluaranData.length ? 
+                  `<div class="text-center mt-3"><button class="btn btn-outline-danger btn-sm" onclick="loadMorePengeluaran()"><i class="fas fa-chevron-down me-1"></i>Muat 20 Berikutnya</button></div>` : ''}
               </div>
             </div>
           </div>
         </div>
       `;
       
-      modal.show();
-      
-      // Tambahkan event listener untuk klik rincian
       document.querySelectorAll('.financial-detail-row').forEach(el => {
         el.addEventListener('click', (e) => {
           e.stopPropagation();
@@ -2441,6 +2468,16 @@
       });
     }
     
+    function loadMorePemasukan() {
+      currentPemasukanStartIndex += DETAIL_PAGE_SIZE;
+      renderFinancialDetailContent();
+    }
+    
+    function loadMorePengeluaran() {
+      currentPengeluaranStartIndex += DETAIL_PAGE_SIZE;
+      renderFinancialDetailContent();
+    }
+    
     function showTransactionDetail(type, item) {
       const modal = new bootstrap.Modal(document.getElementById('transactionDetailModal'));
       const title = document.getElementById('transactionDetailTitle');
@@ -2448,10 +2485,15 @@
       const canEdit = currentUser.role === 'admin';
       
       if (type === 'pemasukan') {
+        // Cari nama pemilik rumah
+        const warga = allWargaData.find(w => w.username === item.nomor_rumah);
+        const namaPemilik = warga ? (warga.nama_suami || warga.nama_istri || warga.username) : '-';
+        
         title.textContent = `Detail Pemasukan - ${item.nomor_rumah}`;
         content.innerHTML = `
           <table class="table table-bordered">
             <tr><th width="40%">Nomor Rumah</th><td>${item.nomor_rumah}</td></tr>
+            <tr><th width="40%">Nama</th><td>${namaPemilik}</td></tr>
             <tr><th>Jenis Iuran</th><td>${item.jenis_iuran}</td></tr>
             <tr><th>Jumlah</th><td class="text-success fw-bold">${formatRupiah(item.jumlah)}</td></tr>
             <tr><th>Tanggal Bayar</th><td>${item.tanggal_bayar}</td></tr>
@@ -3100,7 +3142,6 @@
       });
     });
 
-    // Auto-refresh data every 30 seconds
     setInterval(function() {
       if (currentUser) {
         loadSaldo();
