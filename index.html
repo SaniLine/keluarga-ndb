@@ -314,7 +314,6 @@
       margin-bottom: 15px;
     }
 
-    /* Atur tinggi kolom */
     .filter-container .form-control,
     .filter-container .form-select {
         height: 38px;
@@ -370,7 +369,6 @@
       background-color: #2980b9;
     }
 
-    /* Style untuk Laporan Keuangan */
     .month-card {
       cursor: pointer;
       transition: all 0.2s;
@@ -391,6 +389,20 @@
     }
     .financial-detail-row:hover {
       background-color: #e9ecef;
+    }
+    .load-more-btn {
+      background-color: #f8f9fa;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.2s;
+    }
+    .load-more-btn:hover {
+      background-color: #e9ecef;
+      border-color: #3498db;
     }
 
     @media (max-width: 768px) {
@@ -508,7 +520,6 @@
         <li class="nav-item">
           <a class="nav-link" data-bs-toggle="tab" href="#catatan">Catatan</a>
         </li>
-        <!-- Menu Lap Keuangan untuk semua role -->
         <li class="nav-item">
           <a class="nav-link" data-bs-toggle="tab" href="#laporanKeuangan">Lap Keuangan</a>
         </li>
@@ -527,7 +538,6 @@
               </h5>
             </div>
             <div class="card-body">
-              <!-- Search Box -->
               <div class="search-container">
                 <input type="text" class="form-control search-input" id="searchWarga" placeholder="Cari...">
                 <i class="fas fa-search search-icon"></i>
@@ -574,7 +584,6 @@
               </button>
             </div>
             <div class="card-body">
-              <!-- Filter Section for Admin -->
               <div id="iuranFilterSectionAdmin" style="display: none;">
                 <div class="filter-row">
                   <div class="filter-item">
@@ -613,7 +622,6 @@
                 </div>
               </div>
 
-              <!-- Filter Section for Warga -->
               <div id="iuranFilterSectionWarga" style="display: none;">
                 <div class="filter-row">
                   <div class="filter-item">
@@ -687,7 +695,6 @@
               <h5 class="mb-0">Detail Iuran</h5>
             </div>
             <div class="card-body">
-              <!-- Filter Section -->
               <div class="filter-container">
                 <div class="row g-3 align-items-end">
                   <div class="col-md-3">
@@ -725,7 +732,6 @@
                 </div>
               </div>
 
-              <!-- Statistics Section -->
               <div class="row mb-3">
                 <div class="col-md-4">
                   <div class="card bg-success text-white">
@@ -753,7 +759,6 @@
                 </div>
               </div>
 
-              <!-- Results Section -->
               <div id="detailIuranList"></div>
               <div class="show-more-container" id="detailIuranShowMore" style="display: none;">
                 <div class="show-more-btn" onclick="toggleShowAll('detailIuran')">
@@ -828,8 +833,7 @@
     </div>
   </div>
 
-  <!-- Modals (Modal yang sudah ada dan untuk laporan keuangan) -->
-  <!-- Modal Detail Warga -->
+  <!-- Modals -->
   <div class="modal fade" id="detailWargaModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -857,7 +861,6 @@
     </div>
   </div>
 
-  <!-- Modal Edit Warga (untuk user sendiri) -->
   <div class="modal fade" id="editWargaModal" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -911,7 +914,6 @@
     </div>
   </div>
 
-  <!-- Modal Tambah Iuran -->
   <div class="modal fade" id="addIuranModal" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -980,7 +982,6 @@
     </div>
   </div>
 
-  <!-- Modal Edit Iuran -->
   <div class="modal fade" id="editIuranModal" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -1032,7 +1033,6 @@
     </div>
   </div>
 
-  <!-- Modal Sebar Iuran -->
   <div class="modal fade" id="sebarIuranModal" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -1088,7 +1088,6 @@
     </div>
   </div>
 
-  <!-- Modal Tambah Warga -->
   <div class="modal fade" id="addWargaModal" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -1141,7 +1140,6 @@
     </div>
   </div>
 
-  <!-- Modal Edit Warga Admin -->
   <div class="modal fade" id="editWargaAdminModal" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -1195,7 +1193,6 @@
     </div>
   </div>
 
-  <!-- Modal Tambah Pengeluaran -->
   <div class="modal fade" id="addPengeluaranModal" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -1231,7 +1228,6 @@
     </div>
   </div>
 
-  <!-- Modal Edit Pengeluaran -->
   <div class="modal fade" id="editPengeluaranModal" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -1268,7 +1264,6 @@
     </div>
   </div>
 
-  <!-- Modal Tambah Catatan -->
   <div class="modal fade" id="addCatatanModal" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -1315,7 +1310,6 @@
     </div>
   </div>
 
-  <!-- Modal Edit Catatan -->
   <div class="modal fade" id="editCatatanModal" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -1403,7 +1397,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     // ==================== KONFIGURASI ====================
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzBb5dtIcmeHfAyWk66x1pmvcYtpUjEUgD01BSUlDGpkX-zNRrHoFiLzShFxYBw0Y2y/exec';
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwrCuwhpyvksZVHHXktYW4Cq9wQ0DXSno3ScE4KcaqdmXRT3hgW8pIWmt83nCARF3x4/exec';
     
     let currentUser = null;
     let currentWargaDetail = null;
@@ -1428,9 +1422,16 @@
     };
     
     // Variabel untuk Laporan Keuangan
-    let allMonthlyReports = []; // Array bulan unik (YYYY-MM)
+    let allMonthlyReports = [];
     let currentMonthlyStartIndex = 0;
     const MONTHLY_PAGE_SIZE = 20;
+
+    // Variabel untuk pagination di Detail Keuangan
+    let currentPemasukanStartIndex = 0;
+    let currentPengeluaranStartIndex = 0;
+    let currentPemasukanData = [];
+    let currentPengeluaranData = [];
+    let currentReportData = null;
 
     // ==================== FUNGSI API CALL ====================
     async function callAppsScript(action, parameters = {}) {
@@ -1564,7 +1565,7 @@
       loadIuran();
       loadCatatan();
       loadPengeluaran();
-      loadLaporanKeuangan(); // Load laporan keuangan
+      loadLaporanKeuangan();
       
       if (currentUser.role === 'admin') {
         loadKelolaWarga();
@@ -2249,14 +2250,11 @@
     async function loadLaporanKeuangan() {
       showGlobalLoading();
       try {
-        // Ambil semua iuran (keseluruhan) dan pengeluaran
-        const iuran = await callAppsScript('getIuranAll'); // Mengambil semua iuran tanpa filter user
+        const iuran = await callAppsScript('getIuranAll');
         const pengeluaran = await callAppsScript('getPengeluaran');
         
-        // Kelompokkan berdasarkan bulan-tahun
         const reportMap = new Map();
         
-        // Proses iuran (pemasukan) - semua data
         (iuran || []).forEach(item => {
           if (item.status === 'lunas') {
             const key = `${item.tahun}-${item.bulan}`;
@@ -2274,7 +2272,6 @@
           }
         });
         
-        // Proses pengeluaran
         pengeluaran.forEach(item => {
           const tanggal = item.tanggal.split('-');
           const tahun = tanggal[0];
@@ -2299,7 +2296,6 @@
           }
         });
         
-        // Konversi ke array dan urutkan dari terbaru
         const reports = Array.from(reportMap.values()).sort((a, b) => {
           if (a.tahun !== b.tahun) return b.tahun - a.tahun;
           const bulanOrder = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
@@ -2359,7 +2355,6 @@
         container.appendChild(monthCard);
       });
       
-      // Tampilkan tombol "Muat 20 Bulan Berikutnya" jika masih ada data
       if (endIndex < allMonthlyReports.length) {
         showMoreContainer.style.display = 'block';
       } else {
@@ -2373,21 +2368,39 @@
     }
     
     function showFinancialDetail(report) {
+      currentReportData = report;
+      currentPemasukanData = [...report.details.pemasukan];
+      currentPengeluaranData = [...report.details.pengeluaran];
+      currentPemasukanStartIndex = 0;
+      currentPengeluaranStartIndex = 0;
+      
       const modal = new bootstrap.Modal(document.getElementById('financialDetailModal'));
       document.getElementById('financialDetailMonth').textContent = `${report.bulan} ${report.tahun}`;
       
+      renderFinancialDetailContent();
+      modal.show();
+    }
+    
+    function renderFinancialDetailContent() {
       const canEdit = currentUser.role === 'admin';
       const content = document.getElementById('financialDetailContent');
+      
+      const pemasukanEndIndex = Math.min(currentPemasukanStartIndex + 20, currentPemasukanData.length);
+      const pemasukanDisplay = currentPemasukanData.slice(0, pemasukanEndIndex);
+      
+      const pengeluaranEndIndex = Math.min(currentPengeluaranStartIndex + 20, currentPengeluaranData.length);
+      const pengeluaranDisplay = currentPengeluaranData.slice(0, pengeluaranEndIndex);
+      
       content.innerHTML = `
         <div class="row">
           <div class="col-md-6">
             <div class="card border-success mb-3">
-              <div class="card-header bg-success text-white">Pemasukan - ${formatRupiah(report.pemasukan)}</div>
+              <div class="card-header bg-success text-white">Pemasukan - ${formatRupiah(currentReportData.pemasukan)}</div>
               <div class="card-body">
-                ${report.details.pemasukan.length > 0 ? `
+                ${currentPemasukanData.length > 0 ? `
                   <div class="list-group">
-                    ${report.details.pemasukan.map(item => `
-                      <div class="list-group-item list-group-item-action financial-detail-row" data-type="pemasukan" data-bulan="${report.bulan}" data-tahun="${report.tahun}" data-item='${JSON.stringify(item)}'>
+                    ${pemasukanDisplay.map(item => `
+                      <div class="list-group-item list-group-item-action financial-detail-row" data-type="pemasukan" data-item='${JSON.stringify(item)}'>
                         <div class="d-flex justify-content-between">
                           <div>
                             <strong>${item.nomor_rumah}</strong><br>
@@ -2399,18 +2412,23 @@
                       </div>
                     `).join('')}
                   </div>
+                  ${pemasukanEndIndex < currentPemasukanData.length ? `
+                    <div class="load-more-btn" onclick="loadMorePemasukan()">
+                      <i class="fas fa-chevron-down me-1"></i> Muat 20 Data Pemasukan Berikutnya
+                    </div>
+                  ` : ''}
                 ` : '<p class="text-muted">Tidak ada pemasukan</p>'}
               </div>
             </div>
           </div>
           <div class="col-md-6">
             <div class="card border-danger mb-3">
-              <div class="card-header bg-danger text-white">Pengeluaran - ${formatRupiah(report.pengeluaran)}</div>
+              <div class="card-header bg-danger text-white">Pengeluaran - ${formatRupiah(currentReportData.pengeluaran)}</div>
               <div class="card-body">
-                ${report.details.pengeluaran.length > 0 ? `
+                ${currentPengeluaranData.length > 0 ? `
                   <div class="list-group">
-                    ${report.details.pengeluaran.map(item => `
-                      <div class="list-group-item list-group-item-action financial-detail-row" data-type="pengeluaran" data-bulan="${report.bulan}" data-tahun="${report.tahun}" data-item='${JSON.stringify(item)}'>
+                    ${pengeluaranDisplay.map(item => `
+                      <div class="list-group-item list-group-item-action financial-detail-row" data-type="pengeluaran" data-item='${JSON.stringify(item)}'>
                         <div class="d-flex justify-content-between">
                           <div>
                             <strong>${item.keterangan}</strong>
@@ -2421,6 +2439,11 @@
                       </div>
                     `).join('')}
                   </div>
+                  ${pengeluaranEndIndex < currentPengeluaranData.length ? `
+                    <div class="load-more-btn" onclick="loadMorePengeluaran()">
+                      <i class="fas fa-chevron-down me-1"></i> Muat 20 Data Pengeluaran Berikutnya
+                    </div>
+                  ` : ''}
                 ` : '<p class="text-muted">Tidak ada pengeluaran</p>'}
               </div>
             </div>
@@ -2428,9 +2451,6 @@
         </div>
       `;
       
-      modal.show();
-      
-      // Tambahkan event listener untuk klik rincian
       document.querySelectorAll('.financial-detail-row').forEach(el => {
         el.addEventListener('click', (e) => {
           e.stopPropagation();
@@ -2441,6 +2461,16 @@
       });
     }
     
+    function loadMorePemasukan() {
+      currentPemasukanStartIndex += 20;
+      renderFinancialDetailContent();
+    }
+    
+    function loadMorePengeluaran() {
+      currentPengeluaranStartIndex += 20;
+      renderFinancialDetailContent();
+    }
+    
     function showTransactionDetail(type, item) {
       const modal = new bootstrap.Modal(document.getElementById('transactionDetailModal'));
       const title = document.getElementById('transactionDetailTitle');
@@ -2448,10 +2478,14 @@
       const canEdit = currentUser.role === 'admin';
       
       if (type === 'pemasukan') {
+        const warga = allWargaData.find(w => w.username === item.nomor_rumah);
+        const namaPemilik = warga ? (warga.nama_suami || warga.nama_istri || warga.username) : '-';
+        
         title.textContent = `Detail Pemasukan - ${item.nomor_rumah}`;
         content.innerHTML = `
           <table class="table table-bordered">
-            <tr><th width="40%">Nomor Rumah</th><td>${item.nomor_rumah}</td></tr>
+            <tr><th width="40%">Nama Pemilik</th><td>${namaPemilik}</td></tr>
+            <tr><th>Nomor Rumah</th><td>${item.nomor_rumah}</td></tr>
             <tr><th>Jenis Iuran</th><td>${item.jenis_iuran}</td></tr>
             <tr><th>Jumlah</th><td class="text-success fw-bold">${formatRupiah(item.jumlah)}</td></tr>
             <tr><th>Tanggal Bayar</th><td>${item.tanggal_bayar}</td></tr>
@@ -3100,7 +3134,6 @@
       });
     });
 
-    // Auto-refresh data every 30 seconds
     setInterval(function() {
       if (currentUser) {
         loadSaldo();
