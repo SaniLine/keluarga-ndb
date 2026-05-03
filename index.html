@@ -508,9 +508,9 @@
         <li class="nav-item">
           <a class="nav-link" data-bs-toggle="tab" href="#catatan">Catatan</a>
         </li>
-        <!-- Menu Laporan Keuangan untuk semua role -->
+        <!-- Menu Lap Keuangan untuk semua role -->
         <li class="nav-item">
-          <a class="nav-link" data-bs-toggle="tab" href="#laporanKeuangan">Laporan Keuangan</a>
+          <a class="nav-link" data-bs-toggle="tab" href="#laporanKeuangan">Lap Keuangan</a>
         </li>
       </ul>
     </div>
@@ -2249,15 +2249,15 @@
     async function loadLaporanKeuangan() {
       showGlobalLoading();
       try {
-        // Ambil semua iuran dan pengeluaran
-        const iuran = await callAppsScript('getIuran', { username: currentUser.username, role: currentUser.role });
+        // Ambil semua iuran (keseluruhan) dan pengeluaran
+        const iuran = await callAppsScript('getIuranAll'); // Mengambil semua iuran tanpa filter user
         const pengeluaran = await callAppsScript('getPengeluaran');
         
         // Kelompokkan berdasarkan bulan-tahun
         const reportMap = new Map();
         
-        // Proses iuran (pemasukan)
-        iuran.forEach(item => {
+        // Proses iuran (pemasukan) - semua data
+        (iuran || []).forEach(item => {
           if (item.status === 'lunas') {
             const key = `${item.tahun}-${item.bulan}`;
             if (!reportMap.has(key)) {
@@ -2376,6 +2376,7 @@
       const modal = new bootstrap.Modal(document.getElementById('financialDetailModal'));
       document.getElementById('financialDetailMonth').textContent = `${report.bulan} ${report.tahun}`;
       
+      const canEdit = currentUser.role === 'admin';
       const content = document.getElementById('financialDetailContent');
       content.innerHTML = `
         <div class="row">
@@ -2444,10 +2445,10 @@
       const modal = new bootstrap.Modal(document.getElementById('transactionDetailModal'));
       const title = document.getElementById('transactionDetailTitle');
       const content = document.getElementById('transactionDetailContent');
+      const canEdit = currentUser.role === 'admin';
       
       if (type === 'pemasukan') {
         title.textContent = `Detail Pemasukan - ${item.nomor_rumah}`;
-        const canEdit = currentUser.role === 'admin';
         content.innerHTML = `
           <table class="table table-bordered">
             <tr><th width="40%">Nomor Rumah</th><td>${item.nomor_rumah}</td></tr>
@@ -2455,18 +2456,17 @@
             <tr><th>Jumlah</th><td class="text-success fw-bold">${formatRupiah(item.jumlah)}</td></tr>
             <tr><th>Tanggal Bayar</th><td>${item.tanggal_bayar}</td></tr>
           </table>
-          ${canEdit ? '<div class="alert alert-info">Anda dapat mengedit data ini melalui menu Iuran.</div>' : ''}
+          ${canEdit ? '<div class="alert alert-info">Anda (Admin) dapat mengedit data ini melalui menu Iuran.</div>' : '<div class="alert alert-secondary">Anda hanya bisa melihat data ini. Untuk perubahan, hubungi Admin.</div>'}
         `;
       } else {
         title.textContent = `Detail Pengeluaran - ${item.keterangan}`;
-        const canEdit = currentUser.role === 'admin';
         content.innerHTML = `
           <table class="table table-bordered">
             <tr><th width="40%">Keterangan</th><td>${item.keterangan}</td></tr>
             <tr><th>Jumlah</th><td class="text-danger fw-bold">${formatRupiah(item.jumlah)}</td></tr>
             <tr><th>Tanggal</th><td>${item.tanggal}</td></tr>
           </table>
-          ${canEdit ? '<div class="alert alert-info">Anda dapat mengedit data ini melalui menu Pengeluaran.</div>' : ''}
+          ${canEdit ? '<div class="alert alert-info">Anda (Admin) dapat mengedit data ini melalui menu Pengeluaran.</div>' : '<div class="alert alert-secondary">Anda hanya bisa melihat data ini. Untuk perubahan, hubungi Admin.</div>'}
         `;
       }
       modal.show();
