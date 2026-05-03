@@ -818,7 +818,7 @@
               <div class="show-more-container" id="monthlyReportShowMore" style="display: none;">
                 <div class="show-more-btn" onclick="loadMoreMonthlyReports()">
                   <i class="fas fa-chevron-down me-1"></i>
-                  <span>Muat 20 Bulan Berikutnya</span>
+                  <span>Berikutnya</span>
                 </div>
               </div>
             </div>
@@ -2403,7 +2403,7 @@
               <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
                 <span>Pemasukan - ${formatRupiah(currentReportData.pemasukan)}</span>
                 ${currentPemasukanData.length > DETAIL_PAGE_SIZE && pemasukanEndIndex < currentPemasukanData.length ? 
-                  `<button class="btn btn-sm btn-light" onclick="loadMorePemasukan()">Muat 20 Berikutnya <i class="fas fa-chevron-down ms-1"></i></button>` : ''}
+                  `<button class="btn btn-sm btn-light" onclick="loadMorePemasukan()">Berikutnya <i class="fas fa-chevron-down ms-1"></i></button>` : ''}
               </div>
               <div class="card-body">
                 ${displayPemasukan.length > 0 ? `
@@ -2423,7 +2423,7 @@
                   </div>
                 ` : '<p class="text-muted">Tidak ada pemasukan</p>'}
                 ${pemasukanEndIndex < currentPemasukanData.length ? 
-                  `<div class="text-center mt-3"><button class="btn btn-outline-success btn-sm" onclick="loadMorePemasukan()"><i class="fas fa-chevron-down me-1"></i>Muat 20 Berikutnya</button></div>` : ''}
+                  `<div class="text-center mt-3"><button class="btn btn-outline-success btn-sm" onclick="loadMorePemasukan()"><i class="fas fa-chevron-down me-1"></i>Berikutnya</button></div>` : ''}
               </div>
             </div>
           </div>
@@ -2432,7 +2432,7 @@
               <div class="card-header bg-danger text-white d-flex justify-content-between align-items-center">
                 <span>Pengeluaran - ${formatRupiah(currentReportData.pengeluaran)}</span>
                 ${currentPengeluaranData.length > DETAIL_PAGE_SIZE && pengeluaranEndIndex < currentPengeluaranData.length ? 
-                  `<button class="btn btn-sm btn-light" onclick="loadMorePengeluaran()">Muat 20 Berikutnya <i class="fas fa-chevron-down ms-1"></i></button>` : ''}
+                  `<button class="btn btn-sm btn-light" onclick="loadMorePengeluaran()">Berikutnya <i class="fas fa-chevron-down ms-1"></i></button>` : ''}
               </div>
               <div class="card-body">
                 ${displayPengeluaran.length > 0 ? `
@@ -2451,7 +2451,7 @@
                   </div>
                 ` : '<p class="text-muted">Tidak ada pengeluaran</p>'}
                 ${pengeluaranEndIndex < currentPengeluaranData.length ? 
-                  `<div class="text-center mt-3"><button class="btn btn-outline-danger btn-sm" onclick="loadMorePengeluaran()"><i class="fas fa-chevron-down me-1"></i>Muat 20 Berikutnya</button></div>` : ''}
+                  `<div class="text-center mt-3"><button class="btn btn-outline-danger btn-sm" onclick="loadMorePengeluaran()"><i class="fas fa-chevron-down me-1"></i>Berikutnya</button></div>` : ''}
               </div>
             </div>
           </div>
