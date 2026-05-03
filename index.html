@@ -392,6 +392,17 @@
     .financial-detail-row:hover {
       background-color: #e9ecef;
     }
+    .load-more-btn {
+      cursor: pointer;
+      color: var(--secondary-color);
+      font-weight: bold;
+      text-align: center;
+      padding: 10px;
+      margin-top: 10px;
+    }
+    .load-more-btn:hover {
+      color: var(--primary-color);
+    }
 
     @media (max-width: 768px) {
       .saldo-amount {
@@ -1431,14 +1442,13 @@
     let allMonthlyReports = [];
     let currentMonthlyStartIndex = 0;
     const MONTHLY_PAGE_SIZE = 20;
-    
-    // Variabel untuk pagination di financial detail modal
+
+    // Variabel untuk pagination di detail keuangan
     let currentPemasukanStartIndex = 0;
     let currentPengeluaranStartIndex = 0;
     let currentPemasukanData = [];
     let currentPengeluaranData = [];
-    let currentReportData = null;
-    const DETAIL_PAGE_SIZE = 20;
+    let currentReport = null;
 
     // ==================== FUNGSI API CALL ====================
     async function callAppsScript(action, parameters = {}) {
@@ -1503,6 +1513,15 @@
         return 'Rp 0';
       }
       return 'Rp ' + num.toLocaleString('id-ID');
+    }
+
+    // Fungsi untuk mendapatkan nama dari nomor rumah
+    function getNamaByNomorRumah(nomorRumah) {
+      const warga = allWargaData.find(w => w.username === nomorRumah);
+      if (warga) {
+        return warga.nama_suami || warga.nama_istri || warga.username;
+      }
+      return nomorRumah;
     }
 
     // ==================== AUTHENTICATION ====================
@@ -2375,9 +2394,9 @@
     }
     
     function showFinancialDetail(report) {
-      currentReportData = report;
-      currentPemasukanData = report.details.pemasukan || [];
-      currentPengeluaranData = report.details.pengeluaran || [];
+      currentReport = report;
+      currentPemasukanData = [...report.details.pemasukan];
+      currentPengeluaranData = [...report.details.pengeluaran];
       currentPemasukanStartIndex = 0;
       currentPengeluaranStartIndex = 0;
       
@@ -2389,75 +2408,84 @@
     }
     
     function renderFinancialDetailContent() {
-      const canEdit = currentUser.role === 'admin';
-      const pemasukanEndIndex = Math.min(currentPemasukanStartIndex + DETAIL_PAGE_SIZE, currentPemasukanData.length);
-      const pengeluaranEndIndex = Math.min(currentPengeluaranStartIndex + DETAIL_PAGE_SIZE, currentPengeluaranData.length);
-      const displayPemasukan = currentPemasukanData.slice(0, pemasukanEndIndex);
-      const displayPengeluaran = currentPengeluaranData.slice(0, pengeluaranEndIndex);
-      
       const content = document.getElementById('financialDetailContent');
+      const canEdit = currentUser.role === 'admin';
+      
+      // Render Pemasukan dengan pagination
+      const pemasukanEndIndex = Math.min(currentPemasukanStartIndex + 20, currentPemasukanData.length);
+      const displayPemasukan = currentPemasukanData.slice(0, pemasukanEndIndex);
+      const hasMorePemasukan = pemasukanEndIndex < currentPemasukanData.length;
+      
+      // Render Pengeluaran dengan pagination
+      const pengeluaranEndIndex = Math.min(currentPengeluaranStartIndex + 20, currentPengeluaranData.length);
+      const displayPengeluaran = currentPengeluaranData.slice(0, pengeluaranEndIndex);
+      const hasMorePengeluaran = pengeluaranEndIndex < currentPengeluaranData.length;
+      
       content.innerHTML = `
         <div class="row">
           <div class="col-md-6">
             <div class="card border-success mb-3">
-              <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
-                <span>Pemasukan - ${formatRupiah(currentReportData.pemasukan)}</span>
-                ${currentPemasukanData.length > DETAIL_PAGE_SIZE && pemasukanEndIndex < currentPemasukanData.length ? 
-                  `<button class="btn btn-sm btn-light" onclick="loadMorePemasukan()">Berikutnya <i class="fas fa-chevron-down ms-1"></i></button>` : ''}
-              </div>
+              <div class="card-header bg-success text-white">Pemasukan - ${formatRupiah(currentReport.pemasukan)}</div>
               <div class="card-body">
-                ${displayPemasukan.length > 0 ? `
-                  <div class="list-group">
-                    ${displayPemasukan.map(item => `
-                      <div class="list-group-item list-group-item-action financial-detail-row" data-type="pemasukan" data-item='${JSON.stringify(item)}'>
-                        <div class="d-flex justify-content-between">
-                          <div>
-                            <strong>${item.nomor_rumah}</strong><br>
-                            <small>${item.jenis_iuran}</small>
+                <div id="pemasukanListContainer">
+                  ${displayPemasukan.length > 0 ? `
+                    <div class="list-group">
+                      ${displayPemasukan.map(item => `
+                        <div class="list-group-item list-group-item-action financial-detail-row" data-type="pemasukan" data-item='${JSON.stringify(item)}'>
+                          <div class="d-flex justify-content-between">
+                            <div>
+                              <strong>${item.nomor_rumah}</strong><br>
+                              <small>${item.jenis_iuran}</small>
+                            </div>
+                            <div class="text-success">${formatRupiah(item.jumlah)}</div>
                           </div>
-                          <div class="text-success">${formatRupiah(item.jumlah)}</div>
+                          <div><small class="text-muted">Tgl Bayar: ${item.tanggal_bayar}</small></div>
                         </div>
-                        <div><small class="text-muted">Tgl Bayar: ${item.tanggal_bayar}</small></div>
-                      </div>
-                    `).join('')}
+                      `).join('')}
+                    </div>
+                  ` : '<p class="text-muted">Tidak ada pemasukan</p>'}
+                </div>
+                ${hasMorePemasukan ? `
+                  <div class="load-more-btn" onclick="loadMorePemasukan()">
+                    <i class="fas fa-chevron-down me-1"></i> Berikutnya
                   </div>
-                ` : '<p class="text-muted">Tidak ada pemasukan</p>'}
-                ${pemasukanEndIndex < currentPemasukanData.length ? 
-                  `<div class="text-center mt-3"><button class="btn btn-outline-success btn-sm" onclick="loadMorePemasukan()"><i class="fas fa-chevron-down me-1"></i>Berikutnya</button></div>` : ''}
+                ` : ''}
               </div>
             </div>
           </div>
           <div class="col-md-6">
             <div class="card border-danger mb-3">
-              <div class="card-header bg-danger text-white d-flex justify-content-between align-items-center">
-                <span>Pengeluaran - ${formatRupiah(currentReportData.pengeluaran)}</span>
-                ${currentPengeluaranData.length > DETAIL_PAGE_SIZE && pengeluaranEndIndex < currentPengeluaranData.length ? 
-                  `<button class="btn btn-sm btn-light" onclick="loadMorePengeluaran()">Berikutnya <i class="fas fa-chevron-down ms-1"></i></button>` : ''}
-              </div>
+              <div class="card-header bg-danger text-white">Pengeluaran - ${formatRupiah(currentReport.pengeluaran)}</div>
               <div class="card-body">
-                ${displayPengeluaran.length > 0 ? `
-                  <div class="list-group">
-                    ${displayPengeluaran.map(item => `
-                      <div class="list-group-item list-group-item-action financial-detail-row" data-type="pengeluaran" data-item='${JSON.stringify(item)}'>
-                        <div class="d-flex justify-content-between">
-                          <div>
-                            <strong>${item.keterangan}</strong>
+                <div id="pengeluaranListContainer">
+                  ${displayPengeluaran.length > 0 ? `
+                    <div class="list-group">
+                      ${displayPengeluaran.map(item => `
+                        <div class="list-group-item list-group-item-action financial-detail-row" data-type="pengeluaran" data-item='${JSON.stringify(item)}'>
+                          <div class="d-flex justify-content-between">
+                            <div>
+                              <strong>${item.keterangan}</strong>
+                            </div>
+                            <div class="text-danger">${formatRupiah(item.jumlah)}</div>
                           </div>
-                          <div class="text-danger">${formatRupiah(item.jumlah)}</div>
+                          <div><small class="text-muted">Tanggal: ${item.tanggal}</small></div>
                         </div>
-                        <div><small class="text-muted">Tanggal: ${item.tanggal}</small></div>
-                      </div>
-                    `).join('')}
+                      `).join('')}
+                    </div>
+                  ` : '<p class="text-muted">Tidak ada pengeluaran</p>'}
+                </div>
+                ${hasMorePengeluaran ? `
+                  <div class="load-more-btn" onclick="loadMorePengeluaran()">
+                    <i class="fas fa-chevron-down me-1"></i> Berikutnya
                   </div>
-                ` : '<p class="text-muted">Tidak ada pengeluaran</p>'}
-                ${pengeluaranEndIndex < currentPengeluaranData.length ? 
-                  `<div class="text-center mt-3"><button class="btn btn-outline-danger btn-sm" onclick="loadMorePengeluaran()"><i class="fas fa-chevron-down me-1"></i>Berikutnya</button></div>` : ''}
+                ` : ''}
               </div>
             </div>
           </div>
         </div>
       `;
       
+      // Re-attach event listeners untuk rincian transaksi
       document.querySelectorAll('.financial-detail-row').forEach(el => {
         el.addEventListener('click', (e) => {
           e.stopPropagation();
@@ -2469,12 +2497,12 @@
     }
     
     function loadMorePemasukan() {
-      currentPemasukanStartIndex += DETAIL_PAGE_SIZE;
+      currentPemasukanStartIndex += 20;
       renderFinancialDetailContent();
     }
     
     function loadMorePengeluaran() {
-      currentPengeluaranStartIndex += DETAIL_PAGE_SIZE;
+      currentPengeluaranStartIndex += 20;
       renderFinancialDetailContent();
     }
     
@@ -2485,15 +2513,12 @@
       const canEdit = currentUser.role === 'admin';
       
       if (type === 'pemasukan') {
-        // Cari nama pemilik rumah
-        const warga = allWargaData.find(w => w.username === item.nomor_rumah);
-        const namaPemilik = warga ? (warga.nama_suami || warga.nama_istri || warga.username) : '-';
-        
+        const namaPemilik = getNamaByNomorRumah(item.nomor_rumah);
         title.textContent = `Detail Pemasukan - ${item.nomor_rumah}`;
         content.innerHTML = `
           <table class="table table-bordered">
-            <tr><th width="40%">Nomor Rumah</th><td>${item.nomor_rumah}</td></tr>
             <tr><th width="40%">Nama</th><td>${namaPemilik}</td></tr>
+            <tr><th>Nomor Rumah</th><td>${item.nomor_rumah}</td></tr>
             <tr><th>Jenis Iuran</th><td>${item.jenis_iuran}</td></tr>
             <tr><th>Jumlah</th><td class="text-success fw-bold">${formatRupiah(item.jumlah)}</td></tr>
             <tr><th>Tanggal Bayar</th><td>${item.tanggal_bayar}</td></tr>
@@ -3142,6 +3167,7 @@
       });
     });
 
+    // Auto-refresh data every 30 seconds
     setInterval(function() {
       if (currentUser) {
         loadSaldo();
