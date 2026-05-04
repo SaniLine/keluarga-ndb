@@ -2200,11 +2200,9 @@
   async function loadLaporanKeuangan() {
     showGlobalLoading();
     try {
-      // Ambil semua iuran (keseluruhan) dan pengeluaran
       const iuran = await callAppsScript('getIuranAll');
       const pengeluaran = await callAppsScript('getPengeluaran');
       
-      // Kelompokkan berdasarkan bulan-tahun DARI TANGGAL BAYAR
       const reportMap = new Map();
       
       // Proses iuran (pemasukan) - berdasarkan tanggal bayar
@@ -2226,18 +2224,24 @@
               }
               const report = reportMap.get(key);
               report.pemasukan += parseFloat(item.jumlah) || 0;
+              
+              // Format keterangan: "Jenis Iuran - Bulan Tahun" (menampilkan bulan iuran yang dibayar)
+              const displayBulan = item.bulan;
+              const displayTahun = item.tahun;
               report.details.pemasukan.push({
                 nomor_rumah: item.nomor_rumah,
                 jenis_iuran: item.jenis_iuran,
                 jumlah: parseFloat(item.jumlah) || 0,
-                tanggal_bayar: item.tanggal_bayar
+                tanggal_bayar: item.tanggal_bayar,
+                bulan_iuran: displayBulan,
+                tahun_iuran: displayTahun
               });
             }
           }
         }
       });
       
-      // Proses pengeluaran - berdasarkan tanggal
+      // Proses pengeluaran
       pengeluaran.forEach(item => {
         const tanggal = item.tanggal.split('-');
         const tahun = tanggal[0];
@@ -2262,7 +2266,6 @@
         }
       });
       
-      // Konversi ke array dan urutkan dari terbaru
       const reports = Array.from(reportMap.values()).sort((a, b) => {
         if (a.tahun !== b.tahun) return b.tahun - a.tahun;
         const bulanOrder = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
@@ -2373,7 +2376,7 @@
                         <div class="d-flex justify-content-between">
                           <div>
                             <strong>${item.nomor_rumah}</strong><br>
-                            <small>${item.jenis_iuran}</small>
+                            <small>${item.jenis_iuran} - ${item.bulan_iuran} ${item.tahun_iuran}</small>
                           </div>
                           <div class="text-success">${formatRupiah(item.jumlah)}</div>
                         </div>
@@ -2423,7 +2426,6 @@
       </div>
     `;
     
-    // Re-attach event listeners
     document.querySelectorAll('.financial-detail-row').forEach(el => {
       el.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -2458,6 +2460,7 @@
           <tr><th width="40%">Nama</th><td>${namaPemilik}</td></tr>
           <tr><th>Nomor Rumah</th><td>${item.nomor_rumah}</td></tr>
           <tr><th>Jenis Iuran</th><td>${item.jenis_iuran}</td></tr>
+          <tr><th>Periode Iuran</th><td>${item.bulan_iuran} ${item.tahun_iuran}</td></tr>
           <tr><th>Jumlah</th><td class="text-success fw-bold">${formatRupiah(item.jumlah)}</td></tr>
           <tr><th>Tanggal Bayar</th><td>${item.tanggal_bayar}</td></tr>
         </table>
@@ -2673,7 +2676,6 @@
     document.getElementById('editIuranJumlah').value = jumlah;
     document.getElementById('editIuranStatus').value = status;
     
-    // Set tanggal pelunasan jika ada
     const originalData = JSON.parse(document.getElementById('editIuranOriginalData').value);
     if (originalData.tanggal_bayar) {
       document.getElementById('editIuranTanggalBayar').value = originalData.tanggal_bayar;
@@ -3128,7 +3130,6 @@
     });
   });
 
-  // Auto-refresh data every 30 seconds
   setInterval(function() {
     if (currentUser) {
       loadSaldo();
