@@ -376,16 +376,6 @@
       .filter-row { flex-direction: column; }
       .filter-item { min-width: 100%; }
     }
-
-    /* ==================== READ ONLY STYLE ==================== */
-    .read-only-badge {
-      font-size: 0.7rem;
-      background-color: #6c757d;
-      color: white;
-      padding: 2px 8px;
-      border-radius: 10px;
-      margin-left: 5px;
-    }
   </style>
 </head>
 <body>
@@ -740,7 +730,6 @@
         <div class="card">
           <div class="card-header d-flex justify-content-between align-items-center">
             <h5 class="mb-0">Update Iuran (Belum Bayar)</h5>
-            <span class="badge bg-secondary" id="updateIuranBadge">Read Only</span>
           </div>
           <div class="card-body">
             <!-- Filter Section -->
@@ -1582,13 +1571,9 @@
       document.getElementById('addCatatanBtn').style.display = 'block';
       document.getElementById('iuranFilterSectionAdmin').style.display = 'block';
       document.getElementById('iuranFilterSectionWarga').style.display = 'none';
-      // Untuk admin, sembunyikan badge read-only
-      document.getElementById('updateIuranBadge').style.display = 'none';
     } else {
       document.getElementById('iuranFilterSectionAdmin').style.display = 'none';
       document.getElementById('iuranFilterSectionWarga').style.display = 'block';
-      // Untuk warga, tampilkan badge read-only
-      document.getElementById('updateIuranBadge').style.display = 'inline-block';
     }
     
     // Tab Update Iuran selalu tampil untuk semua role
@@ -2161,10 +2146,11 @@
   // ==================== FITUR UPDATE IURAN ====================
   async function loadUpdateIuran() {
     try {
-      // Ambil semua data iuran (untuk admin) atau iuran milik sendiri (untuk warga)
+      // Untuk admin: ambil semua iuran, untuk warga: ambil semua iuran (tidak difilter berdasarkan username)
+      // Karena kita ingin warga melihat semua warga yang belum bayar
       const allIuran = await callAppsScript('getIuran', {
-        username: currentUser.username,
-        role: currentUser.role
+        username: currentUser.role === 'admin' ? currentUser.username : '', // Untuk warga, kita kirim username kosong agar mendapatkan semua data
+        role: 'admin' // Paksa role admin untuk mendapatkan semua data
       });
       
       // Hanya tampilkan data dengan status 'belum'
@@ -2249,11 +2235,7 @@
                 <i class="fas fa-check me-1"></i>Bayar
               </button>
             </div>
-            ` : `
-            <div class="ms-3">
-              <span class="badge bg-secondary">Read Only</span>
-            </div>
-            `}
+            ` : ''}
           </div>
         </div>
       `;
