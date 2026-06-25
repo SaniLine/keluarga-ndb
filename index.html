@@ -461,6 +461,10 @@
       <li class="nav-item" id="detailIuranTab" style="display: none;">
         <a class="nav-link" data-bs-toggle="tab" href="#detailIuran">Detail Iuran</a>
       </li>
+      <!-- MENU UPDATE IURAN -->
+      <li class="nav-item" id="updateIuranTab">
+        <a class="nav-link" data-bs-toggle="tab" href="#updateIuran">Update Iuran</a>
+      </li>
       <li class="nav-item">
         <a class="nav-link" data-bs-toggle="tab" href="#pengeluaran">Pengeluaran</a>
       </li>
@@ -713,6 +717,62 @@
             <div id="detailIuranList"></div>
             <div class="show-more-container" id="detailIuranShowMore" style="display: none;">
               <div class="show-more-btn" onclick="toggleShowAll('detailIuran')">
+                <i class="fas fa-chevron-down me-1"></i>
+                <span>Tampilkan Semua</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- UPDATE IURAN TAB -->
+      <div class="tab-pane fade" id="updateIuran">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="mb-0">Update Iuran (Belum Bayar)</h5>
+          </div>
+          <div class="card-body">
+            <!-- Filter Section -->
+            <div class="filter-container">
+              <div class="filter-row">
+                <div class="filter-item">
+                  <input type="text" class="form-control" id="searchUpdateIuran" placeholder="Cari nomor rumah atau nama...">
+                </div>
+                <div class="filter-item">
+                  <select class="form-select" id="filterUpdateIuranBulan">
+                    <option value="">Semua Bulan</option>
+                    <option value="Januari">Januari</option>
+                    <option value="Februari">Februari</option>
+                    <option value="Maret">Maret</option>
+                    <option value="April">April</option>
+                    <option value="Mei">Mei</option>
+                    <option value="Juni">Juni</option>
+                    <option value="Juli">Juli</option>
+                    <option value="Agustus">Agustus</option>
+                    <option value="September">September</option>
+                    <option value="Oktober">Oktober</option>
+                    <option value="November">November</option>
+                    <option value="Desember">Desember</option>
+                  </select>
+                </div>
+                <div class="filter-item">
+                  <input type="number" class="form-control" id="filterUpdateIuranTahun" placeholder="Tahun" min="2023" max="2030">
+                </div>
+                <div class="filter-item">
+                  <select class="form-select" id="filterUpdateIuranJenis">
+                    <option value="">Semua Jenis</option>
+                  </select>
+                </div>
+                <div class="filter-item">
+                  <button class="filter-button" onclick="applyUpdateIuranFilter()">
+                    <i class="fas fa-search me-1"></i>Filter
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div id="updateIuranList"></div>
+            <div class="show-more-container" id="updateIuranShowMore" style="display: none;">
+              <div class="show-more-btn" onclick="toggleShowAll('updateIuran')">
                 <i class="fas fa-chevron-down me-1"></i>
                 <span>Tampilkan Semua</span>
               </div>
@@ -1343,7 +1403,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
   // ==================== KONFIGURASI ====================
-  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxYeokxBdYCzVndpuKcybKdEnkHGzzdYsnyWJ3DpGkM37j8VPhW6-nWAm0KJzV_-6SR/exec';
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx0yRxANchxSrh43RMBprn6sXK1aY8HxCS9v3Jyt8e540Her9h46e51BGIXbLxh_RIM/exec';
   
   // ==================== VARIABEL GLOBAL ====================
   let currentUser = null;
@@ -1355,17 +1415,20 @@
     pengeluaran: [],
     catatan: [],
     kelolaWarga: [],
-    detailIuran: []
+    detailIuran: [],
+    updateIuran: []
   };
   let filteredIuranDataAdmin = [];
   let filteredIuranDataWarga = [];
+  let filteredUpdateIuranData = [];
   let showAllData = {
     warga: false,
     iuran: false,
     pengeluaran: false,
     catatan: false,
     kelolaWarga: false,
-    detailIuran: false
+    detailIuran: false,
+    updateIuran: false
   };
   
   // Variabel untuk Laporan Keuangan
@@ -1498,6 +1561,7 @@
     
     document.getElementById('userInfo').textContent = `${currentUser.username} (${currentUser.role})`;
     
+    // Tampilkan tab berdasarkan role
     if (currentUser.role === 'admin') {
       document.getElementById('kelolaWargaTab').style.display = 'block';
       document.getElementById('sebarIuranTab').style.display = 'block';
@@ -1512,12 +1576,16 @@
       document.getElementById('iuranFilterSectionWarga').style.display = 'block';
     }
     
+    // Tab Update Iuran selalu tampil untuk semua role
+    document.getElementById('updateIuranTab').style.display = 'block';
+    
     loadSaldo();
     loadWarga();
     loadIuran();
     loadCatatan();
     loadPengeluaran();
     loadLaporanKeuangan();
+    loadUpdateIuran();
     
     if (currentUser.role === 'admin') {
       loadKelolaWarga();
@@ -1527,6 +1595,7 @@
     loadJenisIuran();
     setupSearch();
     setupIuranSearch();
+    setupUpdateIuranSearch();
   }
 
   function setupSearch() {
@@ -1544,6 +1613,15 @@
           applyIuranFilterAdmin();
         });
       }
+    }
+  }
+
+  function setupUpdateIuranSearch() {
+    const searchInput = document.getElementById('searchUpdateIuran');
+    if (searchInput) {
+      searchInput.addEventListener('input', function() {
+        applyUpdateIuranFilter();
+      });
     }
   }
 
@@ -1639,6 +1717,9 @@
         break;
       case 'detailIuran':
         renderDetailIuranList(allData.detailIuran);
+        break;
+      case 'updateIuran':
+        renderUpdateIuranList(filteredUpdateIuranData);
         break;
     }
   }
@@ -2017,12 +2098,14 @@
       const detailFilter = document.getElementById('detailIuranJenisFilter');
       const filterIuranJenisAdmin = document.getElementById('filterIuranJenisAdmin');
       const filterIuranJenisWarga = document.getElementById('filterIuranJenisWarga');
+      const filterUpdateIuranJenis = document.getElementById('filterUpdateIuranJenis');
       
       select.innerHTML = '<option value="">Pilih Jenis Iuran</option>';
       sebarSelect.innerHTML = '<option value="">Pilih Jenis Iuran</option>';
       detailFilter.innerHTML = '<option value="">Semua Jenis Iuran</option>';
       filterIuranJenisAdmin.innerHTML = '<option value="">Semua Jenis</option>';
       filterIuranJenisWarga.innerHTML = '<option value="">Semua Jenis</option>';
+      filterUpdateIuranJenis.innerHTML = '<option value="">Semua Jenis</option>';
       
       jenisIuran.forEach(function(jenis) {
         const option = document.createElement('option');
@@ -2049,9 +2132,124 @@
         filterWargaOption.value = jenis;
         filterWargaOption.textContent = jenis;
         filterIuranJenisWarga.appendChild(filterWargaOption);
+        
+        const filterUpdateOption = document.createElement('option');
+        filterUpdateOption.value = jenis;
+        filterUpdateOption.textContent = jenis;
+        filterUpdateIuranJenis.appendChild(filterUpdateOption);
       });
     } catch (error) {
       console.error('Error loading jenis iuran:', error);
+    }
+  }
+
+  // ==================== FITUR UPDATE IURAN ====================
+  async function loadUpdateIuran() {
+    try {
+      const allIuran = await callAppsScript('getIuran', {
+        username: currentUser.username,
+        role: currentUser.role
+      });
+      
+      // Hanya tampilkan data dengan status 'belum'
+      const belumBayar = allIuran.filter(item => item.status === 'belum');
+      allData.updateIuran = belumBayar;
+      filteredUpdateIuranData = [...belumBayar];
+      renderUpdateIuranList(filteredUpdateIuranData);
+    } catch (error) {
+      console.error('Error loading update iuran:', error);
+      document.getElementById('updateIuranList').innerHTML = '<p class="text-danger text-center">Error loading data</p>';
+    }
+  }
+
+  function applyUpdateIuranFilter() {
+    const searchTerm = document.getElementById('searchUpdateIuran')?.value.toLowerCase() || '';
+    const bulan = document.getElementById('filterUpdateIuranBulan')?.value || '';
+    const tahun = document.getElementById('filterUpdateIuranTahun')?.value || '';
+    const jenis = document.getElementById('filterUpdateIuranJenis')?.value || '';
+    
+    filteredUpdateIuranData = allData.updateIuran.filter(item => {
+      let matchesSearch = true;
+      if (searchTerm) {
+        const warga = allWargaData.find(w => w.username === item.nomor_rumah);
+        const namaPemilik = warga ? (warga.nama_suami || warga.nama_istri || '') : '';
+        matchesSearch = 
+          item.nomor_rumah.toLowerCase().includes(searchTerm) ||
+          namaPemilik.toLowerCase().includes(searchTerm);
+      }
+      
+      const matchesBulan = bulan ? item.bulan === bulan : true;
+      const matchesTahun = tahun ? item.tahun.toString() === tahun : true;
+      const matchesJenis = jenis ? item.jenis_iuran === jenis : true;
+      
+      return matchesSearch && matchesBulan && matchesTahun && matchesJenis;
+    });
+    
+    renderUpdateIuranList(filteredUpdateIuranData);
+  }
+
+  function renderUpdateIuranList(iuran) {
+    const iuranList = document.getElementById('updateIuranList');
+    const showMoreContainer = document.getElementById('updateIuranShowMore');
+    
+    iuranList.innerHTML = '';
+    
+    if (iuran.length === 0) {
+      iuranList.innerHTML = '<p class="text-muted text-center">Tidak ada data iuran yang belum bayar</p>';
+      showMoreContainer.style.display = 'none';
+      return;
+    }
+    
+    const displayData = showAllData.updateIuran ? iuran : iuran.slice(0, 20);
+    
+    displayData.forEach(function(item) {
+      const iuranItem = document.createElement('div');
+      iuranItem.className = 'card mb-2 status-card status-belum-card';
+      const canEdit = currentUser.role === 'admin' || currentUser.username === item.nomor_rumah;
+      
+      let displayName = item.nomor_rumah;
+      const warga = allWargaData.find(w => w.username === item.nomor_rumah);
+      if (warga) {
+        displayName = `${item.nomor_rumah} - ${warga.nama_suami || warga.nama_istri || warga.username}`;
+      }
+      
+      iuranItem.innerHTML = `
+        <div class="card-body py-2">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="flex-grow-1">
+              <div class="fw-bold text-primary">${displayName}</div>
+              <div class="text-muted small">
+                ${item.bulan} ${item.tahun} - ${item.jenis_iuran}
+              </div>
+              <div class="mt-1">
+                <span class="fw-semibold">${formatRupiah(item.jumlah)}</span> 
+                - 
+                <span class="status-belum">BELUM BAYAR</span>
+              </div>
+            </div>
+            ${canEdit ? `
+            <div class="ms-3">
+              <button class="btn btn-sm btn-success" onclick="showEditIuranModal('${item.nomor_rumah}', '${item.bulan}', '${item.tahun}', '${item.jenis_iuran}', '${item.jumlah}', '${item.status}')">
+                <i class="fas fa-check me-1"></i>Bayar
+              </button>
+            </div>
+            ` : ''}
+          </div>
+        </div>
+      `;
+      iuranList.appendChild(iuranItem);
+    });
+    
+    if (iuran.length > 20) {
+      showMoreContainer.style.display = 'block';
+      const showMoreBtn = showMoreContainer.querySelector('.show-more-btn');
+      if (showAllData.updateIuran) {
+        showMoreBtn.innerHTML = '<i class="fas fa-chevron-up me-1"></i><span>Tampilkan Sedikit</span>';
+      } else {
+        showMoreBtn.innerHTML = '<i class="fas fa-chevron-down me-1"></i><span>Tampilkan Semua</span>';
+      }
+    } else {
+      showMoreContainer.style.display = 'none';
     }
   }
 
@@ -2091,6 +2289,7 @@
         const modal = bootstrap.Modal.getInstance(document.getElementById('sebarIuranModal'));
         modal.hide();
         loadIuran();
+        loadUpdateIuran();
       } else {
         alert('Gagal menyebar iuran: ' + result.message);
       }
@@ -2652,6 +2851,7 @@
         loadSaldo();
         loadCatatan();
         loadLaporanKeuangan();
+        loadUpdateIuran();
       }
     } catch (error) {
       hideButtonLoading('saveIuranButton');
@@ -2728,6 +2928,7 @@
         loadSaldo();
         loadCatatan();
         loadLaporanKeuangan();
+        loadUpdateIuran();
       }
     } catch (error) {
       hideButtonLoading('saveEditIuranButton');
@@ -2755,6 +2956,7 @@
           loadSaldo();
           loadCatatan();
           loadLaporanKeuangan();
+          loadUpdateIuran();
         }
       } catch (error) {
         hideGlobalLoading();
