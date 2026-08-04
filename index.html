@@ -368,6 +368,58 @@
       border-bottom: none;
     }
     
+    /* ==================== PULL-TO-REFRESH ==================== */
+    .pull-indicator {
+      position: fixed;
+      top: -70px;
+      left: 0;
+      right: 0;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--primary-color), #1a3a75);
+      color: white;
+      transition: top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 9998;
+      font-size: 0.9rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      pointer-events: none;
+    }
+    
+    .pull-indicator .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-right: 10px;
+      display: none;
+    }
+    
+    .pull-indicator.pulling .spinner {
+      display: none;
+    }
+    
+    .pull-indicator.pulling .icon {
+      transform: rotate(180deg);
+    }
+    
+    .pull-indicator.refreshing .spinner {
+      display: inline-block;
+    }
+    
+    .pull-indicator.refreshing .icon {
+      display: none;
+    }
+    
+    .pull-indicator .icon {
+      margin-right: 10px;
+      font-size: 1.2rem;
+      transition: transform 0.3s ease;
+    }
+    
     /* ==================== RESPONSIVE ==================== */
     @media (max-width: 768px) {
       .saldo-amount { font-size: 2rem; }
@@ -375,10 +427,22 @@
       .login-container { margin: 50px auto; padding: 1.5rem; }
       .filter-row { flex-direction: column; }
       .filter-item { min-width: 100%; }
+      .pull-indicator {
+        height: 60px;
+        top: -60px;
+        font-size: 0.8rem;
+      }
     }
   </style>
 </head>
 <body>
+
+<!-- ==================== PULL-TO-REFRESH INDICATOR ==================== -->
+<div class="pull-indicator" id="pullIndicator">
+  <span class="icon">↓</span>
+  <span class="spinner"></span>
+  <span class="text">Tarik untuk refresh</span>
+</div>
 
 <!-- ==================== LOADING OVERLAY ==================== -->
 <div class="loading-overlay" id="globalLoading">
@@ -3313,6 +3377,120 @@
     }
   }
 
+  // ==================== PULL-TO-REFRESH (SWIPE DOWN) ====================
+  function setupPullToRefresh() {
+    const pullIndicator = document.getElementById('pullIndicator');
+    let startY = 0;
+    let isPulling = false;
+    let isRefreshing = false;
+    
+    // Hanya aktif di perangkat dengan touch support (mobile/tablet)
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    if (!isTouchDevice) return;
+    
+    document.addEventListener('touchstart', function(e) {
+      // Hanya aktif di bagian atas halaman
+      if (window.scrollY <= 0 && !isRefreshing) {
+        startY = e.touches[0].clientY;
+      }
+    }, { passive: true });
+    
+    document.addEventListener('touchmove', function(e) {
+      if (window.scrollY > 0 || isRefreshing || startY === 0) return;
+      
+      const currentY = e.touches[0].clientY;
+      const pullDistance = currentY - startY;
+      
+      // Hanya respon jika pull ke bawah
+      if (pullDistance > 5) {
+        isPulling = true;
+        const progress = Math.min(pullDistance / 150, 1);
+        const translateY = Math.min(pullDistance - 5, 60);
+        
+        pullIndicator.style.top = translateY + 'px';
+        
+        if (progress > 0.7) {
+          pullIndicator.className = 'pull-indicator pulling';
+          pullIndicator.querySelector('.text').textContent = 'Lepas untuk refresh';
+          pullIndicator.querySelector('.icon').textContent = '↻';
+        } else {
+          pullIndicator.className = 'pull-indicator';
+          pullIndicator.querySelector('.text').textContent = 'Tarik untuk refresh';
+          pullIndicator.querySelector('.icon').textContent = '↓';
+        }
+      }
+    }, { passive: true });
+    
+    document.addEventListener('touchend', function(e) {
+      if (!isPulling || isRefreshing || startY === 0) {
+        startY = 0;
+        return;
+      }
+      
+      const pullDistance = e.changedTouches[0].clientY - startY;
+      startY = 0;
+      
+      if (pullDistance > 100 && window.scrollY <= 0) {
+        // Execute refresh
+        isRefreshing = true;
+        pullIndicator.className = 'pull-indicator refreshing';
+        pullIndicator.querySelector('.text').textContent = 'Memperbarui data...';
+        pullIndicator.querySelector('.icon').textContent = '';
+        pullIndicator.style.top = '60px';
+        
+        // Jalankan refresh data
+        refreshAllData().finally(() => {
+          isRefreshing = false;
+          setTimeout(() => {
+            pullIndicator.style.top = '-70px';
+            pullIndicator.className = 'pull-indicator';
+            pullIndicator.querySelector('.text').textContent = 'Tarik untuk refresh';
+            pullIndicator.querySelector('.icon').textContent = '↓';
+          }, 500);
+        });
+      } else {
+        // Cancel pull
+        pullIndicator.style.top = '-70px';
+        pullIndicator.className = 'pull-indicator';
+        pullIndicator.querySelector('.text').textContent = 'Tarik untuk refresh';
+        pullIndicator.querySelector('.icon').textContent = '↓';
+      }
+      
+      isPulling = false;
+    }, { passive: true });
+  }
+
+  // ==================== REFRESH ALL DATA ====================
+  async function refreshAllData() {
+    try {
+      // Refresh semua data secara paralel
+      const promises = [
+        loadSaldo(),
+        loadWarga(),
+        loadIuran(),
+        loadPengeluaran(),
+        loadCatatan(),
+        loadLaporanKeuangan(),
+        loadUpdateIuran()
+      ];
+      
+      if (currentUser && currentUser.role === 'admin') {
+        promises.push(loadKelolaWarga());
+        promises.push(loadDetailIuran());
+      }
+      
+      await Promise.all(promises);
+      
+      // Update timestamp
+      document.getElementById('lastUpdate').textContent = new Date().toLocaleString('id-ID');
+      
+      return { success: true };
+    } catch (error) {
+      console.error('Error refreshing data:', error);
+      return { success: false, error: error.message };
+    }
+  }
+
   // ==================== INITIALIZATION ====================
   document.addEventListener('DOMContentLoaded', function() {
     const currentDate = new Date().toISOString().split('T')[0];
@@ -3332,8 +3510,12 @@
       e.preventDefault();
       login();
     });
+    
+    // Setup pull-to-refresh
+    setupPullToRefresh();
   });
 
+  // Auto refresh saldo setiap 30 detik
   setInterval(function() {
     if (currentUser) {
       loadSaldo();
