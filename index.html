@@ -778,7 +778,6 @@
       <li class="nav-item" id="detailIuranTab" style="display: none;">
         <a class="nav-link" data-bs-toggle="tab" href="#detailIuran">Detail Iuran</a>
       </li>
-      <!-- MENU UPDATE IURAN -->
       <li class="nav-item" id="updateIuranTab">
         <a class="nav-link" data-bs-toggle="tab" href="#updateIuran">Update Iuran</a>
       </li>
@@ -876,7 +875,6 @@
             </button>
           </div>
           <div class="card-body">
-            <!-- Filter Section for Admin -->
             <div id="iuranFilterSectionAdmin" style="display: none;">
               <div class="filter-row">
                 <div class="filter-item">
@@ -915,7 +913,6 @@
               </div>
             </div>
 
-            <!-- Filter Section for Warga -->
             <div id="iuranFilterSectionWarga" style="display: none;">
               <div class="filter-row">
                 <div class="filter-item">
@@ -989,7 +986,6 @@
             <h5 class="mb-0">Detail Iuran</h5>
           </div>
           <div class="card-body">
-            <!-- Filter Section -->
             <div class="filter-container">
               <div class="row g-3 align-items-end">
                 <div class="col-md-3">
@@ -1027,7 +1023,6 @@
               </div>
             </div>
 
-            <!-- Statistics Section -->
             <div class="row mb-3">
               <div class="col-md-4">
                 <div class="card bg-success text-white">
@@ -1055,7 +1050,6 @@
               </div>
             </div>
 
-            <!-- Results Section -->
             <div id="detailIuranList"></div>
             <div class="show-more-container" id="detailIuranShowMore" style="display: none;">
               <div class="show-more-btn" onclick="toggleShowAll('detailIuran')">
@@ -1074,7 +1068,6 @@
             <h5 class="mb-0">Update Iuran (Belum Bayar)</h5>
           </div>
           <div class="card-body">
-            <!-- Filter Section -->
             <div class="filter-container">
               <div class="filter-row">
                 <div class="filter-item">
@@ -1334,7 +1327,7 @@
   </div>
 </div>
 
-<!-- Modal Edit Iuran (DENGAN TANGGAL PELUNASAN) -->
+<!-- Modal Edit Iuran -->
 <div class="modal fade" id="editIuranModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -1848,7 +1841,16 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
   // ==================== KONFIGURASI ====================
-  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyv1SQYq3ozRuaWFzWugZW3jLFmKd2fOI30LAgeFBwcN0ciaWiU1iMSUdUmliFGjvSc/exec';
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw25aGoxppmjoLK8Lc6iO8-yWSbf78fGC8psdbi1V32_LZDyIZYDQPLL_cUH_QSJ28/exec';
+  
+  // ==================== CACHE FRONTEND ====================
+  const CACHE_DURATION = 2 * 60 * 1000; // 2 menit
+  let dataCache = {
+    warga: { data: null, timestamp: 0 },
+    iuran: { data: null, timestamp: 0 },
+    pengeluaran: { data: null, timestamp: 0 },
+    catatan: { data: null, timestamp: 0 }
+  };
   
   // ==================== VARIABEL GLOBAL ====================
   let currentUser = null;
@@ -2004,6 +2006,13 @@
       if (result.success) {
         currentUser = result.user;
         sessionStorage.setItem('ndb_user', JSON.stringify(currentUser));
+        // Reset cache saat login baru
+        dataCache = {
+          warga: { data: null, timestamp: 0 },
+          iuran: { data: null, timestamp: 0 },
+          pengeluaran: { data: null, timestamp: 0 },
+          catatan: { data: null, timestamp: 0 }
+        };
         showMainApp();
       } else {
         messageDiv.innerHTML = `<div class="alert alert-danger">${result.message}</div>`;
@@ -2022,6 +2031,13 @@
       pengumumanShown = false;
       currentActivePengumuman = [];
       currentPengumumanIndex = 0;
+      // Reset cache
+      dataCache = {
+        warga: { data: null, timestamp: 0 },
+        iuran: { data: null, timestamp: 0 },
+        pengeluaran: { data: null, timestamp: 0 },
+        catatan: { data: null, timestamp: 0 }
+      };
       document.getElementById('mainApp').style.display = 'none';
       document.getElementById('loginScreen').style.display = 'block';
       document.getElementById('loginForm').reset();
@@ -2062,32 +2078,146 @@
       document.getElementById('iuranFilterSectionWarga').style.display = 'block';
     }
     
-    // Tab Update Iuran selalu tampil untuk semua role
     document.getElementById('updateIuranTab').style.display = 'block';
     
-    loadSaldo();
-    loadWarga();
-    loadIuran();
-    loadCatatan();
-    loadPengeluaran();
-    loadLaporanKeuangan();
-    loadUpdateIuran();
-    
-    if (currentUser.role === 'admin') {
-      loadKelolaWarga();
-      loadDetailIuran();
-      loadPengumumanAdmin();
-    }
-    
-    loadJenisIuran();
     setupSearch();
     setupIuranSearch();
     setupUpdateIuranSearch();
     
-    // Pop-up pengumuman untuk SEMUA user (admin & warga)
-    setTimeout(() => {
-      loadActivePengumuman();
-    }, 800);
+    // ===== LOAD DATA DENGAN 1 REQUEST (getInitialData) =====
+    loadInitialData();
+  }
+
+  // ===== FUNGSI BARU: Load semua data penting dalam 1 request =====
+  async function loadInitialData() {
+    try {
+      showGlobalLoading();
+      
+      const data = await callAppsScript('getInitialData', {
+        username: currentUser.username,
+        role: currentUser.role
+      });
+      
+      if (data.error) {
+        console.error('Error loading initial data:', data.error);
+        hideGlobalLoading();
+        return;
+      }
+      
+      const now = Date.now();
+      
+      // Set data
+      allWargaData = data.warga || [];
+      allData.warga = data.warga || [];
+      allData.iuran = data.iuran || [];
+      allData.pengeluaran = data.pengeluaran || [];
+      allData.catatan = data.catatan || [];
+      
+      // Simpan ke cache frontend
+      dataCache.warga = { data: allData.warga, timestamp: now };
+      dataCache.iuran = { data: allData.iuran, timestamp: now };
+      dataCache.pengeluaran = { data: allData.pengeluaran, timestamp: now };
+      dataCache.catatan = { data: allData.catatan, timestamp: now };
+      
+      // Render
+      document.getElementById('saldoAmount').textContent = formatRupiah(data.saldo);
+      document.getElementById('lastUpdate').textContent = new Date().toLocaleString('id-ID');
+      renderWargaList(allData.warga);
+      renderPengeluaranList(allData.pengeluaran);
+      renderCatatanList(allData.catatan);
+      
+      // Iuran berdasarkan role
+      if (currentUser.role === 'admin') {
+        filteredIuranDataAdmin = [...allData.iuran];
+        renderIuranList(filteredIuranDataAdmin);
+      } else {
+        filteredIuranDataWarga = [...allData.iuran];
+        renderIuranList(filteredIuranDataWarga);
+      }
+      
+      // Update Iuran (filter status belum)
+      const belumBayar = allData.iuran.filter(item => item.status === 'belum');
+      allData.updateIuran = belumBayar;
+      filteredUpdateIuranData = [...belumBayar];
+      renderUpdateIuranList(filteredUpdateIuranData);
+      
+      // Isi dropdown jenis iuran
+      populateJenisIuran(data.jenisIuran || []);
+      
+      // Pengumuman aktif (sudah diurutkan dari backend)
+      currentActivePengumuman = data.pengumuman || [];
+      if (currentActivePengumuman.length > 0) {
+        setTimeout(() => showPengumumanPopup(), 500);
+      }
+      
+      hideGlobalLoading();
+      
+      // ===== LOAD DATA BERAT DI BACKGROUND (Lazy Load) =====
+      
+      // Laporan keuangan (berat, load belakangan)
+      setTimeout(() => { loadLaporanKeuangan(); }, 1500);
+      
+      // Admin only: kelola warga + pengumuman admin + detail iuran
+      if (currentUser.role === 'admin') {
+        setTimeout(() => { loadKelolaWarga(); }, 800);
+        setTimeout(() => { loadPengumumanAdmin(); }, 1200);
+      }
+      
+    } catch (error) {
+      console.error('Error loading initial data:', error);
+      hideGlobalLoading();
+    }
+  }
+
+  // Helper: populate jenis iuran dropdown
+  function populateJenisIuran(jenisIuran) {
+    const select = document.getElementById('iuranJenis');
+    const sebarSelect = document.getElementById('sebarIuranJenis');
+    const detailFilter = document.getElementById('detailIuranJenisFilter');
+    const filterIuranJenisAdmin = document.getElementById('filterIuranJenisAdmin');
+    const filterIuranJenisWarga = document.getElementById('filterIuranJenisWarga');
+    const filterUpdateIuranJenis = document.getElementById('filterUpdateIuranJenis');
+    
+    if (!select) return;
+    
+    select.innerHTML = '<option value="">Pilih Jenis Iuran</option>';
+    sebarSelect.innerHTML = '<option value="">Pilih Jenis Iuran</option>';
+    detailFilter.innerHTML = '<option value="">Semua Jenis Iuran</option>';
+    filterIuranJenisAdmin.innerHTML = '<option value="">Semua Jenis</option>';
+    filterIuranJenisWarga.innerHTML = '<option value="">Semua Jenis</option>';
+    filterUpdateIuranJenis.innerHTML = '<option value="">Semua Jenis</option>';
+    
+    jenisIuran.forEach(function(jenis) {
+      const option = document.createElement('option');
+      option.value = jenis;
+      option.textContent = jenis;
+      select.appendChild(option);
+      
+      const sebarOption = document.createElement('option');
+      sebarOption.value = jenis;
+      sebarOption.textContent = jenis;
+      sebarSelect.appendChild(sebarOption);
+      
+      const filterOption = document.createElement('option');
+      filterOption.value = jenis;
+      filterOption.textContent = jenis;
+      detailFilter.appendChild(filterOption);
+      
+      const filterAdminOption = document.createElement('option');
+      filterAdminOption.value = jenis;
+      filterAdminOption.textContent = jenis;
+      filterIuranJenisAdmin.appendChild(filterAdminOption);
+      
+      const filterWargaOption = document.createElement('option');
+      filterWargaOption.value = jenis;
+      filterWargaOption.textContent = jenis;
+      filterIuranJenisWarga.appendChild(filterWargaOption);
+      
+      const filterUpdateOption = document.createElement('option');
+      filterUpdateOption.value = jenis;
+      filterUpdateOption.textContent = jenis;
+      filterUpdateIuranJenis.appendChild(filterUpdateOption);
+    });
   }
 
   function setupSearch() {
@@ -2230,11 +2360,19 @@
     }
   }
 
-  async function loadWarga() {
+  async function loadWarga(forceRefresh = false) {
     try {
+      const now = Date.now();
+      if (!forceRefresh && dataCache.warga.data && (now - dataCache.warga.timestamp) < CACHE_DURATION) {
+        allWargaData = dataCache.warga.data;
+        allData.warga = dataCache.warga.data;
+        renderWargaList(allData.warga);
+        return;
+      }
       const warga = await callAppsScript('getWarga');
       allWargaData = warga;
       allData.warga = warga;
+      dataCache.warga = { data: warga, timestamp: now };
       renderWargaList(warga);
     } catch (error) {
       console.error('Error loading warga:', error);
@@ -2242,14 +2380,28 @@
     }
   }
 
-  async function loadIuran() {
+  async function loadIuran(forceRefresh = false) {
     try {
+      const now = Date.now();
+      if (!forceRefresh && dataCache.iuran.data && (now - dataCache.iuran.timestamp) < CACHE_DURATION) {
+        allData.iuran = dataCache.iuran.data;
+        if (currentUser.role === 'admin') {
+          filteredIuranDataAdmin = [...allData.iuran];
+          renderIuranList(filteredIuranDataAdmin);
+        } else {
+          filteredIuranDataWarga = [...allData.iuran];
+          renderIuranList(filteredIuranDataWarga);
+        }
+        return;
+      }
+      
       const iuran = await callAppsScript('getIuran', {
         username: currentUser.username,
         role: currentUser.role
       });
       
       allData.iuran = iuran;
+      dataCache.iuran = { data: iuran, timestamp: now };
       
       if (currentUser.role === 'admin') {
         filteredIuranDataAdmin = [...iuran];
@@ -2379,10 +2531,17 @@
     }
   }
   
-  async function loadPengeluaran() {
+  async function loadPengeluaran(forceRefresh = false) {
     try {
+      const now = Date.now();
+      if (!forceRefresh && dataCache.pengeluaran.data && (now - dataCache.pengeluaran.timestamp) < CACHE_DURATION) {
+        allData.pengeluaran = dataCache.pengeluaran.data;
+        renderPengeluaranList(allData.pengeluaran);
+        return;
+      }
       const pengeluaran = await callAppsScript('getPengeluaran');
       allData.pengeluaran = pengeluaran;
+      dataCache.pengeluaran = { data: pengeluaran, timestamp: now };
       renderPengeluaranList(pengeluaran);
     } catch (error) {
       console.error('Error loading pengeluaran:', error);
@@ -2444,10 +2603,17 @@
     }
   }
 
-  async function loadCatatan() {
+  async function loadCatatan(forceRefresh = false) {
     try {
+      const now = Date.now();
+      if (!forceRefresh && dataCache.catatan.data && (now - dataCache.catatan.timestamp) < CACHE_DURATION) {
+        allData.catatan = dataCache.catatan.data;
+        renderCatatanList(allData.catatan);
+        return;
+      }
       const catatan = await callAppsScript('getCatatan');
       allData.catatan = catatan;
+      dataCache.catatan = { data: catatan, timestamp: now };
       renderCatatanList(catatan);
     } catch (error) {
       console.error('Error loading catatan:', error);
@@ -2581,60 +2747,6 @@
       }
     } else {
       showMoreContainer.style.display = 'none';
-    }
-  }
-
-  async function loadJenisIuran() {
-    try {
-      const jenisIuran = await callAppsScript('getJenisIuran');
-      
-      const select = document.getElementById('iuranJenis');
-      const sebarSelect = document.getElementById('sebarIuranJenis');
-      const detailFilter = document.getElementById('detailIuranJenisFilter');
-      const filterIuranJenisAdmin = document.getElementById('filterIuranJenisAdmin');
-      const filterIuranJenisWarga = document.getElementById('filterIuranJenisWarga');
-      const filterUpdateIuranJenis = document.getElementById('filterUpdateIuranJenis');
-      
-      select.innerHTML = '<option value="">Pilih Jenis Iuran</option>';
-      sebarSelect.innerHTML = '<option value="">Pilih Jenis Iuran</option>';
-      detailFilter.innerHTML = '<option value="">Semua Jenis Iuran</option>';
-      filterIuranJenisAdmin.innerHTML = '<option value="">Semua Jenis</option>';
-      filterIuranJenisWarga.innerHTML = '<option value="">Semua Jenis</option>';
-      filterUpdateIuranJenis.innerHTML = '<option value="">Semua Jenis</option>';
-      
-      jenisIuran.forEach(function(jenis) {
-        const option = document.createElement('option');
-        option.value = jenis;
-        option.textContent = jenis;
-        select.appendChild(option);
-        
-        const sebarOption = document.createElement('option');
-        sebarOption.value = jenis;
-        sebarOption.textContent = jenis;
-        sebarSelect.appendChild(sebarOption);
-        
-        const filterOption = document.createElement('option');
-        filterOption.value = jenis;
-        filterOption.textContent = jenis;
-        detailFilter.appendChild(filterOption);
-        
-        const filterAdminOption = document.createElement('option');
-        filterAdminOption.value = jenis;
-        filterAdminOption.textContent = jenis;
-        filterIuranJenisAdmin.appendChild(filterAdminOption);
-        
-        const filterWargaOption = document.createElement('option');
-        filterWargaOption.value = jenis;
-        filterWargaOption.textContent = jenis;
-        filterIuranJenisWarga.appendChild(filterWargaOption);
-        
-        const filterUpdateOption = document.createElement('option');
-        filterUpdateOption.value = jenis;
-        filterUpdateOption.textContent = jenis;
-        filterUpdateIuranJenis.appendChild(filterUpdateOption);
-      });
-    } catch (error) {
-      console.error('Error loading jenis iuran:', error);
     }
   }
 
@@ -2782,7 +2894,7 @@
         alert(result.message);
         const modal = bootstrap.Modal.getInstance(document.getElementById('sebarIuranModal'));
         modal.hide();
-        loadIuran();
+        loadIuran(true);
         loadUpdateIuran();
       } else {
         alert('Gagal menyebar iuran: ' + result.message);
@@ -2891,7 +3003,6 @@
 
   // ==================== FITUR LAPORAN KEUANGAN ====================
   async function loadLaporanKeuangan() {
-    showGlobalLoading();
     try {
       const iuran = await callAppsScript('getIuranAll');
       const pengeluaran = await callAppsScript('getPengeluaran');
@@ -2968,8 +3079,6 @@
     } catch (error) {
       console.error('Error loading laporan keuangan:', error);
       document.getElementById('monthlyReportList').innerHTML = '<p class="text-danger text-center">Error loading data</p>';
-    } finally {
-      hideGlobalLoading();
     }
   }
   
@@ -3269,7 +3378,7 @@
       if (result.success) {
         const modal = bootstrap.Modal.getInstance(document.getElementById('editWargaModal'));
         modal.hide();
-        loadWarga();
+        loadWarga(true);
         
         if (currentUser.username === username) {
           currentUser.username = updatedData.username;
@@ -3337,9 +3446,12 @@
         modal.hide();
         document.getElementById('addIuranForm').reset();
         document.getElementById('iuranTahun').value = new Date().getFullYear();
-        loadIuran();
+        // Invalidate cache untuk refresh data
+        dataCache.iuran = { data: null, timestamp: 0 };
+        dataCache.catatan = { data: null, timestamp: 0 };
+        loadIuran(true);
+        loadCatatan(true);
         loadSaldo();
-        loadCatatan();
         loadLaporanKeuangan();
         loadUpdateIuran();
       }
@@ -3414,9 +3526,11 @@
       if (result.success) {
         const modal = bootstrap.Modal.getInstance(document.getElementById('editIuranModal'));
         modal.hide();
-        loadIuran();
+        dataCache.iuran = { data: null, timestamp: 0 };
+        dataCache.catatan = { data: null, timestamp: 0 };
+        loadIuran(true);
+        loadCatatan(true);
         loadSaldo();
-        loadCatatan();
         loadLaporanKeuangan();
         loadUpdateIuran();
       }
@@ -3442,9 +3556,11 @@
         alert(result.message);
         
         if (result.success) {
-          loadIuran();
+          dataCache.iuran = { data: null, timestamp: 0 };
+          dataCache.catatan = { data: null, timestamp: 0 };
+          loadIuran(true);
+          loadCatatan(true);
           loadSaldo();
-          loadCatatan();
           loadLaporanKeuangan();
           loadUpdateIuran();
         }
@@ -3481,9 +3597,11 @@
       if (result.success) {
         const modal = bootstrap.Modal.getInstance(document.getElementById('addPengeluaranModal'));
         modal.hide();
-        loadPengeluaran();
+        dataCache.pengeluaran = { data: null, timestamp: 0 };
+        dataCache.catatan = { data: null, timestamp: 0 };
+        loadPengeluaran(true);
+        loadCatatan(true);
         loadSaldo();
-        loadCatatan();
         loadLaporanKeuangan();
       }
     } catch (error) {
@@ -3531,9 +3649,11 @@
       if (result.success) {
         const modal = bootstrap.Modal.getInstance(document.getElementById('editPengeluaranModal'));
         modal.hide();
-        loadPengeluaran();
+        dataCache.pengeluaran = { data: null, timestamp: 0 };
+        dataCache.catatan = { data: null, timestamp: 0 };
+        loadPengeluaran(true);
+        loadCatatan(true);
         loadSaldo();
-        loadCatatan();
         loadLaporanKeuangan();
       }
     } catch (error) {
@@ -3557,9 +3677,11 @@
         alert(result.message);
         
         if (result.success) {
-          loadPengeluaran();
+          dataCache.pengeluaran = { data: null, timestamp: 0 };
+          dataCache.catatan = { data: null, timestamp: 0 };
+          loadPengeluaran(true);
+          loadCatatan(true);
           loadSaldo();
-          loadCatatan();
           loadLaporanKeuangan();
         }
       } catch (error) {
@@ -3596,7 +3718,8 @@
       if (result.success) {
         const modal = bootstrap.Modal.getInstance(document.getElementById('addCatatanModal'));
         modal.hide();
-        loadCatatan();
+        dataCache.catatan = { data: null, timestamp: 0 };
+        loadCatatan(true);
       }
     } catch (error) {
       hideButtonLoading('saveCatatanButton');
@@ -3647,7 +3770,8 @@
       if (result.success) {
         const modal = bootstrap.Modal.getInstance(document.getElementById('editCatatanModal'));
         modal.hide();
-        loadCatatan();
+        dataCache.catatan = { data: null, timestamp: 0 };
+        loadCatatan(true);
       }
     } catch (error) {
       hideButtonLoading('saveEditCatatanButton');
@@ -3671,7 +3795,8 @@
         alert(result.message);
         
         if (result.success) {
-          loadCatatan();
+          dataCache.catatan = { data: null, timestamp: 0 };
+          loadCatatan(true);
         }
       } catch (error) {
         hideGlobalLoading();
@@ -3709,7 +3834,8 @@
         const modal = bootstrap.Modal.getInstance(document.getElementById('addWargaModal'));
         modal.hide();
         loadKelolaWarga();
-        loadWarga();
+        dataCache.warga = { data: null, timestamp: 0 };
+        loadWarga(true);
       }
     } catch (error) {
       hideButtonLoading('saveNewWargaButton');
@@ -3763,7 +3889,8 @@
         const modal = bootstrap.Modal.getInstance(document.getElementById('editWargaAdminModal'));
         modal.hide();
         loadKelolaWarga();
-        loadWarga();
+        dataCache.warga = { data: null, timestamp: 0 };
+        loadWarga(true);
         
         if (currentUser.username === originalUsername) {
           currentUser.username = newUsername;
@@ -3792,7 +3919,8 @@
         alert(result.message);
         if (result.success) {
           loadKelolaWarga();
-          loadWarga();
+          dataCache.warga = { data: null, timestamp: 0 };
+          loadWarga(true);
         }
       } catch (error) {
         hideGlobalLoading();
@@ -3808,15 +3936,11 @@
       currentActivePengumuman = pengumuman || [];
       
       // Urutkan dari yang paling lama ke yang paling baru
-      // (backend mengembalikan terbaru dulu, jadi kita balik)
       currentActivePengumuman.sort((a, b) => {
         const tglA = new Date(String(a.tanggal).trim()).getTime() || 0;
         const tglB = new Date(String(b.tanggal).trim()).getTime() || 0;
-        // Jika tanggal sama, urutkan berdasarkan ID (lebih kecil = lebih lama)
         if (tglA === tglB) {
-          const idA = String(a.id || '');
-          const idB = String(b.id || '');
-          return idA.localeCompare(idB);
+          return String(a.id || '').localeCompare(String(b.id || ''));
         }
         return tglA - tglB;
       });
@@ -4215,25 +4339,60 @@
   // ==================== REFRESH ALL DATA ====================
   async function refreshAllData() {
     try {
-      const promises = [
-        loadSaldo(),
-        loadWarga(),
-        loadIuran(),
-        loadPengeluaran(),
-        loadCatatan(),
-        loadLaporanKeuangan(),
-        loadUpdateIuran()
-      ];
+      // Reset cache agar fresh
+      dataCache = {
+        warga: { data: null, timestamp: 0 },
+        iuran: { data: null, timestamp: 0 },
+        pengeluaran: { data: null, timestamp: 0 },
+        catatan: { data: null, timestamp: 0 }
+      };
       
-      if (currentUser && currentUser.role === 'admin') {
-        promises.push(loadKelolaWarga());
-        promises.push(loadDetailIuran());
-        promises.push(loadPengumumanAdmin());
+      // Panggil ulang getInitialData (1 request)
+      const data = await callAppsScript('getInitialData', {
+        username: currentUser.username,
+        role: currentUser.role
+      });
+      
+      if (data.error) throw new Error(data.error);
+      
+      const now = Date.now();
+      
+      allWargaData = data.warga || [];
+      allData.warga = data.warga || [];
+      allData.iuran = data.iuran || [];
+      allData.pengeluaran = data.pengeluaran || [];
+      allData.catatan = data.catatan || [];
+      
+      dataCache.warga = { data: allData.warga, timestamp: now };
+      dataCache.iuran = { data: allData.iuran, timestamp: now };
+      dataCache.pengeluaran = { data: allData.pengeluaran, timestamp: now };
+      dataCache.catatan = { data: allData.catatan, timestamp: now };
+      
+      document.getElementById('saldoAmount').textContent = formatRupiah(data.saldo);
+      document.getElementById('lastUpdate').textContent = new Date().toLocaleString('id-ID');
+      renderWargaList(allData.warga);
+      renderPengeluaranList(allData.pengeluaran);
+      renderCatatanList(allData.catatan);
+      
+      if (currentUser.role === 'admin') {
+        filteredIuranDataAdmin = [...allData.iuran];
+        renderIuranList(filteredIuranDataAdmin);
+      } else {
+        filteredIuranDataWarga = [...allData.iuran];
+        renderIuranList(filteredIuranDataWarga);
       }
       
-      await Promise.all(promises);
+      const belumBayar = allData.iuran.filter(item => item.status === 'belum');
+      allData.updateIuran = belumBayar;
+      filteredUpdateIuranData = [...belumBayar];
+      renderUpdateIuranList(filteredUpdateIuranData);
       
-      document.getElementById('lastUpdate').textContent = new Date().toLocaleString('id-ID');
+      // Background
+      setTimeout(() => { loadLaporanKeuangan(); }, 500);
+      if (currentUser.role === 'admin') {
+        setTimeout(() => { loadKelolaWarga(); }, 300);
+        setTimeout(() => { loadPengumumanAdmin(); }, 600);
+      }
       
       return { success: true };
     } catch (error) {
@@ -4265,12 +4424,7 @@
     setupPullToRefresh();
   });
 
-  // Auto refresh saldo setiap 30 detik
-  setInterval(function() {
-    if (currentUser) {
-      loadSaldo();
-    }
-  }, 30000);
+  // NOTE: Auto-refresh saldo dihapus. Untuk update saldo, gunakan pull-to-refresh.
 </script>
 </body>
 </html>
