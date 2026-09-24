@@ -173,6 +173,32 @@
       box-shadow: 0 5px 15px rgba(44,90,160,0.3);
     }
     
+    /* ==================== PASSWORD TOGGLE ==================== */
+    .password-wrapper {
+      position: relative;
+    }
+    
+    .password-wrapper .form-control {
+      padding-right: 45px;
+    }
+    
+    .password-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #6c757d;
+      font-size: 1.1rem;
+      z-index: 10;
+      padding: 5px;
+      transition: color 0.2s;
+    }
+    
+    .password-toggle:hover {
+      color: var(--primary-color);
+    }
+    
     /* ==================== LOADING STATES ==================== */
     .btn-loading {
       position: relative;
@@ -420,6 +446,219 @@
       transition: transform 0.3s ease;
     }
     
+    /* ==================== PENGUMUMAN POPUP ==================== */
+    .pengumuman-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 10000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    
+    .pengumuman-overlay.show {
+      display: flex;
+    }
+    
+    .pengumuman-modal {
+      background: white;
+      border-radius: 16px;
+      max-width: 480px;
+      width: 100%;
+      max-height: 85vh;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      animation: slideUp 0.3s ease-out;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    @keyframes slideUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
+    .pengumuman-header {
+      background: linear-gradient(135deg, var(--secondary-color), #2980b9);
+      color: white;
+      padding: 20px 50px 20px 20px;
+      position: relative;
+      flex-shrink: 0;
+    }
+    
+    .pengumuman-header h4 {
+      margin: 0;
+      font-weight: 700;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .pengumuman-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: rgba(255, 255, 255, 0.25);
+      border: none;
+      color: white;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    
+    .pengumuman-close:hover {
+      background: rgba(255, 255, 255, 0.45);
+      transform: rotate(90deg);
+    }
+    
+    .pengumuman-body {
+      padding: 20px;
+      overflow-y: auto;
+      flex: 1;
+    }
+    
+    .pengumuman-item {
+      display: none;
+    }
+    
+    .pengumuman-item.active {
+      display: block;
+      animation: fadeIn 0.3s ease-in;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateX(10px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    
+    .pengumuman-item h5 {
+      color: var(--primary-color);
+      font-weight: 700;
+      margin-bottom: 6px;
+      font-size: 1.1rem;
+    }
+    
+    .pengumuman-item .pengumuman-tanggal {
+      color: #6c757d;
+      font-size: 0.8rem;
+      margin-bottom: 12px;
+    }
+    
+    .pengumuman-item .pengumuman-isi {
+      color: #333;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      font-size: 0.95rem;
+    }
+    
+    .pengumuman-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+      border-top: 1px solid #eee;
+      background: #fafafa;
+      flex-shrink: 0;
+    }
+    
+    .pengumuman-dots {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      flex: 1;
+    }
+    
+    .pengumuman-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ccc;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .pengumuman-dot.active {
+      background: var(--secondary-color);
+      width: 22px;
+      border-radius: 4px;
+    }
+    
+    .pengumuman-nav {
+      background: transparent;
+      border: 1px solid #ddd;
+      color: var(--primary-color);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      font-size: 0.8rem;
+    }
+    
+    .pengumuman-nav:hover:not(:disabled) {
+      background: var(--secondary-color);
+      color: white;
+      border-color: var(--secondary-color);
+    }
+    
+    .pengumuman-nav:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+    
+    /* ==================== PENGUMUMAN TAB ADMIN ==================== */
+    .pengumuman-admin-card {
+      border-left: 4px solid #3498db;
+    }
+    
+    .pengumuman-admin-card.nonaktif {
+      border-left-color: #95a5a6;
+      opacity: 0.7;
+    }
+    
+    .pengumuman-status-badge {
+      font-size: 0.7rem;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+    
+    .pengumuman-status-badge.aktif {
+      background: #d4edda;
+      color: #155724;
+    }
+    
+    .pengumuman-status-badge.nonaktif {
+      background: #f8d7da;
+      color: #721c24;
+    }
+    
+    .pengumuman-text-preview {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
     /* ==================== RESPONSIVE ==================== */
     @media (max-width: 768px) {
       .saldo-amount { font-size: 2rem; }
@@ -431,6 +670,12 @@
         height: 60px;
         top: -60px;
         font-size: 0.8rem;
+      }
+      .pengumuman-modal {
+        max-height: 90vh;
+      }
+      .pengumuman-header h4 {
+        font-size: 1.05rem;
       }
     }
   </style>
@@ -472,7 +717,12 @@
       </div>
       <div class="mb-3">
         <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" placeholder="Password" required>
+        <div class="password-wrapper">
+          <input type="password" class="form-control" id="password" placeholder="Password" required>
+          <span class="password-toggle" onclick="togglePasswordVisibility()" id="passwordToggleIcon">
+            <i class="fas fa-eye"></i>
+          </span>
+        </div>
       </div>
       <button type="submit" class="btn login-btn w-100" id="loginButton">
         <span id="loginButtonText">Masuk</span>
@@ -515,6 +765,9 @@
       </li>
       <li class="nav-item" id="kelolaWargaTab" style="display: none;">
         <a class="nav-link" data-bs-toggle="tab" href="#kelolaWarga">Kelola Warga</a>
+      </li>
+      <li class="nav-item" id="pengumumanTab" style="display: none;">
+        <a class="nav-link" data-bs-toggle="tab" href="#pengumuman">Pengumuman</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" data-bs-toggle="tab" href="#iuran">Iuran</a>
@@ -580,6 +833,31 @@
             <div id="kelolaWargaList"></div>
             <div class="show-more-container" id="kelolaWargaShowMore" style="display: none;">
               <div class="show-more-btn" onclick="toggleShowAll('kelolaWarga')">
+                <i class="fas fa-chevron-down me-1"></i>
+                <span>Tampilkan Semua</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PENGUMUMAN TAB (ADMIN ONLY) -->
+      <div class="tab-pane fade" id="pengumuman">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Kelola Pengumuman</h5>
+            <button class="btn btn-primary btn-sm" onclick="showAddPengumumanModal()" id="addPengumumanButton">
+              <i class="fas fa-plus"></i> <span id="addPengumumanButtonText">Pengumuman</span>
+            </button>
+          </div>
+          <div class="card-body">
+            <div class="alert alert-info">
+              <i class="fas fa-info-circle me-2"></i>
+              Pengumuman yang <strong>aktif</strong> akan muncul sebagai pop-up kepada <strong>semua user</strong> saat mereka login.
+            </div>
+            <div id="pengumumanList"></div>
+            <div class="show-more-container" id="pengumumanShowMore" style="display: none;">
+              <div class="show-more-btn" onclick="toggleShowAll('pengumuman')">
                 <i class="fas fa-chevron-down me-1"></i>
                 <span>Tampilkan Semua</span>
               </div>
@@ -1463,6 +1741,109 @@
   </div>
 </div>
 
+<!-- ==================== PENGUMUMAN POPUP (SEMUA USER) ==================== -->
+<div class="pengumuman-overlay" id="pengumumanOverlay">
+  <div class="pengumuman-modal">
+    <div class="pengumuman-header">
+      <h4><i class="fas fa-bullhorn"></i> <span id="pengumumanPopupTitle">Pengumuman</span></h4>
+      <button class="pengumuman-close" onclick="closePengumumanPopup()" title="Tutup">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="pengumuman-body" id="pengumumanPopupBody"></div>
+    <div class="pengumuman-footer" id="pengumumanPopupFooter" style="display: none;">
+      <button class="pengumuman-nav" id="pengumumanPrevBtn" onclick="navigatePengumuman(-1)">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <div class="pengumuman-dots" id="pengumumanDots"></div>
+      <button class="pengumuman-nav" id="pengumumanNextBtn" onclick="navigatePengumuman(1)">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Tambah Pengumuman (Admin) -->
+<div class="modal fade" id="addPengumumanModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="fas fa-bullhorn me-2"></i>Tambah Pengumuman</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="addPengumumanForm">
+          <div class="mb-3">
+            <label class="form-label">Judul Pengumuman</label>
+            <input type="text" class="form-control" id="pengumumanJudul" required maxlength="100" placeholder="Contoh: Kerja Bakti Minggu Ini">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Isi Pengumuman</label>
+            <textarea class="form-control" id="pengumumanIsi" rows="5" required placeholder="Tulis isi pengumuman di sini..." maxlength="1000"></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Tanggal</label>
+            <input type="date" class="form-control" id="pengumumanTanggal" required>
+          </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="pengumumanAktif" checked>
+            <label class="form-check-label" for="pengumumanAktif">
+              Aktifkan pengumuman (akan muncul sebagai pop-up)
+            </label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-primary" onclick="savePengumuman()" id="savePengumumanButton">
+          <span id="savePengumumanButtonText">Simpan</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Edit Pengumuman (Admin) -->
+<div class="modal fade" id="editPengumumanModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Edit Pengumuman</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="editPengumumanForm">
+          <input type="hidden" id="editPengumumanId">
+          <div class="mb-3">
+            <label class="form-label">Judul Pengumuman</label>
+            <input type="text" class="form-control" id="editPengumumanJudul" required maxlength="100">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Isi Pengumuman</label>
+            <textarea class="form-control" id="editPengumumanIsi" rows="5" required maxlength="1000"></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Tanggal</label>
+            <input type="date" class="form-control" id="editPengumumanTanggal" required>
+          </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="editPengumumanAktif">
+            <label class="form-check-label" for="editPengumumanAktif">
+              Aktifkan pengumuman (akan muncul sebagai pop-up)
+            </label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-primary" onclick="saveEditPengumuman()" id="saveEditPengumumanButton">
+          <span id="saveEditPengumumanButtonText">Simpan Perubahan</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ==================== SCRIPTS ==================== -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
@@ -1492,7 +1873,8 @@
     catatan: false,
     kelolaWarga: false,
     detailIuran: false,
-    updateIuran: false
+    updateIuran: false,
+    pengumuman: false
   };
   
   // Variabel untuk Laporan Keuangan
@@ -1506,6 +1888,26 @@
   let currentPemasukanData = [];
   let currentPengeluaranData = [];
   let currentReport = null;
+
+  // Variabel untuk pengumuman
+  let allPengumumanData = [];
+  let currentPengumumanIndex = 0;
+  let currentActivePengumuman = [];
+  let pengumumanShown = false;
+
+  // ==================== PASSWORD TOGGLE ====================
+  function togglePasswordVisibility() {
+    const passwordInput = document.getElementById('password');
+    const toggleIcon = document.getElementById('passwordToggleIcon');
+    
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      toggleIcon.innerHTML = '<i class="fas fa-eye-slash"></i>';
+    } else {
+      passwordInput.type = 'password';
+      toggleIcon.innerHTML = '<i class="fas fa-eye"></i>';
+    }
+  }
 
   // ==================== FUNGSI API CALL ====================
   async function callAppsScript(action, parameters = {}) {
@@ -1580,6 +1982,13 @@
     return nomorRumah;
   }
 
+  function escapeHtml(text) {
+    if (text === null || text === undefined) return '';
+    const div = document.createElement('div');
+    div.textContent = String(text);
+    return div.innerHTML;
+  }
+
   // ==================== AUTHENTICATION ====================
   async function login() {
     const username = document.getElementById('username').value;
@@ -1610,10 +2019,22 @@
     setTimeout(function() {
       sessionStorage.removeItem('ndb_user');
       currentUser = null;
+      pengumumanShown = false;
+      currentActivePengumuman = [];
+      currentPengumumanIndex = 0;
       document.getElementById('mainApp').style.display = 'none';
       document.getElementById('loginScreen').style.display = 'block';
       document.getElementById('loginForm').reset();
       document.getElementById('loginMessage').innerHTML = '';
+      const pwInput = document.getElementById('password');
+      if (pwInput) pwInput.type = 'password';
+      const toggleIcon = document.getElementById('passwordToggleIcon');
+      if (toggleIcon) toggleIcon.innerHTML = '<i class="fas fa-eye"></i>';
+      const overlay = document.getElementById('pengumumanOverlay');
+      if (overlay) {
+        overlay.classList.remove('show');
+        document.body.style.overflow = '';
+      }
       hideButtonLoading('logoutButton');
     }, 500);
   }
@@ -1630,6 +2051,7 @@
       document.getElementById('kelolaWargaTab').style.display = 'block';
       document.getElementById('sebarIuranTab').style.display = 'block';
       document.getElementById('detailIuranTab').style.display = 'block';
+      document.getElementById('pengumumanTab').style.display = 'block';
       document.getElementById('addIuranBtn').style.display = 'block';
       document.getElementById('addPengeluaranBtn').style.display = 'block';
       document.getElementById('addCatatanBtn').style.display = 'block';
@@ -1654,12 +2076,18 @@
     if (currentUser.role === 'admin') {
       loadKelolaWarga();
       loadDetailIuran();
+      loadPengumumanAdmin();
     }
     
     loadJenisIuran();
     setupSearch();
     setupIuranSearch();
     setupUpdateIuranSearch();
+    
+    // Pop-up pengumuman untuk SEMUA user (admin & warga)
+    setTimeout(() => {
+      loadActivePengumuman();
+    }, 800);
   }
 
   function setupSearch() {
@@ -1784,6 +2212,9 @@
         break;
       case 'updateIuran':
         renderUpdateIuranList(filteredUpdateIuranData);
+        break;
+      case 'pengumuman':
+        renderPengumumanList(allPengumumanData);
         break;
     }
   }
@@ -2210,14 +2641,11 @@
   // ==================== FITUR UPDATE IURAN ====================
   async function loadUpdateIuran() {
     try {
-      // Untuk admin: ambil semua iuran, untuk warga: ambil semua iuran (tidak difilter berdasarkan username)
-      // Karena kita ingin warga melihat semua warga yang belum bayar
       const allIuran = await callAppsScript('getIuran', {
-        username: currentUser.role === 'admin' ? currentUser.username : '', // Untuk warga, kita kirim username kosong agar mendapatkan semua data
-        role: 'admin' // Paksa role admin untuk mendapatkan semua data
+        username: currentUser.role === 'admin' ? currentUser.username : '',
+        role: 'admin'
       });
       
-      // Hanya tampilkan data dengan status 'belum'
       const belumBayar = allIuran.filter(item => item.status === 'belum');
       allData.updateIuran = belumBayar;
       filteredUpdateIuranData = [...belumBayar];
@@ -2470,7 +2898,6 @@
       
       const reportMap = new Map();
       
-      // Proses iuran (pemasukan) - berdasarkan tanggal bayar
       (iuran || []).forEach(item => {
         if (item.status === 'lunas' && item.tanggal_bayar) {
           const tglParts = item.tanggal_bayar.split('-');
@@ -2490,7 +2917,6 @@
               const report = reportMap.get(key);
               report.pemasukan += parseFloat(item.jumlah) || 0;
               
-              // Format keterangan: "Jenis Iuran - Bulan Tahun" (menampilkan bulan iuran yang dibayar)
               const displayBulan = item.bulan;
               const displayTahun = item.tahun;
               report.details.pemasukan.push({
@@ -2506,7 +2932,6 @@
         }
       });
       
-      // Proses pengeluaran
       pengeluaran.forEach(item => {
         const tanggal = item.tanggal.split('-');
         const tahun = tanggal[0];
@@ -2617,7 +3042,6 @@
   
   function renderFinancialDetailContent() {
     const content = document.getElementById('financialDetailContent');
-    const canEdit = currentUser.role === 'admin';
     
     const pemasukanEndIndex = Math.min(currentPemasukanStartIndex + 20, currentPemasukanData.length);
     const displayPemasukan = currentPemasukanData.slice(0, pemasukanEndIndex);
@@ -3377,6 +3801,326 @@
     }
   }
 
+  // ==================== PENGUMUMAN FUNCTIONS ====================
+  async function loadActivePengumuman() {
+    try {
+      const pengumuman = await callAppsScript('getActivePengumuman');
+      currentActivePengumuman = pengumuman || [];
+      
+      if (currentActivePengumuman.length > 0) {
+        showPengumumanPopup();
+      }
+    } catch (error) {
+      console.error('Error loading pengumuman:', error);
+    }
+  }
+
+  function showPengumumanPopup() {
+    if (currentActivePengumuman.length === 0) return;
+    
+    currentPengumumanIndex = 0;
+    renderPengumumanPopup();
+    
+    const overlay = document.getElementById('pengumumanOverlay');
+    overlay.classList.add('show');
+    document.body.style.overflow = 'hidden';
+    pengumumanShown = true;
+  }
+
+  function renderPengumumanPopup() {
+    const body = document.getElementById('pengumumanPopupBody');
+    const footer = document.getElementById('pengumumanPopupFooter');
+    const dotsContainer = document.getElementById('pengumumanDots');
+    const title = document.getElementById('pengumumanPopupTitle');
+    
+    const total = currentActivePengumuman.length;
+    
+    if (total > 1) {
+      title.textContent = `Pengumuman (${currentPengumumanIndex + 1}/${total})`;
+    } else {
+      title.textContent = 'Pengumuman';
+    }
+    
+    body.innerHTML = '';
+    currentActivePengumuman.forEach((item, index) => {
+      const div = document.createElement('div');
+      div.className = 'pengumuman-item' + (index === currentPengumumanIndex ? ' active' : '');
+      
+      const tanggalFormatted = formatTanggalPengumuman(item.tanggal);
+      
+      div.innerHTML = `
+        <h5>${escapeHtml(item.judul || 'Tanpa Judul')}</h5>
+        <div class="pengumuman-tanggal">
+          <i class="far fa-calendar-alt me-1"></i>${tanggalFormatted}
+        </div>
+        <div class="pengumuman-isi">${escapeHtml(item.isi || '')}</div>
+      `;
+      body.appendChild(div);
+    });
+    
+    if (total > 1) {
+      footer.style.display = 'flex';
+      dotsContainer.innerHTML = '';
+      currentActivePengumuman.forEach((_, index) => {
+        const dot = document.createElement('div');
+        dot.className = 'pengumuman-dot' + (index === currentPengumumanIndex ? ' active' : '');
+        dot.onclick = () => goToPengumuman(index);
+        dotsContainer.appendChild(dot);
+      });
+      
+      document.getElementById('pengumumanPrevBtn').disabled = currentPengumumanIndex === 0;
+      document.getElementById('pengumumanNextBtn').disabled = currentPengumumanIndex === total - 1;
+    } else {
+      footer.style.display = 'none';
+    }
+  }
+
+  function navigatePengumuman(direction) {
+    const newIndex = currentPengumumanIndex + direction;
+    if (newIndex >= 0 && newIndex < currentActivePengumuman.length) {
+      currentPengumumanIndex = newIndex;
+      renderPengumumanPopup();
+    }
+  }
+
+  function goToPengumuman(index) {
+    if (index >= 0 && index < currentActivePengumuman.length) {
+      currentPengumumanIndex = index;
+      renderPengumumanPopup();
+    }
+  }
+
+  function closePengumumanPopup() {
+    const overlay = document.getElementById('pengumumanOverlay');
+    overlay.classList.remove('show');
+    document.body.style.overflow = '';
+    pengumumanShown = true;
+  }
+
+  function formatTanggalPengumuman(tanggal) {
+    if (!tanggal) return '-';
+    try {
+      const tglStr = String(tanggal).trim();
+      if (tglStr.match(/^\d{4}-\d{2}-\d{2}/)) {
+        const date = new Date(tglStr);
+        if (!isNaN(date.getTime())) {
+          const bulan = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+          return `${date.getDate()} ${bulan[date.getMonth()]} ${date.getFullYear()}`;
+        }
+      }
+      return tglStr;
+    } catch (e) {
+      return String(tanggal);
+    }
+  }
+
+  async function loadPengumumanAdmin() {
+    try {
+      const pengumuman = await callAppsScript('getAllPengumuman');
+      allPengumumanData = pengumuman || [];
+      renderPengumumanList(allPengumumanData);
+    } catch (error) {
+      console.error('Error loading pengumuman admin:', error);
+      document.getElementById('pengumumanList').innerHTML = '<p class="text-danger text-center">Error loading data</p>';
+    }
+  }
+
+  function renderPengumumanList(pengumuman) {
+    const listContainer = document.getElementById('pengumumanList');
+    const showMoreContainer = document.getElementById('pengumumanShowMore');
+    
+    listContainer.innerHTML = '';
+    
+    if (pengumuman.length === 0) {
+      listContainer.innerHTML = '<p class="text-muted text-center">Belum ada pengumuman</p>';
+      showMoreContainer.style.display = 'none';
+      return;
+    }
+    
+    const displayData = showAllData.pengumuman ? pengumuman : pengumuman.slice(0, 20);
+    
+    displayData.forEach(item => {
+      const isAktif = item.aktif === true || item.aktif === 'true' || item.aktif === 'TRUE' || item.aktif === 1 || item.aktif === '1';
+      const card = document.createElement('div');
+      card.className = 'card mb-2 pengumuman-admin-card' + (isAktif ? '' : ' nonaktif');
+      
+      card.innerHTML = `
+        <div class="card-body py-3">
+          <div class="d-flex justify-content-between align-items-start">
+            <div class="flex-grow-1 me-2">
+              <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
+                <strong class="text-primary">${escapeHtml(item.judul || 'Tanpa Judul')}</strong>
+                <span class="pengumuman-status-badge ${isAktif ? 'aktif' : 'nonaktif'}">
+                  ${isAktif ? 'AKTIF' : 'NONAKTIF'}
+                </span>
+              </div>
+              <div class="text-muted small mb-1">
+                <i class="far fa-calendar-alt me-1"></i>${formatTanggalPengumuman(item.tanggal)}
+              </div>
+              <div class="pengumuman-text-preview text-muted small">
+                ${escapeHtml(item.isi || '')}
+              </div>
+            </div>
+            <div class="d-flex flex-column gap-1">
+              <button class="btn btn-sm btn-outline-primary" onclick="showEditPengumumanModal('${item.id}')" title="Edit">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn btn-sm ${isAktif ? 'btn-outline-warning' : 'btn-outline-success'}" 
+                      onclick="togglePengumumanStatus('${item.id}', ${!isAktif})" 
+                      title="${isAktif ? 'Nonaktifkan' : 'Aktifkan'}">
+                <i class="fas ${isAktif ? 'fa-eye-slash' : 'fa-eye'}"></i>
+              </button>
+              <button class="btn btn-sm btn-outline-danger" onclick="deletePengumumanData('${item.id}')" title="Hapus">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+      listContainer.appendChild(card);
+    });
+    
+    if (pengumuman.length > 20) {
+      showMoreContainer.style.display = 'block';
+      const showMoreBtn = showMoreContainer.querySelector('.show-more-btn');
+      if (showAllData.pengumuman) {
+        showMoreBtn.innerHTML = '<i class="fas fa-chevron-up me-1"></i><span>Tampilkan Sedikit</span>';
+      } else {
+        showMoreBtn.innerHTML = '<i class="fas fa-chevron-down me-1"></i><span>Tampilkan Semua</span>';
+      }
+    } else {
+      showMoreContainer.style.display = 'none';
+    }
+  }
+
+  function showAddPengumumanModal() {
+    document.getElementById('addPengumumanForm').reset();
+    document.getElementById('pengumumanTanggal').value = new Date().toISOString().split('T')[0];
+    document.getElementById('pengumumanAktif').checked = true;
+    const modal = new bootstrap.Modal(document.getElementById('addPengumumanModal'));
+    modal.show();
+  }
+
+  async function savePengumuman() {
+    const judul = document.getElementById('pengumumanJudul').value.trim();
+    const isi = document.getElementById('pengumumanIsi').value.trim();
+    const tanggal = document.getElementById('pengumumanTanggal').value;
+    const aktif = document.getElementById('pengumumanAktif').checked;
+    
+    if (!judul || !isi || !tanggal) {
+      alert('Semua field harus diisi!');
+      return;
+    }
+    
+    showButtonLoading('savePengumumanButton');
+    
+    try {
+      const result = await callAppsScript('addPengumuman', {
+        data: {
+          judul: judul,
+          isi: isi,
+          tanggal: tanggal,
+          aktif: aktif,
+          created_by: currentUser.username
+        }
+      });
+      
+      hideButtonLoading('savePengumumanButton');
+      alert(result.message || 'Pengumuman berhasil disimpan');
+      
+      if (result.success) {
+        const modal = bootstrap.Modal.getInstance(document.getElementById('addPengumumanModal'));
+        modal.hide();
+        loadPengumumanAdmin();
+      }
+    } catch (error) {
+      hideButtonLoading('savePengumumanButton');
+      alert('Terjadi kesalahan: ' + error.message);
+    }
+  }
+
+  function showEditPengumumanModal(id) {
+    const item = allPengumumanData.find(p => String(p.id) === String(id));
+    if (!item) return;
+    
+    const isAktif = item.aktif === true || item.aktif === 'true' || item.aktif === 'TRUE' || item.aktif === 1 || item.aktif === '1';
+    
+    document.getElementById('editPengumumanId').value = item.id;
+    document.getElementById('editPengumumanJudul').value = item.judul || '';
+    document.getElementById('editPengumumanIsi').value = item.isi || '';
+    document.getElementById('editPengumumanTanggal').value = item.tanggal || new Date().toISOString().split('T')[0];
+    document.getElementById('editPengumumanAktif').checked = isAktif;
+    
+    const modal = new bootstrap.Modal(document.getElementById('editPengumumanModal'));
+    modal.show();
+  }
+
+  async function saveEditPengumuman() {
+    const id = document.getElementById('editPengumumanId').value;
+    const judul = document.getElementById('editPengumumanJudul').value.trim();
+    const isi = document.getElementById('editPengumumanIsi').value.trim();
+    const tanggal = document.getElementById('editPengumumanTanggal').value;
+    const aktif = document.getElementById('editPengumumanAktif').checked;
+    
+    if (!judul || !isi || !tanggal) {
+      alert('Semua field harus diisi!');
+      return;
+    }
+    
+    showButtonLoading('saveEditPengumumanButton');
+    
+    try {
+      const result = await callAppsScript('updatePengumuman', {
+        id: id,
+        updatedData: {
+          judul: judul,
+          isi: isi,
+          tanggal: tanggal,
+          aktif: aktif
+        }
+      });
+      
+      hideButtonLoading('saveEditPengumumanButton');
+      alert(result.message || 'Pengumuman berhasil diupdate');
+      
+      if (result.success) {
+        const modal = bootstrap.Modal.getInstance(document.getElementById('editPengumumanModal'));
+        modal.hide();
+        loadPengumumanAdmin();
+      }
+    } catch (error) {
+      hideButtonLoading('saveEditPengumumanButton');
+      alert('Terjadi kesalahan: ' + error.message);
+    }
+  }
+
+  async function togglePengumumanStatus(id, aktif) {
+    try {
+      const result = await callAppsScript('togglePengumuman', { id: id, aktif: aktif });
+      if (result.success) {
+        loadPengumumanAdmin();
+      } else {
+        alert(result.message || 'Gagal mengubah status');
+      }
+    } catch (error) {
+      alert('Terjadi kesalahan: ' + error.message);
+    }
+  }
+
+  async function deletePengumumanData(id) {
+    if (confirm('Apakah Anda yakin ingin menghapus pengumuman ini?')) {
+      try {
+        const result = await callAppsScript('deletePengumuman', { id: id });
+        alert(result.message || 'Pengumuman berhasil dihapus');
+        if (result.success) {
+          loadPengumumanAdmin();
+        }
+      } catch (error) {
+        alert('Terjadi kesalahan: ' + error.message);
+      }
+    }
+  }
+
   // ==================== PULL-TO-REFRESH (SWIPE DOWN) ====================
   function setupPullToRefresh() {
     const pullIndicator = document.getElementById('pullIndicator');
@@ -3384,12 +4128,10 @@
     let isPulling = false;
     let isRefreshing = false;
     
-    // Hanya aktif di perangkat dengan touch support (mobile/tablet)
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     if (!isTouchDevice) return;
     
     document.addEventListener('touchstart', function(e) {
-      // Hanya aktif di bagian atas halaman
       if (window.scrollY <= 0 && !isRefreshing) {
         startY = e.touches[0].clientY;
       }
@@ -3401,7 +4143,6 @@
       const currentY = e.touches[0].clientY;
       const pullDistance = currentY - startY;
       
-      // Hanya respon jika pull ke bawah
       if (pullDistance > 5) {
         isPulling = true;
         const progress = Math.min(pullDistance / 150, 1);
@@ -3431,14 +4172,12 @@
       startY = 0;
       
       if (pullDistance > 100 && window.scrollY <= 0) {
-        // Execute refresh
         isRefreshing = true;
         pullIndicator.className = 'pull-indicator refreshing';
         pullIndicator.querySelector('.text').textContent = 'Memperbarui data...';
         pullIndicator.querySelector('.icon').textContent = '';
         pullIndicator.style.top = '60px';
         
-        // Jalankan refresh data
         refreshAllData().finally(() => {
           isRefreshing = false;
           setTimeout(() => {
@@ -3449,7 +4188,6 @@
           }, 500);
         });
       } else {
-        // Cancel pull
         pullIndicator.style.top = '-70px';
         pullIndicator.className = 'pull-indicator';
         pullIndicator.querySelector('.text').textContent = 'Tarik untuk refresh';
@@ -3463,7 +4201,6 @@
   // ==================== REFRESH ALL DATA ====================
   async function refreshAllData() {
     try {
-      // Refresh semua data secara paralel
       const promises = [
         loadSaldo(),
         loadWarga(),
@@ -3477,11 +4214,11 @@
       if (currentUser && currentUser.role === 'admin') {
         promises.push(loadKelolaWarga());
         promises.push(loadDetailIuran());
+        promises.push(loadPengumumanAdmin());
       }
       
       await Promise.all(promises);
       
-      // Update timestamp
       document.getElementById('lastUpdate').textContent = new Date().toLocaleString('id-ID');
       
       return { success: true };
@@ -3511,7 +4248,6 @@
       login();
     });
     
-    // Setup pull-to-refresh
     setupPullToRefresh();
   });
 
