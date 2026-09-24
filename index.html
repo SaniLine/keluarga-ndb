@@ -2136,9 +2136,8 @@
       }
       
       // Update Iuran (filter status belum)
-      const belumBayar = allData.iuran.filter(item => item.status === 'belum');
-      allData.updateIuran = belumBayar;
-      filteredUpdateIuranData = [...belumBayar];
+      allData.updateIuran = data.updateIuran || [];
+      filteredUpdateIuranData = [...allData.updateIuran];
       renderUpdateIuranList(filteredUpdateIuranData);
       
       // Isi dropdown jenis iuran
@@ -4382,9 +4381,8 @@
         renderIuranList(filteredIuranDataWarga);
       }
       
-      const belumBayar = allData.iuran.filter(item => item.status === 'belum');
-      allData.updateIuran = belumBayar;
-      filteredUpdateIuranData = [...belumBayar];
+      allData.updateIuran = data.updateIuran || [];
+      filteredUpdateIuranData = [...allData.updateIuran];
       renderUpdateIuranList(filteredUpdateIuranData);
       
       // Background
