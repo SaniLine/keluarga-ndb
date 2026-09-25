@@ -157,22 +157,6 @@
       box-shadow: 0 0 0 0.2rem rgba(44,90,160,0.2);
     }
     
-    .login-btn {
-      background-color: var(--primary-color);
-      border: none;
-      border-radius: 8px;
-      padding: 0.75rem;
-      font-weight: 600;
-      transition: all 0.3s;
-      color: white !important;
-    }
-    
-    .login-btn:hover {
-      background-color: #1a3a75;
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(44,90,160,0.3);
-    }
-    
     /* ==================== PASSWORD TOGGLE ==================== */
     .password-wrapper {
       position: relative;
@@ -190,15 +174,32 @@
       cursor: pointer;
       color: #6c757d;
       font-size: 1.1rem;
-      z-index: 10;
-      padding: 5px;
       transition: color 0.2s;
+      z-index: 5;
       background: transparent;
       border: none;
+      padding: 0;
+      line-height: 1;
     }
     
     .password-toggle:hover {
       color: var(--primary-color);
+    }
+    
+    .login-btn {
+      background-color: var(--primary-color);
+      border: none;
+      border-radius: 8px;
+      padding: 0.75rem;
+      font-weight: 600;
+      transition: all 0.3s;
+      color: white !important;
+    }
+    
+    .login-btn:hover {
+      background-color: #1a3a75;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(44,90,160,0.3);
     }
     
     /* ==================== LOADING STATES ==================== */
@@ -448,219 +449,6 @@
       transition: transform 0.3s ease;
     }
     
-    /* ==================== PENGUMUMAN POPUP ==================== */
-    .pengumuman-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(4px);
-      z-index: 10000;
-      display: none;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      overflow-y: auto;
-    }
-    
-    .pengumuman-overlay.show {
-      display: flex;
-    }
-    
-    .pengumuman-modal {
-      background: white;
-      border-radius: 16px;
-      max-width: 480px;
-      width: 100%;
-      max-height: 85vh;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-      animation: slideUp 0.3s ease-out;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-    
-    @keyframes slideUp {
-      from { transform: translateY(50px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-    
-    .pengumuman-header {
-      background: linear-gradient(135deg, var(--secondary-color), #2980b9);
-      color: white;
-      padding: 20px 50px 20px 20px;
-      position: relative;
-      flex-shrink: 0;
-    }
-    
-    .pengumuman-header h4 {
-      margin: 0;
-      font-weight: 700;
-      font-size: 1.2rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    
-    .pengumuman-close {
-      position: absolute;
-      top: 14px;
-      right: 14px;
-      background: rgba(255, 255, 255, 0.25);
-      border: none;
-      color: white;
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 1.1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-    }
-    
-    .pengumuman-close:hover {
-      background: rgba(255, 255, 255, 0.45);
-      transform: rotate(90deg);
-    }
-    
-    .pengumuman-body {
-      padding: 20px;
-      overflow-y: auto;
-      flex: 1;
-    }
-    
-    .pengumuman-item {
-      display: none;
-    }
-    
-    .pengumuman-item.active {
-      display: block;
-      animation: fadeIn 0.3s ease-in;
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateX(10px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-    
-    .pengumuman-item h5 {
-      color: var(--primary-color);
-      font-weight: 700;
-      margin-bottom: 6px;
-      font-size: 1.1rem;
-    }
-    
-    .pengumuman-item .pengumuman-tanggal {
-      color: #6c757d;
-      font-size: 0.8rem;
-      margin-bottom: 12px;
-    }
-    
-    .pengumuman-item .pengumuman-isi {
-      color: #333;
-      line-height: 1.6;
-      white-space: pre-wrap;
-      font-size: 0.95rem;
-    }
-    
-    .pengumuman-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 20px;
-      border-top: 1px solid #eee;
-      background: #fafafa;
-      flex-shrink: 0;
-    }
-    
-    .pengumuman-dots {
-      display: flex;
-      gap: 6px;
-      justify-content: center;
-      flex: 1;
-    }
-    
-    .pengumuman-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #ccc;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    
-    .pengumuman-dot.active {
-      background: var(--secondary-color);
-      width: 22px;
-      border-radius: 4px;
-    }
-    
-    .pengumuman-nav {
-      background: transparent;
-      border: 1px solid #ddd;
-      color: var(--primary-color);
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-      font-size: 0.8rem;
-    }
-    
-    .pengumuman-nav:hover:not(:disabled) {
-      background: var(--secondary-color);
-      color: white;
-      border-color: var(--secondary-color);
-    }
-    
-    .pengumuman-nav:disabled {
-      opacity: 0.3;
-      cursor: not-allowed;
-    }
-    
-    /* ==================== PENGUMUMAN TAB ADMIN ==================== */
-    .pengumuman-admin-card {
-      border-left: 4px solid #3498db;
-    }
-    
-    .pengumuman-admin-card.nonaktif {
-      border-left-color: #95a5a6;
-      opacity: 0.7;
-    }
-    
-    .pengumuman-status-badge {
-      font-size: 0.7rem;
-      padding: 4px 10px;
-      border-radius: 12px;
-      font-weight: 600;
-    }
-    
-    .pengumuman-status-badge.aktif {
-      background: #d4edda;
-      color: #155724;
-    }
-    
-    .pengumuman-status-badge.nonaktif {
-      background: #f8d7da;
-      color: #721c24;
-    }
-    
-    .pengumuman-text-preview {
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    
     /* ==================== RESPONSIVE ==================== */
     @media (max-width: 768px) {
       .saldo-amount { font-size: 2rem; }
@@ -672,12 +460,6 @@
         height: 60px;
         top: -60px;
         font-size: 0.8rem;
-      }
-      .pengumuman-modal {
-        max-height: 90vh;
-      }
-      .pengumuman-header h4 {
-        font-size: 1.05rem;
       }
     }
   </style>
@@ -721,8 +503,8 @@
         <label for="password" class="form-label">Password</label>
         <div class="password-wrapper">
           <input type="password" class="form-control" id="password" placeholder="Password" required>
-          <button type="button" class="password-toggle" onclick="togglePasswordVisibility()" id="passwordToggleIcon" title="Tampilkan/Sembunyikan Password">
-            <i class="fas fa-eye"></i>
+          <button type="button" class="password-toggle" id="togglePassword" aria-label="Tampilkan password">
+            <i class="fas fa-eye" id="togglePasswordIcon"></i>
           </button>
         </div>
       </div>
@@ -768,9 +550,6 @@
       <li class="nav-item" id="kelolaWargaTab" style="display: none;">
         <a class="nav-link" data-bs-toggle="tab" href="#kelolaWarga">Kelola Warga</a>
       </li>
-      <li class="nav-item" id="pengumumanTab" style="display: none;">
-        <a class="nav-link" data-bs-toggle="tab" href="#pengumuman">Pengumuman</a>
-      </li>
       <li class="nav-item">
         <a class="nav-link" data-bs-toggle="tab" href="#iuran">Iuran</a>
       </li>
@@ -780,6 +559,7 @@
       <li class="nav-item" id="detailIuranTab" style="display: none;">
         <a class="nav-link" data-bs-toggle="tab" href="#detailIuran">Detail Iuran</a>
       </li>
+      <!-- MENU UPDATE IURAN -->
       <li class="nav-item" id="updateIuranTab">
         <a class="nav-link" data-bs-toggle="tab" href="#updateIuran">Update Iuran</a>
       </li>
@@ -842,31 +622,6 @@
         </div>
       </div>
 
-      <!-- PENGUMUMAN TAB (ADMIN ONLY) -->
-      <div class="tab-pane fade" id="pengumuman">
-        <div class="card">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">Kelola Pengumuman</h5>
-            <button class="btn btn-primary btn-sm" onclick="showAddPengumumanModal()" id="addPengumumanButton">
-              <i class="fas fa-plus"></i> <span id="addPengumumanButtonText">Pengumuman</span>
-            </button>
-          </div>
-          <div class="card-body">
-            <div class="alert alert-info">
-              <i class="fas fa-info-circle me-2"></i>
-              Pengumuman yang <strong>aktif</strong> akan muncul sebagai pop-up kepada <strong>semua user</strong> saat mereka login.
-            </div>
-            <div id="pengumumanList"></div>
-            <div class="show-more-container" id="pengumumanShowMore" style="display: none;">
-              <div class="show-more-btn" onclick="toggleShowAll('pengumuman')">
-                <i class="fas fa-chevron-down me-1"></i>
-                <span>Tampilkan Semua</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <!-- IURAN TAB -->
       <div class="tab-pane fade" id="iuran">
         <div class="card">
@@ -877,6 +632,7 @@
             </button>
           </div>
           <div class="card-body">
+            <!-- Filter Section for Admin -->
             <div id="iuranFilterSectionAdmin" style="display: none;">
               <div class="filter-row">
                 <div class="filter-item">
@@ -915,6 +671,7 @@
               </div>
             </div>
 
+            <!-- Filter Section for Warga -->
             <div id="iuranFilterSectionWarga" style="display: none;">
               <div class="filter-row">
                 <div class="filter-item">
@@ -988,6 +745,7 @@
             <h5 class="mb-0">Detail Iuran</h5>
           </div>
           <div class="card-body">
+            <!-- Filter Section -->
             <div class="filter-container">
               <div class="row g-3 align-items-end">
                 <div class="col-md-3">
@@ -1025,6 +783,7 @@
               </div>
             </div>
 
+            <!-- Statistics Section -->
             <div class="row mb-3">
               <div class="col-md-4">
                 <div class="card bg-success text-white">
@@ -1052,6 +811,7 @@
               </div>
             </div>
 
+            <!-- Results Section -->
             <div id="detailIuranList"></div>
             <div class="show-more-container" id="detailIuranShowMore" style="display: none;">
               <div class="show-more-btn" onclick="toggleShowAll('detailIuran')">
@@ -1070,6 +830,7 @@
             <h5 class="mb-0">Update Iuran (Belum Bayar)</h5>
           </div>
           <div class="card-body">
+            <!-- Filter Section -->
             <div class="filter-container">
               <div class="filter-row">
                 <div class="filter-item">
@@ -1329,7 +1090,7 @@
   </div>
 </div>
 
-<!-- Modal Edit Iuran -->
+<!-- Modal Edit Iuran (DENGAN TANGGAL PELUNASAN & JENIS IURAN DROPDOWN) -->
 <div class="modal fade" id="editIuranModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -1738,123 +1499,11 @@
   </div>
 </div>
 
-<!-- ==================== PENGUMUMAN POPUP (SEMUA USER) ==================== -->
-<div class="pengumuman-overlay" id="pengumumanOverlay">
-  <div class="pengumuman-modal">
-    <div class="pengumuman-header">
-      <h4><i class="fas fa-bullhorn"></i> <span id="pengumumanPopupTitle">Pengumuman</span></h4>
-      <button class="pengumuman-close" onclick="closePengumumanPopup()" title="Tutup">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-    <div class="pengumuman-body" id="pengumumanPopupBody"></div>
-    <div class="pengumuman-footer" id="pengumumanPopupFooter" style="display: none;">
-      <button class="pengumuman-nav" id="pengumumanPrevBtn" onclick="navigatePengumuman(-1)">
-        <i class="fas fa-chevron-left"></i>
-      </button>
-      <div class="pengumuman-dots" id="pengumumanDots"></div>
-      <button class="pengumuman-nav" id="pengumumanNextBtn" onclick="navigatePengumuman(1)">
-        <i class="fas fa-chevron-right"></i>
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- Modal Tambah Pengumuman (Admin) -->
-<div class="modal fade" id="addPengumumanModal" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title"><i class="fas fa-bullhorn me-2"></i>Tambah Pengumuman</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <form id="addPengumumanForm">
-          <div class="mb-3">
-            <label class="form-label">Judul Pengumuman</label>
-            <input type="text" class="form-control" id="pengumumanJudul" required maxlength="100" placeholder="Contoh: Kerja Bakti Minggu Ini">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Isi Pengumuman</label>
-            <textarea class="form-control" id="pengumumanIsi" rows="5" required placeholder="Tulis isi pengumuman di sini..." maxlength="1000"></textarea>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Tanggal</label>
-            <input type="date" class="form-control" id="pengumumanTanggal" required>
-          </div>
-          <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="pengumumanAktif" checked>
-            <label class="form-check-label" for="pengumumanAktif">
-              Aktifkan pengumuman (akan muncul sebagai pop-up)
-            </label>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-        <button type="button" class="btn btn-primary" onclick="savePengumuman()" id="savePengumumanButton">
-          <span id="savePengumumanButtonText">Simpan</span>
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Modal Edit Pengumuman (Admin) -->
-<div class="modal fade" id="editPengumumanModal" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Edit Pengumuman</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <form id="editPengumumanForm">
-          <input type="hidden" id="editPengumumanId">
-          <div class="mb-3">
-            <label class="form-label">Judul Pengumuman</label>
-            <input type="text" class="form-control" id="editPengumumanJudul" required maxlength="100">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Isi Pengumuman</label>
-            <textarea class="form-control" id="editPengumumanIsi" rows="5" required maxlength="1000"></textarea>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Tanggal</label>
-            <input type="date" class="form-control" id="editPengumumanTanggal" required>
-          </div>
-          <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="editPengumumanAktif">
-            <label class="form-check-label" for="editPengumumanAktif">
-              Aktifkan pengumuman (akan muncul sebagai pop-up)
-            </label>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-        <button type="button" class="btn btn-primary" onclick="saveEditPengumuman()" id="saveEditPengumumanButton">
-          <span id="saveEditPengumumanButtonText">Simpan Perubahan</span>
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- ==================== SCRIPTS ==================== -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
   // ==================== KONFIGURASI ====================
-  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyu7_dn1PIHlFpGMKKYz5roQSg8AmvVeo4eVmkURpB2ixIKMWgxOV1m7dkCj0arhyCn/exec';
-  
-  // ==================== CACHE FRONTEND ====================
-  const CACHE_DURATION = 2 * 60 * 1000; // 2 menit
-  let dataCache = {
-    warga: { data: null, timestamp: 0 },
-    iuran: { data: null, timestamp: 0 },
-    pengeluaran: { data: null, timestamp: 0 },
-    catatan: { data: null, timestamp: 0 }
-  };
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzL4qvmoOhUWlpylpNk3Q-di2fJlYapix8KIHoF3-UhzwuDsE2xUEGpm5P6CzIGIgAB/exec';
   
   // ==================== VARIABEL GLOBAL ====================
   let currentUser = null;
@@ -1879,8 +1528,7 @@
     catatan: false,
     kelolaWarga: false,
     detailIuran: false,
-    updateIuran: false,
-    pengumuman: false
+    updateIuran: false
   };
   
   // Variabel untuk Laporan Keuangan
@@ -1895,25 +1543,8 @@
   let currentPengeluaranData = [];
   let currentReport = null;
 
-  // Variabel untuk pengumuman
-  let allPengumumanData = [];
-  let currentPengumumanIndex = 0;
-  let currentActivePengumuman = [];
-  let pengumumanShown = false;
-
-  // ==================== PASSWORD TOGGLE ====================
-  function togglePasswordVisibility() {
-    const passwordInput = document.getElementById('password');
-    const toggleIcon = document.getElementById('passwordToggleIcon');
-    
-    if (passwordInput.type === 'password') {
-      passwordInput.type = 'text';
-      toggleIcon.innerHTML = '<i class="fas fa-eye-slash"></i>';
-    } else {
-      passwordInput.type = 'password';
-      toggleIcon.innerHTML = '<i class="fas fa-eye"></i>';
-    }
-  }
+  // Variabel untuk menyimpan daftar jenis iuran
+  let jenisIuranList = [];
 
   // ==================== FUNGSI API CALL ====================
   async function callAppsScript(action, parameters = {}) {
@@ -1988,11 +1619,27 @@
     return nomorRumah;
   }
 
-  function escapeHtml(text) {
-    if (text === null || text === undefined) return '';
-    const div = document.createElement('div');
-    div.textContent = String(text);
-    return div.innerHTML;
+  // ==================== PASSWORD TOGGLE ====================
+  function setupPasswordToggle() {
+    const toggleBtn = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('password');
+    const toggleIcon = document.getElementById('togglePasswordIcon');
+    
+    if (toggleBtn && passwordInput && toggleIcon) {
+      toggleBtn.addEventListener('click', function() {
+        if (passwordInput.type === 'password') {
+          passwordInput.type = 'text';
+          toggleIcon.classList.remove('fa-eye');
+          toggleIcon.classList.add('fa-eye-slash');
+          toggleBtn.setAttribute('aria-label', 'Sembunyikan password');
+        } else {
+          passwordInput.type = 'password';
+          toggleIcon.classList.remove('fa-eye-slash');
+          toggleIcon.classList.add('fa-eye');
+          toggleBtn.setAttribute('aria-label', 'Tampilkan password');
+        }
+      });
+    }
   }
 
   // ==================== AUTHENTICATION ====================
@@ -2010,13 +1657,6 @@
       if (result.success) {
         currentUser = result.user;
         sessionStorage.setItem('ndb_user', JSON.stringify(currentUser));
-        // Reset cache saat login baru
-        dataCache = {
-          warga: { data: null, timestamp: 0 },
-          iuran: { data: null, timestamp: 0 },
-          pengeluaran: { data: null, timestamp: 0 },
-          catatan: { data: null, timestamp: 0 }
-        };
         showMainApp();
       } else {
         messageDiv.innerHTML = `<div class="alert alert-danger">${result.message}</div>`;
@@ -2032,28 +1672,17 @@
     setTimeout(function() {
       sessionStorage.removeItem('ndb_user');
       currentUser = null;
-      pengumumanShown = false;
-      currentActivePengumuman = [];
-      currentPengumumanIndex = 0;
-      // Reset cache
-      dataCache = {
-        warga: { data: null, timestamp: 0 },
-        iuran: { data: null, timestamp: 0 },
-        pengeluaran: { data: null, timestamp: 0 },
-        catatan: { data: null, timestamp: 0 }
-      };
       document.getElementById('mainApp').style.display = 'none';
       document.getElementById('loginScreen').style.display = 'block';
       document.getElementById('loginForm').reset();
       document.getElementById('loginMessage').innerHTML = '';
-      const pwInput = document.getElementById('password');
-      if (pwInput) pwInput.type = 'password';
-      const toggleIcon = document.getElementById('passwordToggleIcon');
-      if (toggleIcon) toggleIcon.innerHTML = '<i class="fas fa-eye"></i>';
-      const overlay = document.getElementById('pengumumanOverlay');
-      if (overlay) {
-        overlay.classList.remove('show');
-        document.body.style.overflow = '';
+      // Reset password visibility
+      const passwordInput = document.getElementById('password');
+      const toggleIcon = document.getElementById('togglePasswordIcon');
+      if (passwordInput) passwordInput.type = 'password';
+      if (toggleIcon) {
+        toggleIcon.classList.remove('fa-eye-slash');
+        toggleIcon.classList.add('fa-eye');
       }
       hideButtonLoading('logoutButton');
     }, 500);
@@ -2071,7 +1700,6 @@
       document.getElementById('kelolaWargaTab').style.display = 'block';
       document.getElementById('sebarIuranTab').style.display = 'block';
       document.getElementById('detailIuranTab').style.display = 'block';
-      document.getElementById('pengumumanTab').style.display = 'block';
       document.getElementById('addIuranBtn').style.display = 'block';
       document.getElementById('addPengeluaranBtn').style.display = 'block';
       document.getElementById('addCatatanBtn').style.display = 'block';
@@ -2082,156 +1710,26 @@
       document.getElementById('iuranFilterSectionWarga').style.display = 'block';
     }
     
+    // Tab Update Iuran selalu tampil untuk semua role
     document.getElementById('updateIuranTab').style.display = 'block';
     
+    loadSaldo();
+    loadWarga();
+    loadIuran();
+    loadCatatan();
+    loadPengeluaran();
+    loadLaporanKeuangan();
+    loadUpdateIuran();
+    
+    if (currentUser.role === 'admin') {
+      loadKelolaWarga();
+      loadDetailIuran();
+    }
+    
+    loadJenisIuran();
     setupSearch();
     setupIuranSearch();
     setupUpdateIuranSearch();
-    
-    // ===== LOAD DATA DENGAN 1 REQUEST (getInitialData) =====
-    loadInitialData();
-  }
-
-  // ===== FUNGSI BARU: Load semua data penting dalam 1 request =====
-  async function loadInitialData() {
-    try {
-      showGlobalLoading();
-      
-      const data = await callAppsScript('getInitialData', {
-        username: currentUser.username,
-        role: currentUser.role
-      });
-      
-      if (data.error) {
-        console.error('Error loading initial data:', data.error);
-        hideGlobalLoading();
-        return;
-      }
-      
-      const now = Date.now();
-      
-      // Set data
-      allWargaData = data.warga || [];
-      allData.warga = data.warga || [];
-      allData.iuran = data.iuran || [];
-      allData.pengeluaran = data.pengeluaran || [];
-      allData.catatan = data.catatan || [];
-      
-      // Simpan ke cache frontend
-      dataCache.warga = { data: allData.warga, timestamp: now };
-      dataCache.iuran = { data: allData.iuran, timestamp: now };
-      dataCache.pengeluaran = { data: allData.pengeluaran, timestamp: now };
-      dataCache.catatan = { data: allData.catatan, timestamp: now };
-      
-      // Render
-      document.getElementById('saldoAmount').textContent = formatRupiah(data.saldo);
-      document.getElementById('lastUpdate').textContent = new Date().toLocaleString('id-ID');
-      renderWargaList(allData.warga);
-      renderPengeluaranList(allData.pengeluaran);
-      renderCatatanList(allData.catatan);
-      
-      // Iuran berdasarkan role
-      if (currentUser.role === 'admin') {
-        filteredIuranDataAdmin = [...allData.iuran];
-        renderIuranList(filteredIuranDataAdmin);
-      } else {
-        filteredIuranDataWarga = [...allData.iuran];
-        renderIuranList(filteredIuranDataWarga);
-      }
-      
-      // Update Iuran (filter status belum)
-      allData.updateIuran = data.updateIuran || [];
-      filteredUpdateIuranData = [...allData.updateIuran];
-      renderUpdateIuranList(filteredUpdateIuranData);
-      
-      // Isi dropdown jenis iuran
-      populateJenisIuran(data.jenisIuran || []);
-      
-      // Pengumuman aktif (sudah diurutkan dari backend)
-      currentActivePengumuman = data.pengumuman || [];
-      if (currentActivePengumuman.length > 0) {
-        setTimeout(() => showPengumumanPopup(), 500);
-      }
-      
-      hideGlobalLoading();
-      
-      // ===== LOAD DATA BERAT DI BACKGROUND (Lazy Load) =====
-      
-      // Laporan keuangan (berat, load belakangan)
-      setTimeout(() => { loadLaporanKeuangan(); }, 1500);
-      
-      // Admin only: kelola warga + pengumuman admin + detail iuran
-      if (currentUser.role === 'admin') {
-        setTimeout(() => { loadKelolaWarga(); }, 800);
-        setTimeout(() => { loadPengumumanAdmin(); }, 1200);
-      }
-      
-    } catch (error) {
-      console.error('Error loading initial data:', error);
-      hideGlobalLoading();
-    }
-  }
-
-  // Helper: populate jenis iuran dropdown
-  function populateJenisIuran(jenisIuran) {
-    const select = document.getElementById('iuranJenis');
-    const sebarSelect = document.getElementById('sebarIuranJenis');
-    const detailFilter = document.getElementById('detailIuranJenisFilter');
-    const filterIuranJenisAdmin = document.getElementById('filterIuranJenisAdmin');
-    const filterIuranJenisWarga = document.getElementById('filterIuranJenisWarga');
-    const filterUpdateIuranJenis = document.getElementById('filterUpdateIuranJenis');
-    const editIuranJenis = document.getElementById('editIuranJenis');
-    
-    if (!select) return;
-    
-    select.innerHTML = '<option value="">Pilih Jenis Iuran</option>';
-    sebarSelect.innerHTML = '<option value="">Pilih Jenis Iuran</option>';
-    detailFilter.innerHTML = '<option value="">Semua Jenis Iuran</option>';
-    filterIuranJenisAdmin.innerHTML = '<option value="">Semua Jenis</option>';
-    filterIuranJenisWarga.innerHTML = '<option value="">Semua Jenis</option>';
-    filterUpdateIuranJenis.innerHTML = '<option value="">Semua Jenis</option>';
-    if (editIuranJenis) {
-      editIuranJenis.innerHTML = '<option value="">Pilih Jenis Iuran</option>';
-    }
-    
-    jenisIuran.forEach(function(jenis) {
-      const option = document.createElement('option');
-      option.value = jenis;
-      option.textContent = jenis;
-      select.appendChild(option);
-      
-      const sebarOption = document.createElement('option');
-      sebarOption.value = jenis;
-      sebarOption.textContent = jenis;
-      sebarSelect.appendChild(sebarOption);
-      
-      const filterOption = document.createElement('option');
-      filterOption.value = jenis;
-      filterOption.textContent = jenis;
-      detailFilter.appendChild(filterOption);
-      
-      const filterAdminOption = document.createElement('option');
-      filterAdminOption.value = jenis;
-      filterAdminOption.textContent = jenis;
-      filterIuranJenisAdmin.appendChild(filterAdminOption);
-      
-      const filterWargaOption = document.createElement('option');
-      filterWargaOption.value = jenis;
-      filterWargaOption.textContent = jenis;
-      filterIuranJenisWarga.appendChild(filterWargaOption);
-      
-      const filterUpdateOption = document.createElement('option');
-      filterUpdateOption.value = jenis;
-      filterUpdateOption.textContent = jenis;
-      filterUpdateIuranJenis.appendChild(filterUpdateOption);
-      
-      if (editIuranJenis) {
-        const editOption = document.createElement('option');
-        editOption.value = jenis;
-        editOption.textContent = jenis;
-        editIuranJenis.appendChild(editOption);
-      }
-    });
   }
 
   function setupSearch() {
@@ -2357,9 +1855,6 @@
       case 'updateIuran':
         renderUpdateIuranList(filteredUpdateIuranData);
         break;
-      case 'pengumuman':
-        renderPengumumanList(allPengumumanData);
-        break;
     }
   }
 
@@ -2374,19 +1869,11 @@
     }
   }
 
-  async function loadWarga(forceRefresh = false) {
+  async function loadWarga() {
     try {
-      const now = Date.now();
-      if (!forceRefresh && dataCache.warga.data && (now - dataCache.warga.timestamp) < CACHE_DURATION) {
-        allWargaData = dataCache.warga.data;
-        allData.warga = dataCache.warga.data;
-        renderWargaList(allData.warga);
-        return;
-      }
       const warga = await callAppsScript('getWarga');
       allWargaData = warga;
       allData.warga = warga;
-      dataCache.warga = { data: warga, timestamp: now };
       renderWargaList(warga);
     } catch (error) {
       console.error('Error loading warga:', error);
@@ -2394,28 +1881,14 @@
     }
   }
 
-  async function loadIuran(forceRefresh = false) {
+  async function loadIuran() {
     try {
-      const now = Date.now();
-      if (!forceRefresh && dataCache.iuran.data && (now - dataCache.iuran.timestamp) < CACHE_DURATION) {
-        allData.iuran = dataCache.iuran.data;
-        if (currentUser.role === 'admin') {
-          filteredIuranDataAdmin = [...allData.iuran];
-          renderIuranList(filteredIuranDataAdmin);
-        } else {
-          filteredIuranDataWarga = [...allData.iuran];
-          renderIuranList(filteredIuranDataWarga);
-        }
-        return;
-      }
-      
       const iuran = await callAppsScript('getIuran', {
         username: currentUser.username,
         role: currentUser.role
       });
       
       allData.iuran = iuran;
-      dataCache.iuran = { data: iuran, timestamp: now };
       
       if (currentUser.role === 'admin') {
         filteredIuranDataAdmin = [...iuran];
@@ -2545,17 +2018,10 @@
     }
   }
   
-  async function loadPengeluaran(forceRefresh = false) {
+  async function loadPengeluaran() {
     try {
-      const now = Date.now();
-      if (!forceRefresh && dataCache.pengeluaran.data && (now - dataCache.pengeluaran.timestamp) < CACHE_DURATION) {
-        allData.pengeluaran = dataCache.pengeluaran.data;
-        renderPengeluaranList(allData.pengeluaran);
-        return;
-      }
       const pengeluaran = await callAppsScript('getPengeluaran');
       allData.pengeluaran = pengeluaran;
-      dataCache.pengeluaran = { data: pengeluaran, timestamp: now };
       renderPengeluaranList(pengeluaran);
     } catch (error) {
       console.error('Error loading pengeluaran:', error);
@@ -2617,17 +2083,10 @@
     }
   }
 
-  async function loadCatatan(forceRefresh = false) {
+  async function loadCatatan() {
     try {
-      const now = Date.now();
-      if (!forceRefresh && dataCache.catatan.data && (now - dataCache.catatan.timestamp) < CACHE_DURATION) {
-        allData.catatan = dataCache.catatan.data;
-        renderCatatanList(allData.catatan);
-        return;
-      }
       const catatan = await callAppsScript('getCatatan');
       allData.catatan = catatan;
-      dataCache.catatan = { data: catatan, timestamp: now };
       renderCatatanList(catatan);
     } catch (error) {
       console.error('Error loading catatan:', error);
@@ -2761,6 +2220,68 @@
       }
     } else {
       showMoreContainer.style.display = 'none';
+    }
+  }
+
+  async function loadJenisIuran() {
+    try {
+      const jenisIuran = await callAppsScript('getJenisIuran');
+      jenisIuranList = jenisIuran;
+      
+      const select = document.getElementById('iuranJenis');
+      const sebarSelect = document.getElementById('sebarIuranJenis');
+      const detailFilter = document.getElementById('detailIuranJenisFilter');
+      const filterIuranJenisAdmin = document.getElementById('filterIuranJenisAdmin');
+      const filterIuranJenisWarga = document.getElementById('filterIuranJenisWarga');
+      const filterUpdateIuranJenis = document.getElementById('filterUpdateIuranJenis');
+      const editIuranJenis = document.getElementById('editIuranJenis');
+      
+      select.innerHTML = '<option value="">Pilih Jenis Iuran</option>';
+      sebarSelect.innerHTML = '<option value="">Pilih Jenis Iuran</option>';
+      detailFilter.innerHTML = '<option value="">Semua Jenis Iuran</option>';
+      filterIuranJenisAdmin.innerHTML = '<option value="">Semua Jenis</option>';
+      filterIuranJenisWarga.innerHTML = '<option value="">Semua Jenis</option>';
+      filterUpdateIuranJenis.innerHTML = '<option value="">Semua Jenis</option>';
+      editIuranJenis.innerHTML = '<option value="">Pilih Jenis Iuran</option>';
+      
+      jenisIuran.forEach(function(jenis) {
+        const option = document.createElement('option');
+        option.value = jenis;
+        option.textContent = jenis;
+        select.appendChild(option);
+        
+        const sebarOption = document.createElement('option');
+        sebarOption.value = jenis;
+        sebarOption.textContent = jenis;
+        sebarSelect.appendChild(sebarOption);
+        
+        const filterOption = document.createElement('option');
+        filterOption.value = jenis;
+        filterOption.textContent = jenis;
+        detailFilter.appendChild(filterOption);
+        
+        const filterAdminOption = document.createElement('option');
+        filterAdminOption.value = jenis;
+        filterAdminOption.textContent = jenis;
+        filterIuranJenisAdmin.appendChild(filterAdminOption);
+        
+        const filterWargaOption = document.createElement('option');
+        filterWargaOption.value = jenis;
+        filterWargaOption.textContent = jenis;
+        filterIuranJenisWarga.appendChild(filterWargaOption);
+        
+        const filterUpdateOption = document.createElement('option');
+        filterUpdateOption.value = jenis;
+        filterUpdateOption.textContent = jenis;
+        filterUpdateIuranJenis.appendChild(filterUpdateOption);
+        
+        const editOption = document.createElement('option');
+        editOption.value = jenis;
+        editOption.textContent = jenis;
+        editIuranJenis.appendChild(editOption);
+      });
+    } catch (error) {
+      console.error('Error loading jenis iuran:', error);
     }
   }
 
@@ -2908,7 +2429,7 @@
         alert(result.message);
         const modal = bootstrap.Modal.getInstance(document.getElementById('sebarIuranModal'));
         modal.hide();
-        loadIuran(true);
+        loadIuran();
         loadUpdateIuran();
       } else {
         alert('Gagal menyebar iuran: ' + result.message);
@@ -3017,6 +2538,7 @@
 
   // ==================== FITUR LAPORAN KEUANGAN ====================
   async function loadLaporanKeuangan() {
+    showGlobalLoading();
     try {
       const iuran = await callAppsScript('getIuranAll');
       const pengeluaran = await callAppsScript('getPengeluaran');
@@ -3093,6 +2615,8 @@
     } catch (error) {
       console.error('Error loading laporan keuangan:', error);
       document.getElementById('monthlyReportList').innerHTML = '<p class="text-danger text-center">Error loading data</p>';
+    } finally {
+      hideGlobalLoading();
     }
   }
   
@@ -3165,6 +2689,7 @@
   
   function renderFinancialDetailContent() {
     const content = document.getElementById('financialDetailContent');
+    const canEdit = currentUser.role === 'admin';
     
     const pemasukanEndIndex = Math.min(currentPemasukanStartIndex + 20, currentPemasukanData.length);
     const displayPemasukan = currentPemasukanData.slice(0, pemasukanEndIndex);
@@ -3392,7 +2917,7 @@
       if (result.success) {
         const modal = bootstrap.Modal.getInstance(document.getElementById('editWargaModal'));
         modal.hide();
-        loadWarga(true);
+        loadWarga();
         
         if (currentUser.username === username) {
           currentUser.username = updatedData.username;
@@ -3460,12 +2985,9 @@
         modal.hide();
         document.getElementById('addIuranForm').reset();
         document.getElementById('iuranTahun').value = new Date().getFullYear();
-        // Invalidate cache untuk refresh data
-        dataCache.iuran = { data: null, timestamp: 0 };
-        dataCache.catatan = { data: null, timestamp: 0 };
-        loadIuran(true);
-        loadCatatan(true);
+        loadIuran();
         loadSaldo();
+        loadCatatan();
         loadLaporanKeuangan();
         loadUpdateIuran();
       }
@@ -3508,10 +3030,10 @@
   async function saveEditIuran() {
     const originalData = JSON.parse(document.getElementById('editIuranOriginalData').value);
     const updatedData = {
-      jenis_iuran: document.getElementById('editIuranJenis').value,
       jumlah: document.getElementById('editIuranJumlah').value,
       status: document.getElementById('editIuranStatus').value,
       tanggal_bayar: '',
+      jenis_iuran: document.getElementById('editIuranJenis').value,
       created_by: currentUser.username
     };
     
@@ -3532,6 +3054,7 @@
         bulan: originalData.bulan,
         tahun: originalData.tahun,
         jenisIuran: originalData.jenis_iuran,
+        newJenisIuran: updatedData.jenis_iuran,
         updatedData: updatedData
       });
       
@@ -3541,11 +3064,9 @@
       if (result.success) {
         const modal = bootstrap.Modal.getInstance(document.getElementById('editIuranModal'));
         modal.hide();
-        dataCache.iuran = { data: null, timestamp: 0 };
-        dataCache.catatan = { data: null, timestamp: 0 };
-        loadIuran(true);
-        loadCatatan(true);
+        loadIuran();
         loadSaldo();
+        loadCatatan();
         loadLaporanKeuangan();
         loadUpdateIuran();
       }
@@ -3571,11 +3092,9 @@
         alert(result.message);
         
         if (result.success) {
-          dataCache.iuran = { data: null, timestamp: 0 };
-          dataCache.catatan = { data: null, timestamp: 0 };
-          loadIuran(true);
-          loadCatatan(true);
+          loadIuran();
           loadSaldo();
+          loadCatatan();
           loadLaporanKeuangan();
           loadUpdateIuran();
         }
@@ -3612,11 +3131,9 @@
       if (result.success) {
         const modal = bootstrap.Modal.getInstance(document.getElementById('addPengeluaranModal'));
         modal.hide();
-        dataCache.pengeluaran = { data: null, timestamp: 0 };
-        dataCache.catatan = { data: null, timestamp: 0 };
-        loadPengeluaran(true);
-        loadCatatan(true);
+        loadPengeluaran();
         loadSaldo();
+        loadCatatan();
         loadLaporanKeuangan();
       }
     } catch (error) {
@@ -3664,11 +3181,9 @@
       if (result.success) {
         const modal = bootstrap.Modal.getInstance(document.getElementById('editPengeluaranModal'));
         modal.hide();
-        dataCache.pengeluaran = { data: null, timestamp: 0 };
-        dataCache.catatan = { data: null, timestamp: 0 };
-        loadPengeluaran(true);
-        loadCatatan(true);
+        loadPengeluaran();
         loadSaldo();
+        loadCatatan();
         loadLaporanKeuangan();
       }
     } catch (error) {
@@ -3692,11 +3207,9 @@
         alert(result.message);
         
         if (result.success) {
-          dataCache.pengeluaran = { data: null, timestamp: 0 };
-          dataCache.catatan = { data: null, timestamp: 0 };
-          loadPengeluaran(true);
-          loadCatatan(true);
+          loadPengeluaran();
           loadSaldo();
+          loadCatatan();
           loadLaporanKeuangan();
         }
       } catch (error) {
@@ -3733,8 +3246,7 @@
       if (result.success) {
         const modal = bootstrap.Modal.getInstance(document.getElementById('addCatatanModal'));
         modal.hide();
-        dataCache.catatan = { data: null, timestamp: 0 };
-        loadCatatan(true);
+        loadCatatan();
       }
     } catch (error) {
       hideButtonLoading('saveCatatanButton');
@@ -3785,8 +3297,7 @@
       if (result.success) {
         const modal = bootstrap.Modal.getInstance(document.getElementById('editCatatanModal'));
         modal.hide();
-        dataCache.catatan = { data: null, timestamp: 0 };
-        loadCatatan(true);
+        loadCatatan();
       }
     } catch (error) {
       hideButtonLoading('saveEditCatatanButton');
@@ -3810,8 +3321,7 @@
         alert(result.message);
         
         if (result.success) {
-          dataCache.catatan = { data: null, timestamp: 0 };
-          loadCatatan(true);
+          loadCatatan();
         }
       } catch (error) {
         hideGlobalLoading();
@@ -3849,8 +3359,7 @@
         const modal = bootstrap.Modal.getInstance(document.getElementById('addWargaModal'));
         modal.hide();
         loadKelolaWarga();
-        dataCache.warga = { data: null, timestamp: 0 };
-        loadWarga(true);
+        loadWarga();
       }
     } catch (error) {
       hideButtonLoading('saveNewWargaButton');
@@ -3904,8 +3413,7 @@
         const modal = bootstrap.Modal.getInstance(document.getElementById('editWargaAdminModal'));
         modal.hide();
         loadKelolaWarga();
-        dataCache.warga = { data: null, timestamp: 0 };
-        loadWarga(true);
+        loadWarga();
         
         if (currentUser.username === originalUsername) {
           currentUser.username = newUsername;
@@ -3934,341 +3442,10 @@
         alert(result.message);
         if (result.success) {
           loadKelolaWarga();
-          dataCache.warga = { data: null, timestamp: 0 };
-          loadWarga(true);
+          loadWarga();
         }
       } catch (error) {
         hideGlobalLoading();
-        alert('Terjadi kesalahan: ' + error.message);
-      }
-    }
-  }
-
-  // ==================== PENGUMUMAN FUNCTIONS ====================
-  async function loadActivePengumuman() {
-    try {
-      const pengumuman = await callAppsScript('getActivePengumuman');
-      currentActivePengumuman = pengumuman || [];
-      
-      // Urutkan dari yang paling lama ke yang paling baru
-      currentActivePengumuman.sort((a, b) => {
-        const tglA = new Date(String(a.tanggal).trim()).getTime() || 0;
-        const tglB = new Date(String(b.tanggal).trim()).getTime() || 0;
-        if (tglA === tglB) {
-          return String(a.id || '').localeCompare(String(b.id || ''));
-        }
-        return tglA - tglB;
-      });
-      
-      if (currentActivePengumuman.length > 0) {
-        showPengumumanPopup();
-      }
-    } catch (error) {
-      console.error('Error loading pengumuman:', error);
-    }
-  }
-
-  function showPengumumanPopup() {
-    if (currentActivePengumuman.length === 0) return;
-    
-    currentPengumumanIndex = 0;
-    renderPengumumanPopup();
-    
-    const overlay = document.getElementById('pengumumanOverlay');
-    overlay.classList.add('show');
-    document.body.style.overflow = 'hidden';
-    pengumumanShown = true;
-  }
-
-  function renderPengumumanPopup() {
-    const body = document.getElementById('pengumumanPopupBody');
-    const footer = document.getElementById('pengumumanPopupFooter');
-    const dotsContainer = document.getElementById('pengumumanDots');
-    const title = document.getElementById('pengumumanPopupTitle');
-    
-    const total = currentActivePengumuman.length;
-    
-    if (total > 1) {
-      title.textContent = `Pengumuman (${currentPengumumanIndex + 1}/${total})`;
-    } else {
-      title.textContent = 'Pengumuman';
-    }
-    
-    body.innerHTML = '';
-    currentActivePengumuman.forEach((item, index) => {
-      const div = document.createElement('div');
-      div.className = 'pengumuman-item' + (index === currentPengumumanIndex ? ' active' : '');
-      
-      const tanggalFormatted = formatTanggalPengumuman(item.tanggal);
-      
-      div.innerHTML = `
-        <h5>${escapeHtml(item.judul || 'Tanpa Judul')}</h5>
-        <div class="pengumuman-tanggal">
-          <i class="far fa-calendar-alt me-1"></i>${tanggalFormatted}
-        </div>
-        <div class="pengumuman-isi">${escapeHtml(item.isi || '')}</div>
-      `;
-      body.appendChild(div);
-    });
-    
-    if (total > 1) {
-      footer.style.display = 'flex';
-      dotsContainer.innerHTML = '';
-      currentActivePengumuman.forEach((_, index) => {
-        const dot = document.createElement('div');
-        dot.className = 'pengumuman-dot' + (index === currentPengumumanIndex ? ' active' : '');
-        dot.onclick = () => goToPengumuman(index);
-        dotsContainer.appendChild(dot);
-      });
-      
-      document.getElementById('pengumumanPrevBtn').disabled = currentPengumumanIndex === 0;
-      document.getElementById('pengumumanNextBtn').disabled = currentPengumumanIndex === total - 1;
-    } else {
-      footer.style.display = 'none';
-    }
-  }
-
-  function navigatePengumuman(direction) {
-    const newIndex = currentPengumumanIndex + direction;
-    if (newIndex >= 0 && newIndex < currentActivePengumuman.length) {
-      currentPengumumanIndex = newIndex;
-      renderPengumumanPopup();
-    }
-  }
-
-  function goToPengumuman(index) {
-    if (index >= 0 && index < currentActivePengumuman.length) {
-      currentPengumumanIndex = index;
-      renderPengumumanPopup();
-    }
-  }
-
-  function closePengumumanPopup() {
-    const overlay = document.getElementById('pengumumanOverlay');
-    overlay.classList.remove('show');
-    document.body.style.overflow = '';
-    pengumumanShown = true;
-  }
-
-  function formatTanggalPengumuman(tanggal) {
-    if (!tanggal) return '-';
-    try {
-      const tglStr = String(tanggal).trim();
-      if (tglStr.match(/^\d{4}-\d{2}-\d{2}/)) {
-        const date = new Date(tglStr);
-        if (!isNaN(date.getTime())) {
-          const bulan = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-          return `${date.getDate()} ${bulan[date.getMonth()]} ${date.getFullYear()}`;
-        }
-      }
-      return tglStr;
-    } catch (e) {
-      return String(tanggal);
-    }
-  }
-
-  async function loadPengumumanAdmin() {
-    try {
-      const pengumuman = await callAppsScript('getAllPengumuman');
-      allPengumumanData = pengumuman || [];
-      renderPengumumanList(allPengumumanData);
-    } catch (error) {
-      console.error('Error loading pengumuman admin:', error);
-      document.getElementById('pengumumanList').innerHTML = '<p class="text-danger text-center">Error loading data</p>';
-    }
-  }
-
-  function renderPengumumanList(pengumuman) {
-    const listContainer = document.getElementById('pengumumanList');
-    const showMoreContainer = document.getElementById('pengumumanShowMore');
-    
-    listContainer.innerHTML = '';
-    
-    if (pengumuman.length === 0) {
-      listContainer.innerHTML = '<p class="text-muted text-center">Belum ada pengumuman</p>';
-      showMoreContainer.style.display = 'none';
-      return;
-    }
-    
-    const displayData = showAllData.pengumuman ? pengumuman : pengumuman.slice(0, 20);
-    
-    displayData.forEach(item => {
-      const isAktif = item.aktif === true || item.aktif === 'true' || item.aktif === 'TRUE' || item.aktif === 1 || item.aktif === '1';
-      const card = document.createElement('div');
-      card.className = 'card mb-2 pengumuman-admin-card' + (isAktif ? '' : ' nonaktif');
-      
-      card.innerHTML = `
-        <div class="card-body py-3">
-          <div class="d-flex justify-content-between align-items-start">
-            <div class="flex-grow-1 me-2">
-              <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
-                <strong class="text-primary">${escapeHtml(item.judul || 'Tanpa Judul')}</strong>
-                <span class="pengumuman-status-badge ${isAktif ? 'aktif' : 'nonaktif'}">
-                  ${isAktif ? 'AKTIF' : 'NONAKTIF'}
-                </span>
-              </div>
-              <div class="text-muted small mb-1">
-                <i class="far fa-calendar-alt me-1"></i>${formatTanggalPengumuman(item.tanggal)}
-              </div>
-              <div class="pengumuman-text-preview text-muted small">
-                ${escapeHtml(item.isi || '')}
-              </div>
-            </div>
-            <div class="d-flex flex-column gap-1">
-              <button class="btn btn-sm btn-outline-primary" onclick="showEditPengumumanModal('${item.id}')" title="Edit">
-                <i class="fas fa-edit"></i>
-              </button>
-              <button class="btn btn-sm ${isAktif ? 'btn-outline-warning' : 'btn-outline-success'}" 
-                      onclick="togglePengumumanStatus('${item.id}', ${!isAktif})" 
-                      title="${isAktif ? 'Nonaktifkan' : 'Aktifkan'}">
-                <i class="fas ${isAktif ? 'fa-eye-slash' : 'fa-eye'}"></i>
-              </button>
-              <button class="btn btn-sm btn-outline-danger" onclick="deletePengumumanData('${item.id}')" title="Hapus">
-                <i class="fas fa-trash"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-      `;
-      listContainer.appendChild(card);
-    });
-    
-    if (pengumuman.length > 20) {
-      showMoreContainer.style.display = 'block';
-      const showMoreBtn = showMoreContainer.querySelector('.show-more-btn');
-      if (showAllData.pengumuman) {
-        showMoreBtn.innerHTML = '<i class="fas fa-chevron-up me-1"></i><span>Tampilkan Sedikit</span>';
-      } else {
-        showMoreBtn.innerHTML = '<i class="fas fa-chevron-down me-1"></i><span>Tampilkan Semua</span>';
-      }
-    } else {
-      showMoreContainer.style.display = 'none';
-    }
-  }
-
-  function showAddPengumumanModal() {
-    document.getElementById('addPengumumanForm').reset();
-    document.getElementById('pengumumanTanggal').value = new Date().toISOString().split('T')[0];
-    document.getElementById('pengumumanAktif').checked = true;
-    const modal = new bootstrap.Modal(document.getElementById('addPengumumanModal'));
-    modal.show();
-  }
-
-  async function savePengumuman() {
-    const judul = document.getElementById('pengumumanJudul').value.trim();
-    const isi = document.getElementById('pengumumanIsi').value.trim();
-    const tanggal = document.getElementById('pengumumanTanggal').value;
-    const aktif = document.getElementById('pengumumanAktif').checked;
-    
-    if (!judul || !isi || !tanggal) {
-      alert('Semua field harus diisi!');
-      return;
-    }
-    
-    showButtonLoading('savePengumumanButton');
-    
-    try {
-      const result = await callAppsScript('addPengumuman', {
-        data: {
-          judul: judul,
-          isi: isi,
-          tanggal: tanggal,
-          aktif: aktif,
-          created_by: currentUser.username
-        }
-      });
-      
-      hideButtonLoading('savePengumumanButton');
-      alert(result.message || 'Pengumuman berhasil disimpan');
-      
-      if (result.success) {
-        const modal = bootstrap.Modal.getInstance(document.getElementById('addPengumumanModal'));
-        modal.hide();
-        loadPengumumanAdmin();
-      }
-    } catch (error) {
-      hideButtonLoading('savePengumumanButton');
-      alert('Terjadi kesalahan: ' + error.message);
-    }
-  }
-
-  function showEditPengumumanModal(id) {
-    const item = allPengumumanData.find(p => String(p.id) === String(id));
-    if (!item) return;
-    
-    const isAktif = item.aktif === true || item.aktif === 'true' || item.aktif === 'TRUE' || item.aktif === 1 || item.aktif === '1';
-    
-    document.getElementById('editPengumumanId').value = item.id;
-    document.getElementById('editPengumumanJudul').value = item.judul || '';
-    document.getElementById('editPengumumanIsi').value = item.isi || '';
-    document.getElementById('editPengumumanTanggal').value = item.tanggal || new Date().toISOString().split('T')[0];
-    document.getElementById('editPengumumanAktif').checked = isAktif;
-    
-    const modal = new bootstrap.Modal(document.getElementById('editPengumumanModal'));
-    modal.show();
-  }
-
-  async function saveEditPengumuman() {
-    const id = document.getElementById('editPengumumanId').value;
-    const judul = document.getElementById('editPengumumanJudul').value.trim();
-    const isi = document.getElementById('editPengumumanIsi').value.trim();
-    const tanggal = document.getElementById('editPengumumanTanggal').value;
-    const aktif = document.getElementById('editPengumumanAktif').checked;
-    
-    if (!judul || !isi || !tanggal) {
-      alert('Semua field harus diisi!');
-      return;
-    }
-    
-    showButtonLoading('saveEditPengumumanButton');
-    
-    try {
-      const result = await callAppsScript('updatePengumuman', {
-        id: id,
-        updatedData: {
-          judul: judul,
-          isi: isi,
-          tanggal: tanggal,
-          aktif: aktif
-        }
-      });
-      
-      hideButtonLoading('saveEditPengumumanButton');
-      alert(result.message || 'Pengumuman berhasil diupdate');
-      
-      if (result.success) {
-        const modal = bootstrap.Modal.getInstance(document.getElementById('editPengumumanModal'));
-        modal.hide();
-        loadPengumumanAdmin();
-      }
-    } catch (error) {
-      hideButtonLoading('saveEditPengumumanButton');
-      alert('Terjadi kesalahan: ' + error.message);
-    }
-  }
-
-  async function togglePengumumanStatus(id, aktif) {
-    try {
-      const result = await callAppsScript('togglePengumuman', { id: id, aktif: aktif });
-      if (result.success) {
-        loadPengumumanAdmin();
-      } else {
-        alert(result.message || 'Gagal mengubah status');
-      }
-    } catch (error) {
-      alert('Terjadi kesalahan: ' + error.message);
-    }
-  }
-
-  async function deletePengumumanData(id) {
-    if (confirm('Apakah Anda yakin ingin menghapus pengumuman ini?')) {
-      try {
-        const result = await callAppsScript('deletePengumuman', { id: id });
-        alert(result.message || 'Pengumuman berhasil dihapus');
-        if (result.success) {
-          loadPengumumanAdmin();
-        }
-      } catch (error) {
         alert('Terjadi kesalahan: ' + error.message);
       }
     }
@@ -4354,59 +3531,24 @@
   // ==================== REFRESH ALL DATA ====================
   async function refreshAllData() {
     try {
-      // Reset cache agar fresh
-      dataCache = {
-        warga: { data: null, timestamp: 0 },
-        iuran: { data: null, timestamp: 0 },
-        pengeluaran: { data: null, timestamp: 0 },
-        catatan: { data: null, timestamp: 0 }
-      };
+      const promises = [
+        loadSaldo(),
+        loadWarga(),
+        loadIuran(),
+        loadPengeluaran(),
+        loadCatatan(),
+        loadLaporanKeuangan(),
+        loadUpdateIuran()
+      ];
       
-      // Panggil ulang getInitialData (1 request)
-      const data = await callAppsScript('getInitialData', {
-        username: currentUser.username,
-        role: currentUser.role
-      });
+      if (currentUser && currentUser.role === 'admin') {
+        promises.push(loadKelolaWarga());
+        promises.push(loadDetailIuran());
+      }
       
-      if (data.error) throw new Error(data.error);
+      await Promise.all(promises);
       
-      const now = Date.now();
-      
-      allWargaData = data.warga || [];
-      allData.warga = data.warga || [];
-      allData.iuran = data.iuran || [];
-      allData.pengeluaran = data.pengeluaran || [];
-      allData.catatan = data.catatan || [];
-      
-      dataCache.warga = { data: allData.warga, timestamp: now };
-      dataCache.iuran = { data: allData.iuran, timestamp: now };
-      dataCache.pengeluaran = { data: allData.pengeluaran, timestamp: now };
-      dataCache.catatan = { data: allData.catatan, timestamp: now };
-      
-      document.getElementById('saldoAmount').textContent = formatRupiah(data.saldo);
       document.getElementById('lastUpdate').textContent = new Date().toLocaleString('id-ID');
-      renderWargaList(allData.warga);
-      renderPengeluaranList(allData.pengeluaran);
-      renderCatatanList(allData.catatan);
-      
-      if (currentUser.role === 'admin') {
-        filteredIuranDataAdmin = [...allData.iuran];
-        renderIuranList(filteredIuranDataAdmin);
-      } else {
-        filteredIuranDataWarga = [...allData.iuran];
-        renderIuranList(filteredIuranDataWarga);
-      }
-      
-      allData.updateIuran = data.updateIuran || [];
-      filteredUpdateIuranData = [...allData.updateIuran];
-      renderUpdateIuranList(filteredUpdateIuranData);
-      
-      // Background
-      setTimeout(() => { loadLaporanKeuangan(); }, 500);
-      if (currentUser.role === 'admin') {
-        setTimeout(() => { loadKelolaWarga(); }, 300);
-        setTimeout(() => { loadPengumumanAdmin(); }, 600);
-      }
       
       return { success: true };
     } catch (error) {
@@ -4435,10 +3577,19 @@
       login();
     });
     
+    // Setup password toggle
+    setupPasswordToggle();
+    
+    // Setup pull-to-refresh
     setupPullToRefresh();
   });
 
-  // NOTE: Auto-refresh saldo dihapus. Untuk update saldo, gunakan pull-to-refresh.
+  // Auto refresh saldo setiap 30 detik
+  setInterval(function() {
+    if (currentUser) {
+      loadSaldo();
+    }
+  }, 30000);
 </script>
 </body>
 </html>
