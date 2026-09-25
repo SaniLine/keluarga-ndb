@@ -193,6 +193,8 @@
       z-index: 10;
       padding: 5px;
       transition: color 0.2s;
+      background: transparent;
+      border: none;
     }
     
     .password-toggle:hover {
@@ -719,9 +721,9 @@
         <label for="password" class="form-label">Password</label>
         <div class="password-wrapper">
           <input type="password" class="form-control" id="password" placeholder="Password" required>
-          <span class="password-toggle" onclick="togglePasswordVisibility()" id="passwordToggleIcon">
+          <button type="button" class="password-toggle" onclick="togglePasswordVisibility()" id="passwordToggleIcon" title="Tampilkan/Sembunyikan Password">
             <i class="fas fa-eye"></i>
-          </span>
+          </button>
         </div>
       </div>
       <button type="submit" class="btn login-btn w-100" id="loginButton">
@@ -1352,7 +1354,9 @@
           </div>
           <div class="mb-3">
             <label class="form-label">Jenis Iuran</label>
-            <input type="text" class="form-control" id="editIuranJenis" readonly>
+            <select class="form-select" id="editIuranJenis" required>
+              <option value="">Pilih Jenis Iuran</option>
+            </select>
           </div>
           <div class="mb-3">
             <label class="form-label">Jumlah</label>
@@ -1841,7 +1845,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
   // ==================== KONFIGURASI ====================
-  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyyKXw05jvBe4xH99P-gyCtemN2wbwy0oXSd3X6cfYgqYYHQjrMmYQFHqjbdF_Bf1HX/exec';
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyu7_dn1PIHlFpGMKKYz5roQSg8AmvVeo4eVmkURpB2ixIKMWgxOV1m7dkCj0arhyCn/exec';
   
   // ==================== CACHE FRONTEND ====================
   const CACHE_DURATION = 2 * 60 * 1000; // 2 menit
@@ -2176,6 +2180,7 @@
     const filterIuranJenisAdmin = document.getElementById('filterIuranJenisAdmin');
     const filterIuranJenisWarga = document.getElementById('filterIuranJenisWarga');
     const filterUpdateIuranJenis = document.getElementById('filterUpdateIuranJenis');
+    const editIuranJenis = document.getElementById('editIuranJenis');
     
     if (!select) return;
     
@@ -2185,6 +2190,9 @@
     filterIuranJenisAdmin.innerHTML = '<option value="">Semua Jenis</option>';
     filterIuranJenisWarga.innerHTML = '<option value="">Semua Jenis</option>';
     filterUpdateIuranJenis.innerHTML = '<option value="">Semua Jenis</option>';
+    if (editIuranJenis) {
+      editIuranJenis.innerHTML = '<option value="">Pilih Jenis Iuran</option>';
+    }
     
     jenisIuran.forEach(function(jenis) {
       const option = document.createElement('option');
@@ -2216,6 +2224,13 @@
       filterUpdateOption.value = jenis;
       filterUpdateOption.textContent = jenis;
       filterUpdateIuranJenis.appendChild(filterUpdateOption);
+      
+      if (editIuranJenis) {
+        const editOption = document.createElement('option');
+        editOption.value = jenis;
+        editOption.textContent = jenis;
+        editIuranJenis.appendChild(editOption);
+      }
     });
   }
 
@@ -3493,6 +3508,7 @@
   async function saveEditIuran() {
     const originalData = JSON.parse(document.getElementById('editIuranOriginalData').value);
     const updatedData = {
+      jenis_iuran: document.getElementById('editIuranJenis').value,
       jumlah: document.getElementById('editIuranJumlah').value,
       status: document.getElementById('editIuranStatus').value,
       tanggal_bayar: '',
