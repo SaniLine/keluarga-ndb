@@ -7,27 +7,23 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
-    /* ==================== VARIABLES ==================== */
     :root {
       --primary-color: #2c3e50;
       --secondary-color: #3498db;
       --accent-color: #e74c3c;
     }
     
-    /* ==================== GLOBAL STYLES ==================== */
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #f8f9fa;
       padding-top: 60px;
     }
     
-    /* ==================== NAVBAR ==================== */
     .navbar {
       background-color: var(--primary-color);
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
     
-    /* ==================== SALDO DISPLAY ==================== */
     .saldo-display {
       background: linear-gradient(135deg, var(--secondary-color), #2980b9);
       color: white;
@@ -44,7 +40,6 @@
       margin: 10px 0;
     }
     
-    /* ==================== CARDS ==================== */
     .card {
       border-radius: 10px;
       border: none;
@@ -53,9 +48,7 @@
       transition: transform 0.2s;
     }
     
-    .card:hover {
-      transform: translateY(-2px);
-    }
+    .card:hover { transform: translateY(-2px); }
     
     .card-header {
       background-color: white;
@@ -63,17 +56,13 @@
       font-weight: 600;
     }
     
-    /* ==================== BUTTONS ==================== */
     .btn-primary {
       background-color: var(--secondary-color);
       border: none;
     }
     
-    .btn-primary:hover {
-      background-color: #2980b9;
-    }
+    .btn-primary:hover { background-color: #2980b9; }
     
-    /* ==================== WARGA ITEMS ==================== */
     .warga-item {
       cursor: pointer;
       padding: 12px 15px;
@@ -89,7 +78,6 @@
       border-color: #3498db;
     }
     
-    /* ==================== LOGIN SCREEN ==================== */
     .login-container {
       max-width: 420px;
       margin: 100px auto;
@@ -100,9 +88,7 @@
       transition: transform 0.3s ease;
     }
     
-    .login-container:hover {
-      transform: translateY(-5px);
-    }
+    .login-container:hover { transform: translateY(-5px); }
     
     .logo-container {
       display: flex;
@@ -138,7 +124,6 @@
       margin-bottom: 0.5rem;
     }
     
-    /* ==================== FORM STYLES ==================== */
     .form-label {
       font-weight: 600;
       color: #333;
@@ -157,14 +142,8 @@
       box-shadow: 0 0 0 0.2rem rgba(44,90,160,0.2);
     }
     
-    /* ==================== PASSWORD TOGGLE ==================== */
-    .password-wrapper {
-      position: relative;
-    }
-    
-    .password-wrapper .form-control {
-      padding-right: 45px;
-    }
+    .password-wrapper { position: relative; }
+    .password-wrapper .form-control { padding-right: 45px; }
     
     .password-toggle {
       position: absolute;
@@ -182,9 +161,7 @@
       line-height: 1;
     }
     
-    .password-toggle:hover {
-      color: var(--primary-color);
-    }
+    .password-toggle:hover { color: var(--primary-color); }
     
     .login-btn {
       background-color: var(--primary-color);
@@ -202,7 +179,6 @@
       box-shadow: 0 5px 15px rgba(44,90,160,0.3);
     }
     
-    /* ==================== LOADING STATES ==================== */
     .btn-loading {
       position: relative;
       color: transparent !important;
@@ -223,9 +199,7 @@
       animation: spin 1s ease-in-out infinite;
     }
     
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
     
     .loading-overlay {
       position: fixed;
@@ -250,22 +224,18 @@
       animation: spin 1s linear infinite;
     }
     
-    /* ==================== TABS ==================== */
     .nav-tabs .nav-link.active {
       font-weight: bold;
       color: var(--secondary-color);
       border-bottom: 2px solid var(--secondary-color);
     }
     
-    /* ==================== SEARCH ==================== */
     .search-container {
       position: relative;
       margin-bottom: 15px;
     }
     
-    .search-input {
-      padding-right: 40px;
-    }
+    .search-input { padding-right: 40px; }
     
     .search-icon {
       position: absolute;
@@ -275,30 +245,12 @@
       color: #6c757d;
     }
     
-    /* ==================== STATUS ==================== */
-    .status-lunas {
-      color: #28a745;
-      font-weight: bold;
-    }
+    .status-lunas { color: #28a745; font-weight: bold; }
+    .status-belum { color: #dc3545; font-weight: bold; }
+    .status-card { border-left: 4px solid; }
+    .status-lunas-card { border-left-color: #28a745; }
+    .status-belum-card { border-left-color: #dc3545; }
     
-    .status-belum {
-      color: #dc3545;
-      font-weight: bold;
-    }
-    
-    .status-card {
-      border-left: 4px solid;
-    }
-    
-    .status-lunas-card {
-      border-left-color: #28a745;
-    }
-    
-    .status-belum-card {
-      border-left-color: #dc3545;
-    }
-    
-    /* ==================== FILTERS ==================== */
     .filter-container {
       background-color: #f8f9fa;
       border-radius: 8px;
@@ -313,10 +265,7 @@
       flex-wrap: wrap;
     }
     
-    .filter-item {
-      flex: 1;
-      min-width: 150px;
-    }
+    .filter-item { flex: 1; min-width: 150px; }
     
     .filter-item select,
     .filter-item input {
@@ -336,46 +285,21 @@
       min-width: 100px;
     }
     
-    .filter-button:hover {
-      background-color: #2980b9;
-    }
+    .filter-button:hover { background-color: #2980b9; }
     
-    /* ==================== SHOW MORE ==================== */
-    .show-more-container {
-      text-align: center;
-      margin-top: 15px;
-      padding: 10px;
-    }
-    
+    .show-more-container { text-align: center; margin-top: 15px; padding: 10px; }
     .show-more-btn {
       cursor: pointer;
       color: var(--secondary-color);
       font-weight: bold;
     }
+    .show-more-btn:hover { color: var(--primary-color); }
     
-    .show-more-btn:hover {
-      color: var(--primary-color);
-    }
+    .month-card { cursor: pointer; transition: all 0.2s; }
+    .month-card:hover { transform: translateY(-3px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
     
-    /* ==================== LAPORAN KEUANGAN ==================== */
-    .month-card {
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    
-    .month-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-    
-    .financial-detail-row {
-      cursor: pointer;
-      transition: background-color 0.2s;
-    }
-    
-    .financial-detail-row:hover {
-      background-color: #e9ecef;
-    }
+    .financial-detail-row { cursor: pointer; transition: background-color 0.2s; }
+    .financial-detail-row:hover { background-color: #e9ecef; }
     
     .load-more-btn {
       cursor: pointer;
@@ -385,19 +309,14 @@
       padding: 10px;
       margin-top: 10px;
     }
+    .load-more-btn:hover { color: var(--primary-color); }
     
-    .load-more-btn:hover {
-      color: var(--primary-color);
-    }
-    
-    /* ==================== MODAL HEADER ==================== */
     .modal-header {
       background: linear-gradient(135deg, var(--secondary-color), #2980b9) !important;
       color: white;
       border-bottom: none;
     }
     
-    /* ==================== PULL-TO-REFRESH ==================== */
     .pull-indicator {
       position: fixed;
       top: -70px;
@@ -427,21 +346,8 @@
       display: none;
     }
     
-    .pull-indicator.pulling .spinner {
-      display: none;
-    }
-    
-    .pull-indicator.pulling .icon {
-      transform: rotate(180deg);
-    }
-    
-    .pull-indicator.refreshing .spinner {
-      display: inline-block;
-    }
-    
-    .pull-indicator.refreshing .icon {
-      display: none;
-    }
+    .pull-indicator.refreshing .spinner { display: inline-block; }
+    .pull-indicator.refreshing .icon { display: none; }
     
     .pull-indicator .icon {
       margin-right: 10px;
@@ -449,36 +355,44 @@
       transition: transform 0.3s ease;
     }
     
-    /* ==================== RESPONSIVE ==================== */
+    /* Skeleton Loading */
+    .skeleton {
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: skeleton-loading 1.5s infinite;
+      border-radius: 4px;
+      height: 20px;
+      margin-bottom: 10px;
+    }
+    
+    @keyframes skeleton-loading {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    
     @media (max-width: 768px) {
       .saldo-amount { font-size: 2rem; }
       body { padding-top: 56px; }
       .login-container { margin: 50px auto; padding: 1.5rem; }
       .filter-row { flex-direction: column; }
       .filter-item { min-width: 100%; }
-      .pull-indicator {
-        height: 60px;
-        top: -60px;
-        font-size: 0.8rem;
-      }
+      .pull-indicator { height: 60px; top: -60px; font-size: 0.8rem; }
     }
   </style>
 </head>
 <body>
 
-<!-- ==================== PULL-TO-REFRESH INDICATOR ==================== -->
 <div class="pull-indicator" id="pullIndicator">
   <span class="icon">↓</span>
   <span class="spinner"></span>
   <span class="text">Tarik untuk refresh</span>
 </div>
 
-<!-- ==================== LOADING OVERLAY ==================== -->
 <div class="loading-overlay" id="globalLoading">
   <div class="loading-spinner"></div>
 </div>
 
-<!-- ==================== LOGIN SCREEN ==================== -->
+<!-- LOGIN SCREEN -->
 <div id="loginScreen" class="container">
   <div class="login-container">
     <div class="logo-container">
@@ -497,12 +411,12 @@
     <form id="loginForm">
       <div class="mb-3">
         <label for="username" class="form-label">Username</label>
-        <input type="text" class="form-control" id="username" placeholder="Nomor Rumah (contoh: C06)" required>
+        <input type="text" class="form-control" id="username" placeholder="Nomor Rumah (contoh: C06)" required autocomplete="username">
       </div>
       <div class="mb-3">
         <label for="password" class="form-label">Password</label>
         <div class="password-wrapper">
-          <input type="password" class="form-control" id="password" placeholder="Password" required>
+          <input type="password" class="form-control" id="password" placeholder="Password" required autocomplete="current-password">
           <button type="button" class="password-toggle" id="togglePassword" aria-label="Tampilkan password">
             <i class="fas fa-eye" id="togglePasswordIcon"></i>
           </button>
@@ -516,10 +430,9 @@
   </div>
 </div>
 
-<!-- ==================== MAIN APP ==================== -->
+<!-- MAIN APP -->
 <div id="mainApp" style="display: none;">
   
-  <!-- HEADER -->
   <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
     <div class="container">
       <span class="navbar-brand fw-bold">
@@ -532,7 +445,6 @@
     </div>
   </nav>
 
-  <!-- SALDO DISPLAY -->
   <div class="container">
     <div class="saldo-display">
       <div class="saldo-label">Total Saldo Kas Keamanan</div>
@@ -541,50 +453,44 @@
     </div>
   </div>
 
-  <!-- TABS NAVIGATION -->
   <div class="container">
     <ul class="nav nav-tabs mb-3" id="mainTabs">
       <li class="nav-item">
-        <a class="nav-link active" data-bs-toggle="tab" href="#dataWarga">Warga</a>
+        <a class="nav-link active" data-bs-toggle="tab" href="#dataWarga" data-tab="warga">Warga</a>
       </li>
       <li class="nav-item" id="kelolaWargaTab" style="display: none;">
-        <a class="nav-link" data-bs-toggle="tab" href="#kelolaWarga">Kelola Warga</a>
+        <a class="nav-link" data-bs-toggle="tab" href="#kelolaWarga" data-tab="kelolaWarga">Kelola Warga</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="tab" href="#iuran">Iuran</a>
+        <a class="nav-link" data-bs-toggle="tab" href="#iuran" data-tab="iuran">Iuran</a>
       </li>
       <li class="nav-item" id="sebarIuranTab" style="display: none;">
-        <a class="nav-link" data-bs-toggle="tab" href="#sebarIuran">Sebar Iuran</a>
+        <a class="nav-link" data-bs-toggle="tab" href="#sebarIuran" data-tab="sebarIuran">Sebar Iuran</a>
       </li>
       <li class="nav-item" id="detailIuranTab" style="display: none;">
-        <a class="nav-link" data-bs-toggle="tab" href="#detailIuran">Detail Iuran</a>
+        <a class="nav-link" data-bs-toggle="tab" href="#detailIuran" data-tab="detailIuran">Detail Iuran</a>
       </li>
-      <!-- MENU UPDATE IURAN -->
       <li class="nav-item" id="updateIuranTab">
-        <a class="nav-link" data-bs-toggle="tab" href="#updateIuran">Update Iuran</a>
+        <a class="nav-link" data-bs-toggle="tab" href="#updateIuran" data-tab="updateIuran">Update Iuran</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="tab" href="#pengeluaran">Pengeluaran</a>
+        <a class="nav-link" data-bs-toggle="tab" href="#pengeluaran" data-tab="pengeluaran">Pengeluaran</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="tab" href="#catatan">Catatan</a>
+        <a class="nav-link" data-bs-toggle="tab" href="#catatan" data-tab="catatan">Catatan</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="tab" href="#laporanKeuangan">Lap Keuangan</a>
+        <a class="nav-link" data-bs-toggle="tab" href="#laporanKeuangan" data-tab="laporanKeuangan">Lap Keuangan</a>
       </li>
     </ul>
   </div>
 
-  <!-- TAB CONTENT -->
   <div class="container">
     <div class="tab-content">
       
-      <!-- DATA WARGA TAB -->
       <div class="tab-pane fade show active" id="dataWarga">
         <div class="card">
-          <div class="card-header">
-            <h5 class="mb-0">Data Warga</h5>
-          </div>
+          <div class="card-header"><h5 class="mb-0">Data Warga</h5></div>
           <div class="card-body">
             <div class="search-container">
               <input type="text" class="form-control search-input" id="searchWarga" placeholder="Cari...">
@@ -601,7 +507,6 @@
         </div>
       </div>
 
-      <!-- KELOLA WARGA TAB (ADMIN ONLY) -->
       <div class="tab-pane fade" id="kelolaWarga">
         <div class="card">
           <div class="card-header d-flex justify-content-between align-items-center">
@@ -622,7 +527,6 @@
         </div>
       </div>
 
-      <!-- IURAN TAB -->
       <div class="tab-pane fade" id="iuran">
         <div class="card">
           <div class="card-header d-flex justify-content-between align-items-center">
@@ -632,7 +536,6 @@
             </button>
           </div>
           <div class="card-body">
-            <!-- Filter Section for Admin -->
             <div id="iuranFilterSectionAdmin" style="display: none;">
               <div class="filter-row">
                 <div class="filter-item">
@@ -671,7 +574,6 @@
               </div>
             </div>
 
-            <!-- Filter Section for Warga -->
             <div id="iuranFilterSectionWarga" style="display: none;">
               <div class="filter-row">
                 <div class="filter-item">
@@ -718,7 +620,6 @@
         </div>
       </div>
 
-      <!-- SEBAR IURAN TAB (ADMIN ONLY) -->
       <div class="tab-pane fade" id="sebarIuran">
         <div class="card">
           <div class="card-header d-flex justify-content-between align-items-center">
@@ -738,14 +639,10 @@
         </div>
       </div>
 
-      <!-- DETAIL IURAN TAB (ADMIN ONLY) -->
       <div class="tab-pane fade" id="detailIuran">
         <div class="card">
-          <div class="card-header">
-            <h5 class="mb-0">Detail Iuran</h5>
-          </div>
+          <div class="card-header"><h5 class="mb-0">Detail Iuran</h5></div>
           <div class="card-body">
-            <!-- Filter Section -->
             <div class="filter-container">
               <div class="row g-3 align-items-end">
                 <div class="col-md-3">
@@ -783,7 +680,6 @@
               </div>
             </div>
 
-            <!-- Statistics Section -->
             <div class="row mb-3">
               <div class="col-md-4">
                 <div class="card bg-success text-white">
@@ -811,7 +707,6 @@
               </div>
             </div>
 
-            <!-- Results Section -->
             <div id="detailIuranList"></div>
             <div class="show-more-container" id="detailIuranShowMore" style="display: none;">
               <div class="show-more-btn" onclick="toggleShowAll('detailIuran')">
@@ -823,14 +718,12 @@
         </div>
       </div>
 
-      <!-- UPDATE IURAN TAB -->
       <div class="tab-pane fade" id="updateIuran">
         <div class="card">
           <div class="card-header d-flex justify-content-between align-items-center">
             <h5 class="mb-0">Update Iuran (Belum Bayar)</h5>
           </div>
           <div class="card-body">
-            <!-- Filter Section -->
             <div class="filter-container">
               <div class="filter-row">
                 <div class="filter-item">
@@ -879,7 +772,6 @@
         </div>
       </div>
 
-      <!-- PENGELUARAN TAB -->
       <div class="tab-pane fade" id="pengeluaran">
         <div class="card">
           <div class="card-header d-flex justify-content-between align-items-center">
@@ -900,7 +792,6 @@
         </div>
       </div>
 
-      <!-- CATATAN TAB -->
       <div class="tab-pane fade" id="catatan">
         <div class="card">
           <div class="card-header d-flex justify-content-between align-items-center">
@@ -921,7 +812,6 @@
         </div>
       </div>
 
-      <!-- LAPORAN KEUANGAN TAB -->
       <div class="tab-pane fade" id="laporanKeuangan">
         <div class="card">
           <div class="card-header d-flex justify-content-between align-items-center">
@@ -943,22 +833,16 @@
   </div>
 </div>
 
-<!-- ==================== MODALS ==================== -->
-
+<!-- SEMUA MODAL SAMA SEPERTI SEBELUMNYA -->
 <!-- Modal Detail Warga -->
 <div class="modal fade" id="detailWargaModal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">
-          <i class="fas fa-home me-2"></i>
-          Detail Warga - <span id="detailNomorRumah"></span>
-        </h5>
+        <h5 class="modal-title"><i class="fas fa-home me-2"></i>Detail Warga - <span id="detailNomorRumah"></span></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
-      <div class="modal-body">
-        <div id="wargaDetailContent" class="row"></div>
-      </div>
+      <div class="modal-body"><div id="wargaDetailContent" class="row"></div></div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
           <i class="fas fa-times me-1"></i><span>Tutup</span>
@@ -971,7 +855,6 @@
   </div>
 </div>
 
-<!-- Modal Edit Warga -->
 <div class="modal fade" id="editWargaModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -982,528 +865,317 @@
       <div class="modal-body">
         <form id="editWargaForm">
           <input type="hidden" id="editUsername">
-          <div class="mb-3">
-            <label class="form-label">Nomor Rumah</label>
-            <input type="text" class="form-control" id="editNomorRumah" readonly>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Password</label>
-            <input type="text" class="form-control" id="editPassword" required>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Dinas</label>
+          <div class="mb-3"><label class="form-label">Nomor Rumah</label><input type="text" class="form-control" id="editNomorRumah" readonly></div>
+          <div class="mb-3"><label class="form-label">Password</label><input type="text" class="form-control" id="editPassword" required></div>
+          <div class="mb-3"><label class="form-label">Dinas</label>
             <select class="form-select" id="editDinas" required>
-              <option value="JOG">JOG</option>
-              <option value="YIA">YIA</option>
-              <option value="REG">REG</option>
-              <option value="DL">DL</option>
+              <option value="JOG">JOG</option><option value="YIA">YIA</option><option value="REG">REG</option><option value="DL">DL</option>
             </select>
           </div>
-          <div class="mb-3">
-            <label class="form-label">Nama Suami</label>
-            <input type="text" class="form-control" id="editNamaSuami">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Nama Istri</label>
-            <input type="text" class="form-control" id="editNamaIstri">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Anak (pisahkan dengan koma)</label>
-            <input type="text" class="form-control" id="editAnak" placeholder="Contoh: Ani, Budi, Cici">
-          </div>
+          <div class="mb-3"><label class="form-label">Nama Suami</label><input type="text" class="form-control" id="editNamaSuami"></div>
+          <div class="mb-3"><label class="form-label">Nama Istri</label><input type="text" class="form-control" id="editNamaIstri"></div>
+          <div class="mb-3"><label class="form-label">Anak (pisahkan dengan koma)</label><input type="text" class="form-control" id="editAnak" placeholder="Contoh: Ani, Budi, Cici"></div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-        <button type="button" class="btn btn-primary" onclick="saveEditWarga()" id="saveEditWargaButton">
-          <span id="saveEditWargaButtonText">Simpan Perubahan</span>
-        </button>
+        <button type="button" class="btn btn-primary" onclick="saveEditWarga()" id="saveEditWargaButton"><span id="saveEditWargaButtonText">Simpan Perubahan</span></button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Modal Tambah Iuran -->
 <div class="modal fade" id="addIuranModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Tambah Iuran</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
+      <div class="modal-header"><h5 class="modal-title">Tambah Iuran</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
       <div class="modal-body">
         <form id="addIuranForm">
-          <div class="mb-3">
-            <label class="form-label">Nomor Rumah</label>
-            <select class="form-select" id="iuranNomorRumah" required>
-              <option value="">Pilih Nomor Rumah</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Bulan</label>
+          <div class="mb-3"><label class="form-label">Nomor Rumah</label><select class="form-select" id="iuranNomorRumah" required><option value="">Pilih Nomor Rumah</option></select></div>
+          <div class="mb-3"><label class="form-label">Bulan</label>
             <select class="form-select" id="iuranBulan" required>
               <option value="">Pilih Bulan</option>
-              <option value="Januari">Januari</option>
-              <option value="Februari">Februari</option>
-              <option value="Maret">Maret</option>
-              <option value="April">April</option>
-              <option value="Mei">Mei</option>
-              <option value="Juni">Juni</option>
-              <option value="Juli">Juli</option>
-              <option value="Agustus">Agustus</option>
-              <option value="September">September</option>
-              <option value="Oktober">Oktober</option>
-              <option value="November">November</option>
-              <option value="Desember">Desember</option>
+              <option value="Januari">Januari</option><option value="Februari">Februari</option><option value="Maret">Maret</option>
+              <option value="April">April</option><option value="Mei">Mei</option><option value="Juni">Juni</option>
+              <option value="Juli">Juli</option><option value="Agustus">Agustus</option><option value="September">September</option>
+              <option value="Oktober">Oktober</option><option value="November">November</option><option value="Desember">Desember</option>
             </select>
           </div>
-          <div class="mb-3">
-            <label class="form-label">Tahun</label>
-            <input type="number" class="form-control" id="iuranTahun" min="2023" max="2030" required>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Jenis Iuran</label>
-            <select class="form-select" id="iuranJenis" required>
-              <option value="">Pilih Jenis Iuran</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Jumlah</label>
-            <input type="number" class="form-control" id="iuranJumlah" required>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Status</label>
+          <div class="mb-3"><label class="form-label">Tahun</label><input type="number" class="form-control" id="iuranTahun" min="2023" max="2030" required></div>
+          <div class="mb-3"><label class="form-label">Jenis Iuran</label><select class="form-select" id="iuranJenis" required><option value="">Pilih Jenis Iuran</option></select></div>
+          <div class="mb-3"><label class="form-label">Jumlah</label><input type="number" class="form-control" id="iuranJumlah" required></div>
+          <div class="mb-3"><label class="form-label">Status</label>
             <select class="form-select" id="iuranStatus" required>
-              <option value="lunas">Lunas</option>
-              <option value="belum">Belum Bayar</option>
+              <option value="lunas">Lunas</option><option value="belum">Belum Bayar</option>
             </select>
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-        <button type="button" class="btn btn-primary" onclick="saveIuran()" id="saveIuranButton">
-          <span id="saveIuranButtonText">Simpan</span>
-        </button>
+        <button type="button" class="btn btn-primary" onclick="saveIuran()" id="saveIuranButton"><span id="saveIuranButtonText">Simpan</span></button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Modal Edit Iuran (DENGAN TANGGAL PELUNASAN & JENIS IURAN DROPDOWN) -->
 <div class="modal fade" id="editIuranModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Edit Iuran</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
+      <div class="modal-header"><h5 class="modal-title">Edit Iuran</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
       <div class="modal-body">
         <form id="editIuranForm">
           <input type="hidden" id="editIuranOriginalData">
-          <div class="mb-3">
-            <label class="form-label">Nomor Rumah</label>
-            <input type="text" class="form-control" id="editIuranNomorRumah" readonly>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Bulan</label>
-            <input type="text" class="form-control" id="editIuranBulan" readonly>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Tahun</label>
-            <input type="text" class="form-control" id="editIuranTahun" readonly>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Jenis Iuran</label>
-            <select class="form-select" id="editIuranJenis" required>
-              <option value="">Pilih Jenis Iuran</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Jumlah</label>
-            <input type="number" class="form-control" id="editIuranJumlah" required>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Status</label>
+          <div class="mb-3"><label class="form-label">Nomor Rumah</label><input type="text" class="form-control" id="editIuranNomorRumah" readonly></div>
+          <div class="mb-3"><label class="form-label">Bulan</label><input type="text" class="form-control" id="editIuranBulan" readonly></div>
+          <div class="mb-3"><label class="form-label">Tahun</label><input type="text" class="form-control" id="editIuranTahun" readonly></div>
+          <div class="mb-3"><label class="form-label">Jenis Iuran</label><select class="form-select" id="editIuranJenis" required><option value="">Pilih Jenis Iuran</option></select></div>
+          <div class="mb-3"><label class="form-label">Jumlah</label><input type="number" class="form-control" id="editIuranJumlah" required></div>
+          <div class="mb-3"><label class="form-label">Status</label>
             <select class="form-select" id="editIuranStatus" required onchange="toggleTanggalPelunasan()">
-              <option value="lunas">Lunas</option>
-              <option value="belum">Belum Bayar</option>
+              <option value="lunas">Lunas</option><option value="belum">Belum Bayar</option>
             </select>
           </div>
           <div class="mb-3" id="tanggalPelunasanGroup" style="display: none;">
-            <label class="form-label">Tanggal Pelunasan</label>
-            <input type="date" class="form-control" id="editIuranTanggalBayar">
+            <label class="form-label">Tanggal Pelunasan</label><input type="date" class="form-control" id="editIuranTanggalBayar">
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-        <button type="button" class="btn btn-primary" onclick="saveEditIuran()" id="saveEditIuranButton">
-          <span id="saveEditIuranButtonText">Simpan Perubahan</span>
-        </button>
+        <button type="button" class="btn btn-primary" onclick="saveEditIuran()" id="saveEditIuranButton"><span id="saveEditIuranButtonText">Simpan Perubahan</span></button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Modal Sebar Iuran -->
 <div class="modal fade" id="sebarIuranModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Sebar Iuran</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
+      <div class="modal-header"><h5 class="modal-title">Sebar Iuran</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
       <div class="modal-body">
         <form id="sebarIuranForm">
-          <div class="mb-3">
-            <label class="form-label">Bulan</label>
+          <div class="mb-3"><label class="form-label">Bulan</label>
             <select class="form-select" id="sebarIuranBulan" required>
               <option value="">Pilih Bulan</option>
-              <option value="Januari">Januari</option>
-              <option value="Februari">Februari</option>
-              <option value="Maret">Maret</option>
-              <option value="April">April</option>
-              <option value="Mei">Mei</option>
-              <option value="Juni">Juni</option>
-              <option value="Juli">Juli</option>
-              <option value="Agustus">Agustus</option>
-              <option value="September">September</option>
-              <option value="Oktober">Oktober</option>
-              <option value="November">November</option>
-              <option value="Desember">Desember</option>
+              <option value="Januari">Januari</option><option value="Februari">Februari</option><option value="Maret">Maret</option>
+              <option value="April">April</option><option value="Mei">Mei</option><option value="Juni">Juni</option>
+              <option value="Juli">Juli</option><option value="Agustus">Agustus</option><option value="September">September</option>
+              <option value="Oktober">Oktober</option><option value="November">November</option><option value="Desember">Desember</option>
             </select>
           </div>
-          <div class="mb-3">
-            <label class="form-label">Tahun</label>
-            <input type="number" class="form-control" id="sebarIuranTahun" min="2023" max="2030" required>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Jenis Iuran</label>
-            <select class="form-select" id="sebarIuranJenis" required>
-              <option value="">Pilih Jenis Iuran</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Jumlah</label>
-            <input type="number" class="form-control" id="sebarIuranJumlah" required>
-          </div>
+          <div class="mb-3"><label class="form-label">Tahun</label><input type="number" class="form-control" id="sebarIuranTahun" min="2023" max="2030" required></div>
+          <div class="mb-3"><label class="form-label">Jenis Iuran</label><select class="form-select" id="sebarIuranJenis" required><option value="">Pilih Jenis Iuran</option></select></div>
+          <div class="mb-3"><label class="form-label">Jumlah</label><input type="number" class="form-control" id="sebarIuranJumlah" required></div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-        <button type="button" class="btn btn-primary" onclick="saveSebarIuran()" id="saveSebarIuranButton">
-          <span id="saveSebarIuranButtonText">Sebar Iuran</span>
-        </button>
+        <button type="button" class="btn btn-primary" onclick="saveSebarIuran()" id="saveSebarIuranButton"><span id="saveSebarIuranButtonText">Sebar Iuran</span></button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Modal Tambah Warga -->
 <div class="modal fade" id="addWargaModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Tambah Warga Baru</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
+      <div class="modal-header"><h5 class="modal-title">Tambah Warga Baru</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
       <div class="modal-body">
         <form id="addWargaForm">
-          <div class="mb-3">
-            <label class="form-label">Nomor Rumah</label>
-            <input type="text" class="form-control" id="newNomorRumah" required placeholder="Contoh: C06">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Password</label>
-            <input type="text" class="form-control" id="newPassword" required>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Dinas</label>
+          <div class="mb-3"><label class="form-label">Nomor Rumah</label><input type="text" class="form-control" id="newNomorRumah" required placeholder="Contoh: C06"></div>
+          <div class="mb-3"><label class="form-label">Password</label><input type="text" class="form-control" id="newPassword" required></div>
+          <div class="mb-3"><label class="form-label">Dinas</label>
             <select class="form-select" id="newDinas" required>
-              <option value="JOG">JOG</option>
-              <option value="YIA">YIA</option>
-              <option value="REG">REG</option>
-              <option value="DL">DL</option>
+              <option value="JOG">JOG</option><option value="YIA">YIA</option><option value="REG">REG</option><option value="DL">DL</option>
             </select>
           </div>
-          <div class="mb-3">
-            <label class="form-label">Nama Suami</label>
-            <input type="text" class="form-control" id="newNamaSuami">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Nama Istri</label>
-            <input type="text" class="form-control" id="newNamaIstri">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Anak (pisahkan dengan koma)</label>
-            <input type="text" class="form-control" id="newAnak" placeholder="Contoh: Ani, Budi, Cici">
-          </div>
+          <div class="mb-3"><label class="form-label">Nama Suami</label><input type="text" class="form-control" id="newNamaSuami"></div>
+          <div class="mb-3"><label class="form-label">Nama Istri</label><input type="text" class="form-control" id="newNamaIstri"></div>
+          <div class="mb-3"><label class="form-label">Anak (pisahkan dengan koma)</label><input type="text" class="form-control" id="newAnak" placeholder="Contoh: Ani, Budi, Cici"></div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-        <button type="button" class="btn btn-primary" onclick="saveNewWarga()" id="saveNewWargaButton">
-          <span id="saveNewWargaButtonText">Simpan</span>
-        </button>
+        <button type="button" class="btn btn-primary" onclick="saveNewWarga()" id="saveNewWargaButton"><span id="saveNewWargaButtonText">Simpan</span></button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Modal Edit Warga Admin -->
 <div class="modal fade" id="editWargaAdminModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Edit Data Warga</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
+      <div class="modal-header"><h5 class="modal-title">Edit Data Warga</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
       <div class="modal-body">
         <form id="editWargaAdminForm">
           <input type="hidden" id="editWargaAdminUsername">
-          <div class="mb-3">
-            <label class="form-label">Nomor Rumah</label>
-            <input type="text" class="form-control" id="editWargaAdminNomorRumah" required>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Password</label>
-            <input type="text" class="form-control" id="editWargaAdminPassword" required>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Dinas</label>
+          <div class="mb-3"><label class="form-label">Nomor Rumah</label><input type="text" class="form-control" id="editWargaAdminNomorRumah" required></div>
+          <div class="mb-3"><label class="form-label">Password</label><input type="text" class="form-control" id="editWargaAdminPassword" required></div>
+          <div class="mb-3"><label class="form-label">Dinas</label>
             <select class="form-select" id="editWargaAdminDinas" required>
-              <option value="JOG">JOG</option>
-              <option value="YIA">YIA</option>
-              <option value="REG">REG</option>
-              <option value="DL">DL</option>
+              <option value="JOG">JOG</option><option value="YIA">YIA</option><option value="REG">REG</option><option value="DL">DL</option>
             </select>
           </div>
-          <div class="mb-3">
-            <label class="form-label">Nama Suami</label>
-            <input type="text" class="form-control" id="editWargaAdminNamaSuami">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Nama Istri</label>
-            <input type="text" class="form-control" id="editWargaAdminNamaIstri">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Anak (pisahkan dengan koma)</label>
-            <input type="text" class="form-control" id="editWargaAdminAnak" placeholder="Contoh: Ani, Budi, Cici">
-          </div>
+          <div class="mb-3"><label class="form-label">Nama Suami</label><input type="text" class="form-control" id="editWargaAdminNamaSuami"></div>
+          <div class="mb-3"><label class="form-label">Nama Istri</label><input type="text" class="form-control" id="editWargaAdminNamaIstri"></div>
+          <div class="mb-3"><label class="form-label">Anak (pisahkan dengan koma)</label><input type="text" class="form-control" id="editWargaAdminAnak"></div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-        <button type="button" class="btn btn-primary" onclick="saveEditWargaAdmin()" id="saveEditWargaAdminButton">
-          <span id="saveEditWargaAdminButtonText">Simpan Perubahan</span>
-        </button>
+        <button type="button" class="btn btn-primary" onclick="saveEditWargaAdmin()" id="saveEditWargaAdminButton"><span id="saveEditWargaAdminButtonText">Simpan Perubahan</span></button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Modal Tambah Pengeluaran -->
 <div class="modal fade" id="addPengeluaranModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Tambah Pengeluaran</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
+      <div class="modal-header"><h5 class="modal-title">Tambah Pengeluaran</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
       <div class="modal-body">
         <form id="addPengeluaranForm">
-          <div class="mb-3">
-            <label class="form-label">Tanggal</label>
-            <input type="date" class="form-control" id="pengeluaranTanggal" required>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Keterangan</label>
-            <input type="text" class="form-control" id="pengeluaranKeterangan" required>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Jumlah</label>
-            <input type="number" class="form-control" id="pengeluaranJumlah" required>
-          </div>
+          <div class="mb-3"><label class="form-label">Tanggal</label><input type="date" class="form-control" id="pengeluaranTanggal" required></div>
+          <div class="mb-3"><label class="form-label">Keterangan</label><input type="text" class="form-control" id="pengeluaranKeterangan" required></div>
+          <div class="mb-3"><label class="form-label">Jumlah</label><input type="number" class="form-control" id="pengeluaranJumlah" required></div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-        <button type="button" class="btn btn-primary" onclick="savePengeluaran()" id="savePengeluaranButton">
-          <span id="savePengeluaranButtonText">Simpan</span>
-        </button>
+        <button type="button" class="btn btn-primary" onclick="savePengeluaran()" id="savePengeluaranButton"><span id="savePengeluaranButtonText">Simpan</span></button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Modal Edit Pengeluaran -->
 <div class="modal fade" id="editPengeluaranModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Edit Pengeluaran</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
+      <div class="modal-header"><h5 class="modal-title">Edit Pengeluaran</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
       <div class="modal-body">
         <form id="editPengeluaranForm">
           <input type="hidden" id="editPengeluaranOriginalData">
-          <div class="mb-3">
-            <label class="form-label">Tanggal</label>
-            <input type="date" class="form-control" id="editPengeluaranTanggal" required>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Keterangan</label>
-            <input type="text" class="form-control" id="editPengeluaranKeterangan" required>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Jumlah</label>
-            <input type="number" class="form-control" id="editPengeluaranJumlah" required>
-          </div>
+          <div class="mb-3"><label class="form-label">Tanggal</label><input type="date" class="form-control" id="editPengeluaranTanggal" required></div>
+          <div class="mb-3"><label class="form-label">Keterangan</label><input type="text" class="form-control" id="editPengeluaranKeterangan" required></div>
+          <div class="mb-3"><label class="form-label">Jumlah</label><input type="number" class="form-control" id="editPengeluaranJumlah" required></div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-        <button type="button" class="btn btn-primary" onclick="saveEditPengeluaran()" id="saveEditPengeluaranButton">
-          <span id="saveEditPengeluaranButtonText">Simpan Perubahan</span>
-        </button>
+        <button type="button" class="btn btn-primary" onclick="saveEditPengeluaran()" id="saveEditPengeluaranButton"><span id="saveEditPengeluaranButtonText">Simpan Perubahan</span></button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Modal Tambah Catatan -->
 <div class="modal fade" id="addCatatanModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Tambah Catatan</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
+      <div class="modal-header"><h5 class="modal-title">Tambah Catatan</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
       <div class="modal-body">
         <form id="addCatatanForm">
-          <div class="mb-3">
-            <label class="form-label">Tanggal</label>
-            <input type="date" class="form-control" id="catatanTanggal" required>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Jenis</label>
+          <div class="mb-3"><label class="form-label">Tanggal</label><input type="date" class="form-control" id="catatanTanggal" required></div>
+          <div class="mb-3"><label class="form-label">Jenis</label>
             <select class="form-select" id="catatanJenis" required>
-              <option value="info">Info</option>
-              <option value="pengumuman">Pengumuman</option>
-              <option value="laporan">Laporan</option>
-              <option value="iuran">Iuran</option>
-              <option value="pengeluaran">Pengeluaran</option>
-              <option value="lainnya">Lainnya</option>
+              <option value="info">Info</option><option value="pengumuman">Pengumuman</option><option value="laporan">Laporan</option>
+              <option value="iuran">Iuran</option><option value="pengeluaran">Pengeluaran</option><option value="lainnya">Lainnya</option>
             </select>
           </div>
-          <div class="mb-3">
-            <label class="form-label">Keterangan</label>
-            <textarea class="form-control" id="catatanKeterangan" rows="3" required></textarea>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Jumlah (jika ada)</label>
-            <input type="number" class="form-control" id="catatanJumlah" value="0">
-          </div>
+          <div class="mb-3"><label class="form-label">Keterangan</label><textarea class="form-control" id="catatanKeterangan" rows="3" required></textarea></div>
+          <div class="mb-3"><label class="form-label">Jumlah (jika ada)</label><input type="number" class="form-control" id="catatanJumlah" value="0"></div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-        <button type="button" class="btn btn-primary" onclick="saveCatatan()" id="saveCatatanButton">
-          <span id="saveCatatanButtonText">Simpan</span>
-        </button>
+        <button type="button" class="btn btn-primary" onclick="saveCatatan()" id="saveCatatanButton"><span id="saveCatatanButtonText">Simpan</span></button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Modal Edit Catatan -->
 <div class="modal fade" id="editCatatanModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Edit Catatan</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
+      <div class="modal-header"><h5 class="modal-title">Edit Catatan</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
       <div class="modal-body">
         <form id="editCatatanForm">
           <input type="hidden" id="editCatatanOriginalData">
-          <div class="mb-3">
-            <label class="form-label">Tanggal</label>
-            <input type="date" class="form-control" id="editCatatanTanggal" required>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Jenis</label>
+          <div class="mb-3"><label class="form-label">Tanggal</label><input type="date" class="form-control" id="editCatatanTanggal" required></div>
+          <div class="mb-3"><label class="form-label">Jenis</label>
             <select class="form-select" id="editCatatanJenis" required>
-              <option value="info">Info</option>
-              <option value="pengumuman">Pengumuman</option>
-              <option value="laporan">Laporan</option>
-              <option value="iuran">Iuran</option>
-              <option value="pengeluaran">Pengeluaran</option>
-              <option value="lainnya">Lainnya</option>
+              <option value="info">Info</option><option value="pengumuman">Pengumuman</option><option value="laporan">Laporan</option>
+              <option value="iuran">Iuran</option><option value="pengeluaran">Pengeluaran</option><option value="lainnya">Lainnya</option>
             </select>
           </div>
-          <div class="mb-3">
-            <label class="form-label">Keterangan</label>
-            <textarea class="form-control" id="editCatatanKeterangan" rows="3" required></textarea>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Jumlah</label>
-            <input type="number" class="form-control" id="editCatatanJumlah" required>
-          </div>
+          <div class="mb-3"><label class="form-label">Keterangan</label><textarea class="form-control" id="editCatatanKeterangan" rows="3" required></textarea></div>
+          <div class="mb-3"><label class="form-label">Jumlah</label><input type="number" class="form-control" id="editCatatanJumlah" required></div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-        <button type="button" class="btn btn-primary" onclick="saveEditCatatan()" id="saveEditCatatanButton">
-          <span id="saveEditCatatanButtonText">Simpan Perubahan</span>
-        </button>
+        <button type="button" class="btn btn-primary" onclick="saveEditCatatan()" id="saveEditCatatanButton"><span id="saveEditCatatanButtonText">Simpan Perubahan</span></button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Modal Detail Keuangan -->
 <div class="modal fade" id="financialDetailModal" tabindex="-1">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Detail Keuangan - <span id="financialDetailMonth"></span></h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <div id="financialDetailContent"></div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-      </div>
+      <div class="modal-header"><h5 class="modal-title">Detail Keuangan - <span id="financialDetailMonth"></span></h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body"><div id="financialDetailContent"></div></div>
+      <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button></div>
     </div>
   </div>
 </div>
 
-<!-- Modal Rincian Transaksi -->
 <div class="modal fade" id="transactionDetailModal" tabindex="-1">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Rincian Transaksi - <span id="transactionDetailTitle"></span></h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <div id="transactionDetailContent"></div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-      </div>
+      <div class="modal-header"><h5 class="modal-title">Rincian Transaksi - <span id="transactionDetailTitle"></span></h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body"><div id="transactionDetailContent"></div></div>
+      <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button></div>
     </div>
   </div>
 </div>
 
-<!-- ==================== SCRIPTS ==================== -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
   // ==================== KONFIGURASI ====================
-  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzL4qvmoOhUWlpylpNk3Q-di2fJlYapix8KIHoF3-UhzwuDsE2xUEGpm5P6CzIGIgAB/exec';
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxXSKKLh7z0nv8W-lgK6qsHWZ6w5l6fu-Dso3TGncJJ_FPnsGOcQp33aejdFrbCS5o0/exec';
+  
+  // ==================== CACHE ====================
+  const CACHE_DURATION = 5 * 60 * 1000; // 5 menit
+  const cache = {
+    saldo: { data: null, timestamp: 0 },
+    warga: { data: null, timestamp: 0 },
+    iuran: { data: null, timestamp: 0 },
+    iuranAll: { data: null, timestamp: 0 },
+    pengeluaran: { data: null, timestamp: 0 },
+    catatan: { data: null, timestamp: 0 },
+    users: { data: null, timestamp: 0 },
+    jenisIuran: { data: null, timestamp: 0 }
+  };
+  
+  function isCacheValid(key) {
+    const c = cache[key];
+    return c && c.data !== null && (Date.now() - c.timestamp) < CACHE_DURATION;
+  }
+  
+  function setCache(key, data) {
+    cache[key] = { data: data, timestamp: Date.now() };
+  }
+  
+  function invalidateCache(key) {
+    if (key) {
+      cache[key] = { data: null, timestamp: 0 };
+    } else {
+      Object.keys(cache).forEach(k => {
+        cache[k] = { data: null, timestamp: 0 };
+      });
+    }
+  }
   
   // ==================== VARIABEL GLOBAL ====================
   let currentUser = null;
@@ -1522,34 +1194,38 @@
   let filteredIuranDataWarga = [];
   let filteredUpdateIuranData = [];
   let showAllData = {
-    warga: false,
-    iuran: false,
-    pengeluaran: false,
-    catatan: false,
-    kelolaWarga: false,
-    detailIuran: false,
-    updateIuran: false
+    warga: false, iuran: false, pengeluaran: false, catatan: false,
+    kelolaWarga: false, detailIuran: false, updateIuran: false
   };
   
-  // Variabel untuk Laporan Keuangan
   let allMonthlyReports = [];
   let currentMonthlyStartIndex = 0;
   const MONTHLY_PAGE_SIZE = 20;
   
-  // Variabel untuk pagination di detail keuangan
   let currentPemasukanStartIndex = 0;
   let currentPengeluaranStartIndex = 0;
   let currentPemasukanData = [];
   let currentPengeluaranData = [];
   let currentReport = null;
 
-  // Variabel untuk menyimpan daftar jenis iuran
   let jenisIuranList = [];
+
+  // ==================== DEBOUNCE ====================
+  function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  }
 
   // ==================== FUNGSI API CALL ====================
   async function callAppsScript(action, parameters = {}) {
     try {
-      const url = APPS_SCRIPT_URL;
       const formData = new URLSearchParams();
       formData.append('action', action);
       
@@ -1561,10 +1237,16 @@
         }
       });
 
-      const response = await fetch(url, {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000);
+
+      const response = await fetch(APPS_SCRIPT_URL, {
         method: 'POST',
-        body: formData
+        body: formData,
+        signal: controller.signal
       });
+
+      clearTimeout(timeoutId);
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -1573,7 +1255,7 @@
       const data = await response.json();
       return data;
     } catch (error) {
-      console.error('Error calling Apps Script:', error);
+      console.error('Error calling Apps Script:', action, error);
       throw error;
     }
   }
@@ -1605,21 +1287,16 @@
 
   function formatRupiah(amount) {
     const num = parseFloat(amount);
-    if (isNaN(num) || num === 0) {
-      return 'Rp 0';
-    }
+    if (isNaN(num) || num === 0) return 'Rp 0';
     return 'Rp ' + num.toLocaleString('id-ID');
   }
 
   function getNamaByNomorRumah(nomorRumah) {
     const warga = allWargaData.find(w => w.username === nomorRumah);
-    if (warga) {
-      return warga.nama_suami || warga.nama_istri || warga.username;
-    }
+    if (warga) return warga.nama_suami || warga.nama_istri || warga.username;
     return nomorRumah;
   }
 
-  // ==================== PASSWORD TOGGLE ====================
   function setupPasswordToggle() {
     const toggleBtn = document.getElementById('togglePassword');
     const passwordInput = document.getElementById('password');
@@ -1672,11 +1349,11 @@
     setTimeout(function() {
       sessionStorage.removeItem('ndb_user');
       currentUser = null;
+      invalidateCache();
       document.getElementById('mainApp').style.display = 'none';
       document.getElementById('loginScreen').style.display = 'block';
       document.getElementById('loginForm').reset();
       document.getElementById('loginMessage').innerHTML = '';
-      // Reset password visibility
       const passwordInput = document.getElementById('password');
       const toggleIcon = document.getElementById('togglePasswordIcon');
       if (passwordInput) passwordInput.type = 'password';
@@ -1695,7 +1372,6 @@
     
     document.getElementById('userInfo').textContent = `${currentUser.username} (${currentUser.role})`;
     
-    // Tampilkan tab berdasarkan role
     if (currentUser.role === 'admin') {
       document.getElementById('kelolaWargaTab').style.display = 'block';
       document.getElementById('sebarIuranTab').style.display = 'block';
@@ -1710,21 +1386,10 @@
       document.getElementById('iuranFilterSectionWarga').style.display = 'block';
     }
     
-    // Tab Update Iuran selalu tampil untuk semua role
     document.getElementById('updateIuranTab').style.display = 'block';
     
-    loadSaldo();
-    loadWarga();
-    loadIuran();
-    loadCatatan();
-    loadPengeluaran();
-    loadLaporanKeuangan();
-    loadUpdateIuran();
-    
-    if (currentUser.role === 'admin') {
-      loadKelolaWarga();
-      loadDetailIuran();
-    }
+    // ✅ OPTIMASI: Satu request untuk semua data awal!
+    loadInitialData();
     
     loadJenisIuran();
     setupSearch();
@@ -1732,20 +1397,152 @@
     setupUpdateIuranSearch();
   }
 
+  // ✅ BARU: Load semua data awal dalam 1-2 request
+  async function loadInitialData() {
+    showGlobalLoading();
+    try {
+      // Request paralel yang lebih sedikit dan terorganisir
+      const promises = [
+        callAppsScript('getSaldo').then(r => { setCache('saldo', r.saldo); }),
+        callAppsScript('getWarga').then(r => { setCache('warga', r); allWargaData = r; allData.warga = r; }),
+        callAppsScript('getIuran', { username: currentUser.username, role: currentUser.role }).then(r => { setCache('iuran', r); }),
+        callAppsScript('getPengeluaran').then(r => { setCache('pengeluaran', r); }),
+        callAppsScript('getCatatan').then(r => { setCache('catatan', r); }),
+        callAppsScript('getIuranAll').then(r => { setCache('iuranAll', r); })
+      ];
+      
+      if (currentUser.role === 'admin') {
+        promises.push(callAppsScript('getAllUsers').then(r => { setCache('users', r); }));
+      }
+      
+      await Promise.all(promises);
+      
+      // Update UI dari cache
+      const saldo = cache.saldo.data;
+      document.getElementById('saldoAmount').textContent = formatRupiah(saldo);
+      document.getElementById('lastUpdate').textContent = new Date().toLocaleString('id-ID');
+      
+      allData.warga = cache.warga.data || [];
+      allData.iuran = cache.iuran.data || [];
+      allData.pengeluaran.data = cache.pengeluaran.data || [];
+      allData.pengeluaran = cache.pengeluaran.data || [];
+      allData.catatan = cache.catatan.data || [];
+      
+      renderWargaList(allData.warga);
+      
+      if (currentUser.role === 'admin') {
+        filteredIuranDataAdmin = [...allData.iuran];
+        renderIuranList(filteredIuranDataAdmin);
+        
+        const users = cache.users.data || [];
+        allData.kelolaWarga = users.filter(u => u.role === 'warga');
+        renderKelolaWargaList(allData.kelolaWarga);
+      } else {
+        filteredIuranDataWarga = [...allData.iuran];
+        renderIuranList(filteredIuranDataWarga);
+      }
+      
+      renderPengeluaranList(allData.pengeluaran);
+      renderCatatanList(allData.catatan);
+      
+      // Update iuran (belum bayar)
+      const allIuranForUpdate = cache.iuranAll.data || [];
+      const belumBayar = allIuranForUpdate.filter(item => item.status === 'belum');
+      allData.updateIuran = belumBayar;
+      filteredUpdateIuranData = [...belumBayar];
+      renderUpdateIuranList(filteredUpdateIuranData);
+      
+      // Build laporan keuangan dari cache (tanpa request baru!)
+      buildLaporanKeuangan();
+      
+    } catch (error) {
+      console.error('Error loading initial data:', error);
+      alert('Gagal memuat data. Silakan refresh halaman.');
+    } finally {
+      hideGlobalLoading();
+    }
+  }
+
+  // ✅ BARU: Build laporan keuangan dari cache (tanpa request baru)
+  function buildLaporanKeuangan() {
+    const iuran = cache.iuranAll.data || [];
+    const pengeluaran = cache.pengeluaran.data || [];
+    
+    const reportMap = new Map();
+    const bulanMap = {
+      '01': 'Januari', '02': 'Februari', '03': 'Maret', '04': 'April',
+      '05': 'Mei', '06': 'Juni', '07': 'Juli', '08': 'Agustus',
+      '09': 'September', '10': 'Oktober', '11': 'November', '12': 'Desember'
+    };
+    
+    (iuran || []).forEach(item => {
+      if (item.status === 'lunas' && item.tanggal_bayar) {
+        const tglParts = item.tanggal_bayar.split('-');
+        if (tglParts.length === 3) {
+          const tahunBayar = tglParts[0];
+          const bulanBayar = bulanMap[tglParts[1]];
+          if (bulanBayar) {
+            const key = `${tahunBayar}-${bulanBayar}`;
+            if (!reportMap.has(key)) {
+              reportMap.set(key, { bulan: bulanBayar, tahun: tahunBayar, pemasukan: 0, pengeluaran: 0, details: { pemasukan: [], pengeluaran: [] } });
+            }
+            const report = reportMap.get(key);
+            report.pemasukan += parseFloat(item.jumlah) || 0;
+            report.details.pemasukan.push({
+              nomor_rumah: item.nomor_rumah,
+              jenis_iuran: item.jenis_iuran,
+              jumlah: parseFloat(item.jumlah) || 0,
+              tanggal_bayar: item.tanggal_bayar,
+              bulan_iuran: item.bulan,
+              tahun_iuran: item.tahun
+            });
+          }
+        }
+      }
+    });
+    
+    pengeluaran.forEach(item => {
+      const tanggal = item.tanggal.split('-');
+      const tahun = tanggal[0];
+      const bulan = bulanMap[tanggal[1]];
+      if (bulan) {
+        const key = `${tahun}-${bulan}`;
+        if (!reportMap.has(key)) {
+          reportMap.set(key, { bulan: bulan, tahun: tahun, pemasukan: 0, pengeluaran: 0, details: { pemasukan: [], pengeluaran: [] } });
+        }
+        const report = reportMap.get(key);
+        report.pengeluaran += parseFloat(item.jumlah) || 0;
+        report.details.pengeluaran.push({
+          keterangan: item.keterangan,
+          jumlah: parseFloat(item.jumlah) || 0,
+          tanggal: item.tanggal
+        });
+      }
+    });
+    
+    allMonthlyReports = Array.from(reportMap.values()).sort((a, b) => {
+      if (a.tahun !== b.tahun) return b.tahun - a.tahun;
+      const bulanOrder = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+      return bulanOrder.indexOf(b.bulan) - bulanOrder.indexOf(a.bulan);
+    });
+    currentMonthlyStartIndex = 0;
+    renderMonthlyReports();
+  }
+
   function setupSearch() {
     const searchInput = document.getElementById('searchWarga');
-    searchInput.addEventListener('input', function(e) {
+    searchInput.addEventListener('input', debounce(function(e) {
       filterWargaList(e.target.value);
-    });
+    }, 300));
   }
 
   function setupIuranSearch() {
     if (currentUser && currentUser.role === 'admin') {
       const searchInput = document.getElementById('searchIuran');
       if (searchInput) {
-        searchInput.addEventListener('input', function() {
+        searchInput.addEventListener('input', debounce(function() {
           applyIuranFilterAdmin();
-        });
+        }, 300));
       }
     }
   }
@@ -1753,9 +1550,9 @@
   function setupUpdateIuranSearch() {
     const searchInput = document.getElementById('searchUpdateIuran');
     if (searchInput) {
-      searchInput.addEventListener('input', function() {
+      searchInput.addEventListener('input', debounce(function() {
         applyUpdateIuranFilter();
-      });
+      }, 300));
     }
   }
 
@@ -1777,7 +1574,7 @@
     const showMoreContainer = document.getElementById('wargaShowMore');
     
     if (warga.length === 0) {
-      wargaList.innerHTML = '<div class="no-results">Tidak ada data yang sesuai dengan pencarian</div>';
+      wargaList.innerHTML = '<div class="text-center text-muted py-3">Tidak ada data yang sesuai dengan pencarian</div>';
       showMoreContainer.style.display = 'none';
       return;
     }
@@ -1785,12 +1582,12 @@
     const displayData = showAllData.warga ? warga : warga.slice(0, 20);
     wargaList.innerHTML = '';
     
-    displayData.forEach(function(item, index) {
+    // ✅ OPTIMASI: Gunakan DocumentFragment untuk render lebih cepat
+    const fragment = document.createDocumentFragment();
+    
+    displayData.forEach(function(item) {
       const wargaItem = document.createElement('div');
       wargaItem.className = 'warga-item';
-      wargaItem.style.cursor = 'pointer';
-      wargaItem.setAttribute('data-index', index);
-      
       wargaItem.innerHTML = `
         <div class="d-flex justify-content-between align-items-center">
           <div>
@@ -1799,19 +1596,17 @@
               ${item.dinas || 'N/A'} - ${item.nama_suami || item.nama_istri || 'N/A'}
             </div>
           </div>
-          <div>
-            <i class="fas fa-chevron-right text-muted"></i>
-          </div>
+          <div><i class="fas fa-chevron-right text-muted"></i></div>
         </div>
       `;
-      
       wargaItem.addEventListener('click', function(e) {
         e.stopPropagation();
         showWargaDetail(item);
       });
-      
-      wargaList.appendChild(wargaItem);
+      fragment.appendChild(wargaItem);
     });
+    
+    wargaList.appendChild(fragment);
     
     if (warga.length > 20) {
       showMoreContainer.style.display = 'block';
@@ -1830,38 +1625,29 @@
     showAllData[type] = !showAllData[type];
     
     switch(type) {
-      case 'warga':
-        renderWargaList(allData.warga);
-        break;
+      case 'warga': renderWargaList(allData.warga); break;
       case 'iuran':
-        if (currentUser.role === 'admin') {
-          renderIuranList(filteredIuranDataAdmin);
-        } else {
-          renderIuranList(filteredIuranDataWarga);
-        }
+        if (currentUser.role === 'admin') renderIuranList(filteredIuranDataAdmin);
+        else renderIuranList(filteredIuranDataWarga);
         break;
-      case 'pengeluaran':
-        renderPengeluaranList(allData.pengeluaran);
-        break;
-      case 'catatan':
-        renderCatatanList(allData.catatan);
-        break;
-      case 'kelolaWarga':
-        renderKelolaWargaList(allData.kelolaWarga);
-        break;
-      case 'detailIuran':
-        renderDetailIuranList(allData.detailIuran);
-        break;
-      case 'updateIuran':
-        renderUpdateIuranList(filteredUpdateIuranData);
-        break;
+      case 'pengeluaran': renderPengeluaranList(allData.pengeluaran); break;
+      case 'catatan': renderCatatanList(allData.catatan); break;
+      case 'kelolaWarga': renderKelolaWargaList(allData.kelolaWarga); break;
+      case 'detailIuran': renderDetailIuranList(allData.detailIuran); break;
+      case 'updateIuran': renderUpdateIuranList(filteredUpdateIuranData); break;
     }
   }
 
-  // ==================== LOAD DATA FUNCTIONS ====================
-  async function loadSaldo() {
+  // ✅ OPTIMASI: loadSaldo pakai cache
+  async function loadSaldo(forceRefresh = false) {
     try {
+      if (!forceRefresh && isCacheValid('saldo')) {
+        document.getElementById('saldoAmount').textContent = formatRupiah(cache.saldo.data);
+        document.getElementById('lastUpdate').textContent = new Date().toLocaleString('id-ID');
+        return;
+      }
       const result = await callAppsScript('getSaldo');
+      setCache('saldo', result.saldo);
       document.getElementById('saldoAmount').textContent = formatRupiah(result.saldo);
       document.getElementById('lastUpdate').textContent = new Date().toLocaleString('id-ID');
     } catch (error) {
@@ -1869,9 +1655,16 @@
     }
   }
 
-  async function loadWarga() {
+  async function loadWarga(forceRefresh = false) {
     try {
+      if (!forceRefresh && isCacheValid('warga')) {
+        allWargaData = cache.warga.data;
+        allData.warga = cache.warga.data;
+        renderWargaList(allData.warga);
+        return;
+      }
       const warga = await callAppsScript('getWarga');
+      setCache('warga', warga);
       allWargaData = warga;
       allData.warga = warga;
       renderWargaList(warga);
@@ -1881,27 +1674,32 @@
     }
   }
 
-  async function loadIuran() {
+  async function loadIuran(forceRefresh = false) {
     try {
-      const iuran = await callAppsScript('getIuran', {
-        username: currentUser.username,
-        role: currentUser.role
-      });
-      
-      allData.iuran = iuran;
+      if (!forceRefresh && isCacheValid('iuran')) {
+        allData.iuran = cache.iuran.data;
+      } else {
+        const iuran = await callAppsScript('getIuran', {
+          username: currentUser.username,
+          role: currentUser.role
+        });
+        setCache('iuran', iuran);
+        allData.iuran = iuran;
+      }
       
       if (currentUser.role === 'admin') {
-        filteredIuranDataAdmin = [...iuran];
+        filteredIuranDataAdmin = [...allData.iuran];
         renderIuranList(filteredIuranDataAdmin);
       } else {
-        filteredIuranDataWarga = [...iuran];
+        filteredIuranDataWarga = [...allData.iuran];
         renderIuranList(filteredIuranDataWarga);
       }
     } catch (error) {
       console.error('Error loading iuran:', error);
     }
   }
-  
+
+  // ✅ PERBAIKAN: applyIuranFilterAdmin yang benar
   function applyIuranFilterAdmin() {
     if (currentUser.role !== 'admin') return;
     
@@ -1919,11 +1717,9 @@
           item.nomor_rumah.toLowerCase().includes(searchTerm) ||
           namaPemilik.toLowerCase().includes(searchTerm);
       }
-      
       const matchesBulan = bulan ? item.bulan === bulan : true;
       const matchesTahun = tahun ? item.tahun.toString() === tahun : true;
       const matchesJenis = jenis ? item.jenis_iuran === jenis : true;
-      
       return matchesSearch && matchesBulan && matchesTahun && matchesJenis;
     });
     
@@ -1941,7 +1737,6 @@
       const matchesBulan = bulan ? item.bulan === bulan : true;
       const matchesTahun = tahun ? item.tahun.toString() === tahun : true;
       const matchesJenis = jenis ? item.jenis_iuran === jenis : true;
-      
       return matchesBulan && matchesTahun && matchesJenis;
     });
     
@@ -1961,6 +1756,7 @@
     }
     
     const displayData = showAllData.iuran ? iuran : iuran.slice(0, 20);
+    const fragment = document.createDocumentFragment();
     
     displayData.forEach(function(item) {
       const iuranItem = document.createElement('div');
@@ -1980,12 +1776,9 @@
           <div class="d-flex justify-content-between align-items-center">
             <div class="flex-grow-1">
               <div class="fw-bold text-primary">${displayName}</div>
-              <div class="text-muted small">
-                ${item.bulan} ${item.tahun} - ${item.jenis_iuran}
-              </div>
+              <div class="text-muted small">${item.bulan} ${item.tahun} - ${item.jenis_iuran}</div>
               <div class="mt-1">
-                <span class="fw-semibold">${formatRupiah(item.jumlah)}</span> 
-                - 
+                <span class="fw-semibold">${formatRupiah(item.jumlah)}</span> - 
                 <span class="${statusClass}">${statusText}</span>
               </div>
             </div>
@@ -2002,8 +1795,10 @@
           </div>
         </div>
       `;
-      iuranList.appendChild(iuranItem);
+      fragment.appendChild(iuranItem);
     });
+    
+    iuranList.appendChild(fragment);
     
     if (iuran.length > 20) {
       showMoreContainer.style.display = 'block';
@@ -2018,9 +1813,15 @@
     }
   }
   
-  async function loadPengeluaran() {
+  async function loadPengeluaran(forceRefresh = false) {
     try {
+      if (!forceRefresh && isCacheValid('pengeluaran')) {
+        allData.pengeluaran = cache.pengeluaran.data;
+        renderPengeluaranList(allData.pengeluaran);
+        return;
+      }
       const pengeluaran = await callAppsScript('getPengeluaran');
+      setCache('pengeluaran', pengeluaran);
       allData.pengeluaran = pengeluaran;
       renderPengeluaranList(pengeluaran);
     } catch (error) {
@@ -2041,6 +1842,7 @@
     }
     
     const displayData = showAllData.pengeluaran ? pengeluaran : pengeluaran.slice(0, 20);
+    const fragment = document.createDocumentFragment();
     
     displayData.forEach(function(item) {
       const pengeluaranItem = document.createElement('div');
@@ -2067,8 +1869,10 @@
           </div>
         </div>
       `;
-      pengeluaranList.appendChild(pengeluaranItem);
+      fragment.appendChild(pengeluaranItem);
     });
+    
+    pengeluaranList.appendChild(fragment);
     
     if (pengeluaran.length > 20) {
       showMoreContainer.style.display = 'block';
@@ -2083,9 +1887,15 @@
     }
   }
 
-  async function loadCatatan() {
+  async function loadCatatan(forceRefresh = false) {
     try {
+      if (!forceRefresh && isCacheValid('catatan')) {
+        allData.catatan = cache.catatan.data;
+        renderCatatanList(allData.catatan);
+        return;
+      }
       const catatan = await callAppsScript('getCatatan');
+      setCache('catatan', catatan);
       allData.catatan = catatan;
       renderCatatanList(catatan);
     } catch (error) {
@@ -2106,6 +1916,7 @@
     }
     
     const displayData = showAllData.catatan ? catatan : catatan.slice(0, 20);
+    const fragment = document.createDocumentFragment();
     
     displayData.forEach(function(item) {
       const catatanItem = document.createElement('div');
@@ -2142,8 +1953,10 @@
           </div>
         </div>
       `;
-      catatanList.appendChild(catatanItem);
+      fragment.appendChild(catatanItem);
     });
+    
+    catatanList.appendChild(fragment);
     
     if (catatan.length > 20) {
       showMoreContainer.style.display = 'block';
@@ -2158,9 +1971,16 @@
     }
   }
 
-  async function loadKelolaWarga() {
+  async function loadKelolaWarga(forceRefresh = false) {
     try {
+      if (!forceRefresh && isCacheValid('users')) {
+        const users = cache.users.data;
+        allData.kelolaWarga = users.filter(user => user.role === 'warga');
+        renderKelolaWargaList(allData.kelolaWarga);
+        return;
+      }
       const users = await callAppsScript('getAllUsers');
+      setCache('users', users);
       const warga = users.filter(user => user.role === 'warga');
       allData.kelolaWarga = warga;
       renderKelolaWargaList(warga);
@@ -2182,6 +2002,7 @@
     }
     
     const displayData = showAllData.kelolaWarga ? warga : warga.slice(0, 20);
+    const fragment = document.createDocumentFragment();
     
     displayData.forEach(function(item) {
       const wargaItem = document.createElement('div');
@@ -2207,8 +2028,10 @@
           </div>
         </div>
       `;
-      wargaList.appendChild(wargaItem);
+      fragment.appendChild(wargaItem);
     });
+    
+    wargaList.appendChild(fragment);
     
     if (warga.length > 20) {
       showMoreContainer.style.display = 'block';
@@ -2225,8 +2048,13 @@
 
   async function loadJenisIuran() {
     try {
-      const jenisIuran = await callAppsScript('getJenisIuran');
-      jenisIuranList = jenisIuran;
+      if (isCacheValid('jenisIuran')) {
+        jenisIuranList = cache.jenisIuran.data;
+      } else {
+        const jenisIuran = await callAppsScript('getJenisIuran');
+        setCache('jenisIuran', jenisIuran);
+        jenisIuranList = jenisIuran;
+      }
       
       const select = document.getElementById('iuranJenis');
       const sebarSelect = document.getElementById('sebarIuranJenis');
@@ -2244,41 +2072,14 @@
       filterUpdateIuranJenis.innerHTML = '<option value="">Semua Jenis</option>';
       editIuranJenis.innerHTML = '<option value="">Pilih Jenis Iuran</option>';
       
-      jenisIuran.forEach(function(jenis) {
-        const option = document.createElement('option');
-        option.value = jenis;
-        option.textContent = jenis;
-        select.appendChild(option);
-        
-        const sebarOption = document.createElement('option');
-        sebarOption.value = jenis;
-        sebarOption.textContent = jenis;
-        sebarSelect.appendChild(sebarOption);
-        
-        const filterOption = document.createElement('option');
-        filterOption.value = jenis;
-        filterOption.textContent = jenis;
-        detailFilter.appendChild(filterOption);
-        
-        const filterAdminOption = document.createElement('option');
-        filterAdminOption.value = jenis;
-        filterAdminOption.textContent = jenis;
-        filterIuranJenisAdmin.appendChild(filterAdminOption);
-        
-        const filterWargaOption = document.createElement('option');
-        filterWargaOption.value = jenis;
-        filterWargaOption.textContent = jenis;
-        filterIuranJenisWarga.appendChild(filterWargaOption);
-        
-        const filterUpdateOption = document.createElement('option');
-        filterUpdateOption.value = jenis;
-        filterUpdateOption.textContent = jenis;
-        filterUpdateIuranJenis.appendChild(filterUpdateOption);
-        
-        const editOption = document.createElement('option');
-        editOption.value = jenis;
-        editOption.textContent = jenis;
-        editIuranJenis.appendChild(editOption);
+      jenisIuranList.forEach(function(jenis) {
+        select.appendChild(new Option(jenis, jenis));
+        sebarSelect.appendChild(new Option(jenis, jenis));
+        detailFilter.appendChild(new Option(jenis, jenis));
+        filterIuranJenisAdmin.appendChild(new Option(jenis, jenis));
+        filterIuranJenisWarga.appendChild(new Option(jenis, jenis));
+        filterUpdateIuranJenis.appendChild(new Option(jenis, jenis));
+        editIuranJenis.appendChild(new Option(jenis, jenis));
       });
     } catch (error) {
       console.error('Error loading jenis iuran:', error);
@@ -2286,12 +2087,18 @@
   }
 
   // ==================== FITUR UPDATE IURAN ====================
-  async function loadUpdateIuran() {
+  async function loadUpdateIuran(forceRefresh = false) {
     try {
-      const allIuran = await callAppsScript('getIuran', {
-        username: currentUser.role === 'admin' ? currentUser.username : '',
-        role: 'admin'
-      });
+      let allIuran;
+      if (!forceRefresh && isCacheValid('iuranAll')) {
+        allIuran = cache.iuranAll.data;
+      } else {
+        allIuran = await callAppsScript('getIuran', {
+          username: currentUser.role === 'admin' ? currentUser.username : '',
+          role: 'admin'
+        });
+        setCache('iuranAll', allIuran);
+      }
       
       const belumBayar = allIuran.filter(item => item.status === 'belum');
       allData.updateIuran = belumBayar;
@@ -2314,15 +2121,11 @@
       if (searchTerm) {
         const warga = allWargaData.find(w => w.username === item.nomor_rumah);
         const namaPemilik = warga ? (warga.nama_suami || warga.nama_istri || '') : '';
-        matchesSearch = 
-          item.nomor_rumah.toLowerCase().includes(searchTerm) ||
-          namaPemilik.toLowerCase().includes(searchTerm);
+        matchesSearch = item.nomor_rumah.toLowerCase().includes(searchTerm) || namaPemilik.toLowerCase().includes(searchTerm);
       }
-      
       const matchesBulan = bulan ? item.bulan === bulan : true;
       const matchesTahun = tahun ? item.tahun.toString() === tahun : true;
       const matchesJenis = jenis ? item.jenis_iuran === jenis : true;
-      
       return matchesSearch && matchesBulan && matchesTahun && matchesJenis;
     });
     
@@ -2343,6 +2146,7 @@
     
     const displayData = showAllData.updateIuran ? iuran : iuran.slice(0, 20);
     const isAdmin = currentUser.role === 'admin';
+    const fragment = document.createDocumentFragment();
     
     displayData.forEach(function(item) {
       const iuranItem = document.createElement('div');
@@ -2359,12 +2163,9 @@
           <div class="d-flex justify-content-between align-items-center">
             <div class="flex-grow-1">
               <div class="fw-bold text-primary">${displayName}</div>
-              <div class="text-muted small">
-                ${item.bulan} ${item.tahun} - ${item.jenis_iuran}
-              </div>
+              <div class="text-muted small">${item.bulan} ${item.tahun} - ${item.jenis_iuran}</div>
               <div class="mt-1">
-                <span class="fw-semibold">${formatRupiah(item.jumlah)}</span> 
-                - 
+                <span class="fw-semibold">${formatRupiah(item.jumlah)}</span> - 
                 <span class="status-belum">BELUM BAYAR</span>
               </div>
             </div>
@@ -2378,8 +2179,10 @@
           </div>
         </div>
       `;
-      iuranList.appendChild(iuranItem);
+      fragment.appendChild(iuranItem);
     });
+    
+    iuranList.appendChild(fragment);
     
     if (iuran.length > 20) {
       showMoreContainer.style.display = 'block';
@@ -2416,21 +2219,16 @@
     showButtonLoading('saveSebarIuranButton');
     
     try {
-      const result = await callAppsScript('sebarIuran', {
-        bulan: bulan,
-        tahun: tahun,
-        jenisIuran: jenisIuran,
-        jumlah: jumlah
-      });
-      
+      const result = await callAppsScript('sebarIuran', { bulan, tahun, jenisIuran, jumlah });
       hideButtonLoading('saveSebarIuranButton');
       
       if (result.success) {
         alert(result.message);
-        const modal = bootstrap.Modal.getInstance(document.getElementById('sebarIuranModal'));
-        modal.hide();
-        loadIuran();
-        loadUpdateIuran();
+        bootstrap.Modal.getInstance(document.getElementById('sebarIuranModal')).hide();
+        invalidateCache();
+        await loadIuran(true);
+        await loadUpdateIuran(true);
+        await loadSaldo(true);
       } else {
         alert('Gagal menyebar iuran: ' + result.message);
       }
@@ -2454,14 +2252,8 @@
     showGlobalLoading();
     
     try {
-      const detailIuran = await callAppsScript('getDetailIuran', {
-        bulan: bulan,
-        tahun: tahun,
-        jenisIuranFilter: jenisIuranFilter
-      });
-      
+      const detailIuran = await callAppsScript('getDetailIuran', { bulan, tahun, jenisIuranFilter });
       hideGlobalLoading();
-      
       allData.detailIuran = detailIuran;
       renderDetailIuranList(detailIuran);
     } catch (error) {
@@ -2492,6 +2284,7 @@
     }
     
     const displayData = showAllData.detailIuran ? detailIuran : detailIuran.slice(0, 20);
+    const fragment = document.createDocumentFragment();
     
     displayData.forEach(function(item) {
       const detailItem = document.createElement('div');
@@ -2513,15 +2306,15 @@
             </div>
             <div class="text-end">
               <span class="badge ${item.status === 'lunas' ? 'bg-success' : 'bg-danger'}">${statusText}</span>
-              <div class="mt-1">
-                <small class="text-muted">Total: ${formatRupiah(item.total_iuran)}</small>
-              </div>
+              <div class="mt-1"><small class="text-muted">Total: ${formatRupiah(item.total_iuran)}</small></div>
             </div>
           </div>
         </div>
       `;
-      detailIuranList.appendChild(detailItem);
+      fragment.appendChild(detailItem);
     });
+    
+    detailIuranList.appendChild(fragment);
     
     if (detailIuran.length > 20) {
       showMoreContainer.style.display = 'block';
@@ -2536,90 +2329,7 @@
     }
   }
 
-  // ==================== FITUR LAPORAN KEUANGAN ====================
-  async function loadLaporanKeuangan() {
-    showGlobalLoading();
-    try {
-      const iuran = await callAppsScript('getIuranAll');
-      const pengeluaran = await callAppsScript('getPengeluaran');
-      
-      const reportMap = new Map();
-      
-      (iuran || []).forEach(item => {
-        if (item.status === 'lunas' && item.tanggal_bayar) {
-          const tglParts = item.tanggal_bayar.split('-');
-          if (tglParts.length === 3) {
-            const tahunBayar = tglParts[0];
-            const bulanMap = {
-              '01': 'Januari', '02': 'Februari', '03': 'Maret', '04': 'April',
-              '05': 'Mei', '06': 'Juni', '07': 'Juli', '08': 'Agustus',
-              '09': 'September', '10': 'Oktober', '11': 'November', '12': 'Desember'
-            };
-            const bulanBayar = bulanMap[tglParts[1]];
-            if (bulanBayar) {
-              const key = `${tahunBayar}-${bulanBayar}`;
-              if (!reportMap.has(key)) {
-                reportMap.set(key, { bulan: bulanBayar, tahun: tahunBayar, pemasukan: 0, pengeluaran: 0, details: { pemasukan: [], pengeluaran: [] } });
-              }
-              const report = reportMap.get(key);
-              report.pemasukan += parseFloat(item.jumlah) || 0;
-              
-              const displayBulan = item.bulan;
-              const displayTahun = item.tahun;
-              report.details.pemasukan.push({
-                nomor_rumah: item.nomor_rumah,
-                jenis_iuran: item.jenis_iuran,
-                jumlah: parseFloat(item.jumlah) || 0,
-                tanggal_bayar: item.tanggal_bayar,
-                bulan_iuran: displayBulan,
-                tahun_iuran: displayTahun
-              });
-            }
-          }
-        }
-      });
-      
-      pengeluaran.forEach(item => {
-        const tanggal = item.tanggal.split('-');
-        const tahun = tanggal[0];
-        const bulanMap = {
-          '01': 'Januari', '02': 'Februari', '03': 'Maret', '04': 'April',
-          '05': 'Mei', '06': 'Juni', '07': 'Juli', '08': 'Agustus',
-          '09': 'September', '10': 'Oktober', '11': 'November', '12': 'Desember'
-        };
-        const bulan = bulanMap[tanggal[1]];
-        if (bulan) {
-          const key = `${tahun}-${bulan}`;
-          if (!reportMap.has(key)) {
-            reportMap.set(key, { bulan: bulan, tahun: tahun, pemasukan: 0, pengeluaran: 0, details: { pemasukan: [], pengeluaran: [] } });
-          }
-          const report = reportMap.get(key);
-          report.pengeluaran += parseFloat(item.jumlah) || 0;
-          report.details.pengeluaran.push({
-            keterangan: item.keterangan,
-            jumlah: parseFloat(item.jumlah) || 0,
-            tanggal: item.tanggal
-          });
-        }
-      });
-      
-      const reports = Array.from(reportMap.values()).sort((a, b) => {
-        if (a.tahun !== b.tahun) return b.tahun - a.tahun;
-        const bulanOrder = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-        return bulanOrder.indexOf(b.bulan) - bulanOrder.indexOf(a.bulan);
-      });
-      
-      allMonthlyReports = reports;
-      currentMonthlyStartIndex = 0;
-      renderMonthlyReports();
-    } catch (error) {
-      console.error('Error loading laporan keuangan:', error);
-      document.getElementById('monthlyReportList').innerHTML = '<p class="text-danger text-center">Error loading data</p>';
-    } finally {
-      hideGlobalLoading();
-    }
-  }
-  
+  // ==================== LAPORAN KEUANGAN (dari cache) ====================
   function renderMonthlyReports() {
     const container = document.getElementById('monthlyReportList');
     const showMoreContainer = document.getElementById('monthlyReportShowMore');
@@ -2634,11 +2344,11 @@
     const displayData = allMonthlyReports.slice(0, endIndex);
     
     container.innerHTML = '';
+    const fragment = document.createDocumentFragment();
     
     displayData.forEach(report => {
       const monthCard = document.createElement('div');
       monthCard.className = 'card mb-3 month-card';
-      monthCard.style.cursor = 'pointer';
       monthCard.innerHTML = `
         <div class="card-body">
           <div class="d-flex justify-content-between align-items-center">
@@ -2657,16 +2367,12 @@
           </div>
         </div>
       `;
-      
       monthCard.addEventListener('click', () => showFinancialDetail(report));
-      container.appendChild(monthCard);
+      fragment.appendChild(monthCard);
     });
     
-    if (endIndex < allMonthlyReports.length) {
-      showMoreContainer.style.display = 'block';
-    } else {
-      showMoreContainer.style.display = 'none';
-    }
+    container.appendChild(fragment);
+    showMoreContainer.style.display = endIndex < allMonthlyReports.length ? 'block' : 'none';
   }
   
   function loadMoreMonthlyReports() {
@@ -2689,7 +2395,6 @@
   
   function renderFinancialDetailContent() {
     const content = document.getElementById('financialDetailContent');
-    const canEdit = currentUser.role === 'admin';
     
     const pemasukanEndIndex = Math.min(currentPemasukanStartIndex + 20, currentPemasukanData.length);
     const displayPemasukan = currentPemasukanData.slice(0, pemasukanEndIndex);
@@ -2705,24 +2410,22 @@
           <div class="card border-success mb-3">
             <div class="card-header bg-success text-white">Pemasukan - ${formatRupiah(currentReport.pemasukan)}</div>
             <div class="card-body">
-              <div id="pemasukanListContainer">
-                ${displayPemasukan.length > 0 ? `
-                  <div class="list-group">
-                    ${displayPemasukan.map(item => `
-                      <div class="list-group-item list-group-item-action financial-detail-row" data-type="pemasukan" data-item='${JSON.stringify(item)}'>
-                        <div class="d-flex justify-content-between">
-                          <div>
-                            <strong>${item.nomor_rumah}</strong><br>
-                            <small>${item.jenis_iuran} - ${item.bulan_iuran} ${item.tahun_iuran}</small>
-                          </div>
-                          <div class="text-success">${formatRupiah(item.jumlah)}</div>
+              ${displayPemasukan.length > 0 ? `
+                <div class="list-group">
+                  ${displayPemasukan.map(item => `
+                    <div class="list-group-item financial-detail-row" data-type="pemasukan" data-item='${JSON.stringify(item)}'>
+                      <div class="d-flex justify-content-between">
+                        <div>
+                          <strong>${item.nomor_rumah}</strong><br>
+                          <small>${item.jenis_iuran} - ${item.bulan_iuran} ${item.tahun_iuran}</small>
                         </div>
-                        <div><small class="text-muted">Tgl Bayar: ${item.tanggal_bayar}</small></div>
+                        <div class="text-success">${formatRupiah(item.jumlah)}</div>
                       </div>
-                    `).join('')}
-                  </div>
-                ` : '<p class="text-muted">Tidak ada pemasukan</p>'}
-              </div>
+                      <div><small class="text-muted">Tgl Bayar: ${item.tanggal_bayar}</small></div>
+                    </div>
+                  `).join('')}
+                </div>
+              ` : '<p class="text-muted">Tidak ada pemasukan</p>'}
               ${hasMorePemasukan ? `
                 <div class="load-more-btn" onclick="loadMorePemasukan()">
                   <i class="fas fa-chevron-down me-1"></i> Berikutnya
@@ -2735,23 +2438,19 @@
           <div class="card border-danger mb-3">
             <div class="card-header bg-danger text-white">Pengeluaran - ${formatRupiah(currentReport.pengeluaran)}</div>
             <div class="card-body">
-              <div id="pengeluaranListContainer">
-                ${displayPengeluaran.length > 0 ? `
-                  <div class="list-group">
-                    ${displayPengeluaran.map(item => `
-                      <div class="list-group-item list-group-item-action financial-detail-row" data-type="pengeluaran" data-item='${JSON.stringify(item)}'>
-                        <div class="d-flex justify-content-between">
-                          <div>
-                            <strong>${item.keterangan}</strong>
-                          </div>
-                          <div class="text-danger">${formatRupiah(item.jumlah)}</div>
-                        </div>
-                        <div><small class="text-muted">Tanggal: ${item.tanggal}</small></div>
+              ${displayPengeluaran.length > 0 ? `
+                <div class="list-group">
+                  ${displayPengeluaran.map(item => `
+                    <div class="list-group-item financial-detail-row" data-type="pengeluaran" data-item='${JSON.stringify(item)}'>
+                      <div class="d-flex justify-content-between">
+                        <div><strong>${item.keterangan}</strong></div>
+                        <div class="text-danger">${formatRupiah(item.jumlah)}</div>
                       </div>
-                    `).join('')}
-                  </div>
-                ` : '<p class="text-muted">Tidak ada pengeluaran</p>'}
-              </div>
+                      <div><small class="text-muted">Tanggal: ${item.tanggal}</small></div>
+                    </div>
+                  `).join('')}
+                </div>
+              ` : '<p class="text-muted">Tidak ada pengeluaran</p>'}
               ${hasMorePengeluaran ? `
                 <div class="load-more-btn" onclick="loadMorePengeluaran()">
                   <i class="fas fa-chevron-down me-1"></i> Berikutnya
@@ -2801,7 +2500,7 @@
           <tr><th>Jumlah</th><td class="text-success fw-bold">${formatRupiah(item.jumlah)}</td></tr>
           <tr><th>Tanggal Bayar</th><td>${item.tanggal_bayar}</td></tr>
         </table>
-        ${canEdit ? '<div class="alert alert-info">Anda (Admin) dapat mengedit data ini melalui menu Iuran.</div>' : '<div class="alert alert-secondary">Anda hanya bisa melihat data ini. Untuk perubahan, hubungi Admin.</div>'}
+        ${canEdit ? '<div class="alert alert-info">Anda (Admin) dapat mengedit data ini melalui menu Iuran.</div>' : '<div class="alert alert-secondary">Anda hanya bisa melihat data ini.</div>'}
       `;
     } else {
       title.textContent = `Detail Pengeluaran - ${item.keterangan}`;
@@ -2811,13 +2510,12 @@
           <tr><th>Jumlah</th><td class="text-danger fw-bold">${formatRupiah(item.jumlah)}</td></tr>
           <tr><th>Tanggal</th><td>${item.tanggal}</td></tr>
         </table>
-        ${canEdit ? '<div class="alert alert-info">Anda (Admin) dapat mengedit data ini melalui menu Pengeluaran.</div>' : '<div class="alert alert-secondary">Anda hanya bisa melihat data ini. Untuk perubahan, hubungi Admin.</div>'}
+        ${canEdit ? '<div class="alert alert-info">Anda (Admin) dapat mengedit data ini melalui menu Pengeluaran.</div>' : '<div class="alert alert-secondary">Anda hanya bisa melihat data ini.</div>'}
       `;
     }
     modal.show();
   }
 
-  // ==================== FUNGSI TANGGAL PELUNASAN ====================
   function toggleTanggalPelunasan() {
     const status = document.getElementById('editIuranStatus').value;
     const group = document.getElementById('tanggalPelunasanGroup');
@@ -2836,8 +2534,7 @@
     currentWargaDetail = warga;
     document.getElementById('detailNomorRumah').textContent = warga.username || 'N/A';
     
-    const detailContent = document.getElementById('wargaDetailContent');
-    detailContent.innerHTML = `
+    document.getElementById('wargaDetailContent').innerHTML = `
       <div class="mb-3"><strong>Nomor Rumah:</strong> <span class="text-primary">${warga.username || 'N/A'}</span></div>
       <div class="mb-3"><strong>Dinas:</strong> ${warga.dinas || 'N/A'}</div>
       <div class="mb-3"><strong>Nama Suami:</strong> ${warga.nama_suami || '-'}</div>
@@ -2852,15 +2549,20 @@
       editBtn.style.display = 'none';
     }
     
-    const modal = new bootstrap.Modal(document.getElementById('detailWargaModal'));
-    modal.show();
+    new bootstrap.Modal(document.getElementById('detailWargaModal')).show();
   }
 
   async function showEditWargaModal() {
     if (!currentWargaDetail) return;
     
     try {
-      const users = await callAppsScript('getAllUsers');
+      let users;
+      if (isCacheValid('users')) {
+        users = cache.users.data;
+      } else {
+        users = await callAppsScript('getAllUsers');
+        setCache('users', users);
+      }
       const userData = users.find(user => user.username === currentWargaDetail.username);
       
       if (userData) {
@@ -2874,12 +2576,9 @@
           (Array.isArray(userData.anak) ? userData.anak.join(', ') : userData.anak) : '';
         
         const detailModal = bootstrap.Modal.getInstance(document.getElementById('detailWargaModal'));
-        if (detailModal) {
-          detailModal.hide();
-        }
+        if (detailModal) detailModal.hide();
         
-        const editModal = new bootstrap.Modal(document.getElementById('editWargaModal'));
-        editModal.show();
+        new bootstrap.Modal(document.getElementById('editWargaModal')).show();
       }
     } catch (error) {
       console.error('Error loading user data:', error);
@@ -2888,7 +2587,6 @@
 
   async function saveEditWarga() {
     const username = document.getElementById('editUsername').value;
-    
     const updatedData = {
       username: document.getElementById('editNomorRumah').value,
       password: document.getElementById('editPassword').value,
@@ -2898,26 +2596,20 @@
       anak: document.getElementById('editAnak').value
     };
     
-    if (!username) {
-      alert('Error: Username tidak valid');
-      return;
-    }
+    if (!username) { alert('Error: Username tidak valid'); return; }
     
     showButtonLoading('saveEditWargaButton');
     
     try {
-      const result = await callAppsScript('updateWarga', {
-        username: username,
-        updatedData: updatedData
-      });
-      
+      const result = await callAppsScript('updateWarga', { username, updatedData });
       hideButtonLoading('saveEditWargaButton');
       alert(result.message);
       
       if (result.success) {
-        const modal = bootstrap.Modal.getInstance(document.getElementById('editWargaModal'));
-        modal.hide();
-        loadWarga();
+        bootstrap.Modal.getInstance(document.getElementById('editWargaModal')).hide();
+        invalidateCache('warga');
+        invalidateCache('users');
+        await loadWarga(true);
         
         if (currentUser.username === username) {
           currentUser.username = updatedData.username;
@@ -2938,27 +2630,27 @@
   // ==================== IURAN FUNCTIONS ====================
   async function showAddIuranModal() {
     showButtonLoading('addIuranButton');
-    
     try {
-      const warga = await callAppsScript('getWarga');
+      let warga;
+      if (isCacheValid('warga')) {
+        warga = cache.warga.data;
+      } else {
+        warga = await callAppsScript('getWarga');
+        setCache('warga', warga);
+      }
       hideButtonLoading('addIuranButton');
       
       const dropdown = document.getElementById('iuranNomorRumah');
       dropdown.innerHTML = '<option value="">Pilih Nomor Rumah</option>';
-      
       warga.forEach(function(item) {
-        const option = document.createElement('option');
-        option.value = item.username;
-        option.textContent = `${item.username} - ${item.nama_suami || item.nama_istri || ''}`;
-        dropdown.appendChild(option);
+        dropdown.appendChild(new Option(`${item.username} - ${item.nama_suami || item.nama_istri || ''}`, item.username));
       });
     } catch (error) {
       hideButtonLoading('addIuranButton');
       console.error('Error loading warga for dropdown:', error);
     }
     
-    const modal = new bootstrap.Modal(document.getElementById('addIuranModal'));
-    modal.show();
+    new bootstrap.Modal(document.getElementById('addIuranModal')).show();
   }
 
   async function saveIuran() {
@@ -2978,18 +2670,14 @@
     try {
       const result = await callAppsScript('addIuran', { data: iuranData });
       hideButtonLoading('saveIuranButton');
-      
       alert(result.message);
+      
       if (result.success) {
-        const modal = bootstrap.Modal.getInstance(document.getElementById('addIuranModal'));
-        modal.hide();
+        bootstrap.Modal.getInstance(document.getElementById('addIuranModal')).hide();
         document.getElementById('addIuranForm').reset();
         document.getElementById('iuranTahun').value = new Date().getFullYear();
-        loadIuran();
-        loadSaldo();
-        loadCatatan();
-        loadLaporanKeuangan();
-        loadUpdateIuran();
+        invalidateCache();
+        await refreshAfterMutation();
       }
     } catch (error) {
       hideButtonLoading('saveIuranButton');
@@ -2999,12 +2687,7 @@
 
   function showEditIuranModal(nomorRumah, bulan, tahun, jenisIuran, jumlah, status) {
     document.getElementById('editIuranOriginalData').value = JSON.stringify({
-      nomor_rumah: nomorRumah,
-      bulan: bulan,
-      tahun: tahun,
-      jenis_iuran: jenisIuran,
-      jumlah: jumlah,
-      status: status
+      nomor_rumah: nomorRumah, bulan, tahun, jenis_iuran: jenisIuran, jumlah, status
     });
     
     document.getElementById('editIuranNomorRumah').value = nomorRumah;
@@ -3013,18 +2696,10 @@
     document.getElementById('editIuranJenis').value = jenisIuran;
     document.getElementById('editIuranJumlah').value = jumlah;
     document.getElementById('editIuranStatus').value = status;
-    
-    const originalData = JSON.parse(document.getElementById('editIuranOriginalData').value);
-    if (originalData.tanggal_bayar) {
-      document.getElementById('editIuranTanggalBayar').value = originalData.tanggal_bayar;
-    } else {
-      document.getElementById('editIuranTanggalBayar').value = new Date().toISOString().split('T')[0];
-    }
+    document.getElementById('editIuranTanggalBayar').value = new Date().toISOString().split('T')[0];
     
     toggleTanggalPelunasan();
-    
-    const modal = new bootstrap.Modal(document.getElementById('editIuranModal'));
-    modal.show();
+    new bootstrap.Modal(document.getElementById('editIuranModal')).show();
   }
 
   async function saveEditIuran() {
@@ -3039,10 +2714,7 @@
     
     if (updatedData.status === 'lunas') {
       const tglBayar = document.getElementById('editIuranTanggalBayar').value;
-      if (!tglBayar) {
-        alert('Tanggal pelunasan harus diisi!');
-        return;
-      }
+      if (!tglBayar) { alert('Tanggal pelunasan harus diisi!'); return; }
       updatedData.tanggal_bayar = tglBayar;
     }
     
@@ -3062,13 +2734,9 @@
       alert(result.message);
       
       if (result.success) {
-        const modal = bootstrap.Modal.getInstance(document.getElementById('editIuranModal'));
-        modal.hide();
-        loadIuran();
-        loadSaldo();
-        loadCatatan();
-        loadLaporanKeuangan();
-        loadUpdateIuran();
+        bootstrap.Modal.getInstance(document.getElementById('editIuranModal')).hide();
+        invalidateCache();
+        await refreshAfterMutation();
       }
     } catch (error) {
       hideButtonLoading('saveEditIuranButton');
@@ -3079,24 +2747,13 @@
   async function deleteIuran(nomorRumah, bulan, tahun, jenisIuran) {
     if (confirm(`Apakah Anda yakin ingin menghapus iuran ${jenisIuran} ${nomorRumah} untuk ${bulan} ${tahun}?`)) {
       showGlobalLoading();
-      
       try {
-        const result = await callAppsScript('deleteIuran', {
-          nomorRumah: nomorRumah,
-          bulan: bulan,
-          tahun: tahun,
-          jenisIuran: jenisIuran
-        });
-        
+        const result = await callAppsScript('deleteIuran', { nomorRumah, bulan, tahun, jenisIuran });
         hideGlobalLoading();
         alert(result.message);
-        
         if (result.success) {
-          loadIuran();
-          loadSaldo();
-          loadCatatan();
-          loadLaporanKeuangan();
-          loadUpdateIuran();
+          invalidateCache();
+          await refreshAfterMutation();
         }
       } catch (error) {
         hideGlobalLoading();
@@ -3105,12 +2762,54 @@
     }
   }
 
+  // ✅ BARU: Refresh data setelah mutasi (add/edit/delete)
+  async function refreshAfterMutation() {
+    showGlobalLoading();
+    try {
+      const promises = [
+        callAppsScript('getSaldo').then(r => setCache('saldo', r.saldo)),
+        callAppsScript('getIuran', { username: currentUser.username, role: currentUser.role }).then(r => setCache('iuran', r)),
+        callAppsScript('getIuranAll').then(r => setCache('iuranAll', r)),
+        callAppsScript('getPengeluaran').then(r => setCache('pengeluaran', r)),
+        callAppsScript('getCatatan').then(r => setCache('catatan', r))
+      ];
+      await Promise.all(promises);
+      
+      document.getElementById('saldoAmount').textContent = formatRupiah(cache.saldo.data);
+      document.getElementById('lastUpdate').textContent = new Date().toLocaleString('id-ID');
+      
+      allData.iuran = cache.iuran.data;
+      allData.pengeluaran = cache.pengeluaran.data;
+      allData.catatan = cache.catatan.data;
+      
+      if (currentUser.role === 'admin') {
+        filteredIuranDataAdmin = [...allData.iuran];
+        renderIuranList(filteredIuranDataAdmin);
+      } else {
+        filteredIuranDataWarga = [...allData.iuran];
+        renderIuranList(filteredIuranDataWarga);
+      }
+      
+      renderPengeluaranList(allData.pengeluaran);
+      renderCatatanList(allData.catatan);
+      
+      const allIuranForUpdate = cache.iuranAll.data || [];
+      const belumBayar = allIuranForUpdate.filter(item => item.status === 'belum');
+      allData.updateIuran = belumBayar;
+      filteredUpdateIuranData = [...belumBayar];
+      renderUpdateIuranList(filteredUpdateIuranData);
+      
+      buildLaporanKeuangan();
+    } finally {
+      hideGlobalLoading();
+    }
+  }
+
   // ==================== PENGELUARAN FUNCTIONS ====================
   function showAddPengeluaranModal() {
     document.getElementById('addPengeluaranForm').reset();
     document.getElementById('pengeluaranTanggal').value = new Date().toISOString().split('T')[0];
-    const modal = new bootstrap.Modal(document.getElementById('addPengeluaranModal'));
-    modal.show();
+    new bootstrap.Modal(document.getElementById('addPengeluaranModal')).show();
   }
 
   async function savePengeluaran() {
@@ -3126,15 +2825,12 @@
     try {
       const result = await callAppsScript('addPengeluaran', { data: pengeluaranData });
       hideButtonLoading('savePengeluaranButton');
-      
       alert(result.message);
+      
       if (result.success) {
-        const modal = bootstrap.Modal.getInstance(document.getElementById('addPengeluaranModal'));
-        modal.hide();
-        loadPengeluaran();
-        loadSaldo();
-        loadCatatan();
-        loadLaporanKeuangan();
+        bootstrap.Modal.getInstance(document.getElementById('addPengeluaranModal')).hide();
+        invalidateCache();
+        await refreshAfterMutation();
       }
     } catch (error) {
       hideButtonLoading('savePengeluaranButton');
@@ -3143,18 +2839,11 @@
   }
 
   function showEditPengeluaranModal(tanggal, keterangan, jumlah) {
-    document.getElementById('editPengeluaranOriginalData').value = JSON.stringify({
-      tanggal: tanggal,
-      keterangan: keterangan,
-      jumlah: jumlah
-    });
-    
+    document.getElementById('editPengeluaranOriginalData').value = JSON.stringify({ tanggal, keterangan, jumlah });
     document.getElementById('editPengeluaranTanggal').value = tanggal;
     document.getElementById('editPengeluaranKeterangan').value = keterangan;
     document.getElementById('editPengeluaranJumlah').value = jumlah;
-    
-    const modal = new bootstrap.Modal(document.getElementById('editPengeluaranModal'));
-    modal.show();
+    new bootstrap.Modal(document.getElementById('editPengeluaranModal')).show();
   }
 
   async function saveEditPengeluaran() {
@@ -3172,19 +2861,16 @@
         tanggal: originalData.tanggal,
         keterangan: originalData.keterangan,
         jumlah: originalData.jumlah,
-        updatedData: updatedData
+        updatedData
       });
       
       hideButtonLoading('saveEditPengeluaranButton');
       alert(result.message);
       
       if (result.success) {
-        const modal = bootstrap.Modal.getInstance(document.getElementById('editPengeluaranModal'));
-        modal.hide();
-        loadPengeluaran();
-        loadSaldo();
-        loadCatatan();
-        loadLaporanKeuangan();
+        bootstrap.Modal.getInstance(document.getElementById('editPengeluaranModal')).hide();
+        invalidateCache();
+        await refreshAfterMutation();
       }
     } catch (error) {
       hideButtonLoading('saveEditPengeluaranButton');
@@ -3195,22 +2881,13 @@
   async function deletePengeluaran(tanggal, keterangan, jumlah) {
     if (confirm(`Apakah Anda yakin ingin menghapus pengeluaran "${keterangan}"?`)) {
       showGlobalLoading();
-      
       try {
-        const result = await callAppsScript('deletePengeluaran', {
-          tanggal: tanggal,
-          keterangan: keterangan,
-          jumlah: jumlah
-        });
-        
+        const result = await callAppsScript('deletePengeluaran', { tanggal, keterangan, jumlah });
         hideGlobalLoading();
         alert(result.message);
-        
         if (result.success) {
-          loadPengeluaran();
-          loadSaldo();
-          loadCatatan();
-          loadLaporanKeuangan();
+          invalidateCache();
+          await refreshAfterMutation();
         }
       } catch (error) {
         hideGlobalLoading();
@@ -3223,8 +2900,7 @@
   function showAddCatatanModal() {
     document.getElementById('addCatatanForm').reset();
     document.getElementById('catatanTanggal').value = new Date().toISOString().split('T')[0];
-    const modal = new bootstrap.Modal(document.getElementById('addCatatanModal'));
-    modal.show();
+    new bootstrap.Modal(document.getElementById('addCatatanModal')).show();
   }
 
   async function saveCatatan() {
@@ -3241,12 +2917,12 @@
     try {
       const result = await callAppsScript('addCatatan', { data: catatanData });
       hideButtonLoading('saveCatatanButton');
-      
       alert(result.message);
+      
       if (result.success) {
-        const modal = bootstrap.Modal.getInstance(document.getElementById('addCatatanModal'));
-        modal.hide();
-        loadCatatan();
+        bootstrap.Modal.getInstance(document.getElementById('addCatatanModal')).hide();
+        invalidateCache('catatan');
+        await loadCatatan(true);
       }
     } catch (error) {
       hideButtonLoading('saveCatatanButton');
@@ -3255,20 +2931,12 @@
   }
 
   function showEditCatatanModal(tanggal, jenis, keterangan, jumlah) {
-    document.getElementById('editCatatanOriginalData').value = JSON.stringify({
-      tanggal: tanggal,
-      jenis: jenis,
-      keterangan: keterangan,
-      jumlah: jumlah
-    });
-    
+    document.getElementById('editCatatanOriginalData').value = JSON.stringify({ tanggal, jenis, keterangan, jumlah });
     document.getElementById('editCatatanTanggal').value = tanggal;
     document.getElementById('editCatatanJenis').value = jenis;
     document.getElementById('editCatatanKeterangan').value = keterangan;
     document.getElementById('editCatatanJumlah').value = jumlah;
-    
-    const modal = new bootstrap.Modal(document.getElementById('editCatatanModal'));
-    modal.show();
+    new bootstrap.Modal(document.getElementById('editCatatanModal')).show();
   }
 
   async function saveEditCatatan() {
@@ -3288,16 +2956,16 @@
         jenis: originalData.jenis,
         keterangan: originalData.keterangan,
         jumlah: originalData.jumlah,
-        updatedData: updatedData
+        updatedData
       });
       
       hideButtonLoading('saveEditCatatanButton');
       alert(result.message);
       
       if (result.success) {
-        const modal = bootstrap.Modal.getInstance(document.getElementById('editCatatanModal'));
-        modal.hide();
-        loadCatatan();
+        bootstrap.Modal.getInstance(document.getElementById('editCatatanModal')).hide();
+        invalidateCache('catatan');
+        await loadCatatan(true);
       }
     } catch (error) {
       hideButtonLoading('saveEditCatatanButton');
@@ -3308,20 +2976,13 @@
   async function deleteCatatan(tanggal, jenis, keterangan, jumlah) {
     if (confirm(`Apakah Anda yakin ingin menghapus catatan "${keterangan}"?`)) {
       showGlobalLoading();
-      
       try {
-        const result = await callAppsScript('deleteCatatan', {
-          tanggal: tanggal,
-          jenis: jenis,
-          keterangan: keterangan,
-          jumlah: jumlah
-        });
-        
+        const result = await callAppsScript('deleteCatatan', { tanggal, jenis, keterangan, jumlah });
         hideGlobalLoading();
         alert(result.message);
-        
         if (result.success) {
-          loadCatatan();
+          invalidateCache('catatan');
+          await loadCatatan(true);
         }
       } catch (error) {
         hideGlobalLoading();
@@ -3333,8 +2994,7 @@
   // ==================== ADMIN WARGA FUNCTIONS ====================
   function showAddWargaModal() {
     document.getElementById('addWargaForm').reset();
-    const modal = new bootstrap.Modal(document.getElementById('addWargaModal'));
-    modal.show();
+    new bootstrap.Modal(document.getElementById('addWargaModal')).show();
   }
 
   async function saveNewWarga() {
@@ -3353,13 +3013,14 @@
     try {
       const result = await callAppsScript('addUser', { data: userData });
       hideButtonLoading('saveNewWargaButton');
-      
       alert(result.message);
+      
       if (result.success) {
-        const modal = bootstrap.Modal.getInstance(document.getElementById('addWargaModal'));
-        modal.hide();
-        loadKelolaWarga();
-        loadWarga();
+        bootstrap.Modal.getInstance(document.getElementById('addWargaModal')).hide();
+        invalidateCache('warga');
+        invalidateCache('users');
+        await loadKelolaWarga(true);
+        await loadWarga(true);
       }
     } catch (error) {
       hideButtonLoading('saveNewWargaButton');
@@ -3375,9 +3036,7 @@
     document.getElementById('editWargaAdminNamaSuami').value = namaSuami || '';
     document.getElementById('editWargaAdminNamaIstri').value = namaIstri || '';
     document.getElementById('editWargaAdminAnak').value = anak || '';
-    
-    const modal = new bootstrap.Modal(document.getElementById('editWargaAdminModal'));
-    modal.show();
+    new bootstrap.Modal(document.getElementById('editWargaAdminModal')).show();
   }
 
   async function saveEditWargaAdmin() {
@@ -3393,27 +3052,21 @@
       anak: document.getElementById('editWargaAdminAnak').value
     };
     
-    if (!originalUsername || !newUsername) {
-      alert('Error: Username tidak valid');
-      return;
-    }
+    if (!originalUsername || !newUsername) { alert('Error: Username tidak valid'); return; }
     
     showButtonLoading('saveEditWargaAdminButton');
     
     try {
-      const result = await callAppsScript('updateWarga', {
-        username: originalUsername,
-        updatedData: updatedData
-      });
-      
+      const result = await callAppsScript('updateWarga', { username: originalUsername, updatedData });
       hideButtonLoading('saveEditWargaAdminButton');
       alert(result.message);
       
       if (result.success) {
-        const modal = bootstrap.Modal.getInstance(document.getElementById('editWargaAdminModal'));
-        modal.hide();
-        loadKelolaWarga();
-        loadWarga();
+        bootstrap.Modal.getInstance(document.getElementById('editWargaAdminModal')).hide();
+        invalidateCache('warga');
+        invalidateCache('users');
+        await loadKelolaWarga(true);
+        await loadWarga(true);
         
         if (currentUser.username === originalUsername) {
           currentUser.username = newUsername;
@@ -3434,15 +3087,15 @@
   async function deleteWarga(username) {
     if (confirm(`Apakah Anda yakin ingin menghapus warga ${username}?`)) {
       showGlobalLoading();
-      
       try {
-        const result = await callAppsScript('deleteUser', { username: username });
+        const result = await callAppsScript('deleteUser', { username });
         hideGlobalLoading();
-        
         alert(result.message);
         if (result.success) {
-          loadKelolaWarga();
-          loadWarga();
+          invalidateCache('warga');
+          invalidateCache('users');
+          await loadKelolaWarga(true);
+          await loadWarga(true);
         }
       } catch (error) {
         hideGlobalLoading();
@@ -3451,7 +3104,7 @@
     }
   }
 
-  // ==================== PULL-TO-REFRESH (SWIPE DOWN) ====================
+  // ==================== PULL-TO-REFRESH ====================
   function setupPullToRefresh() {
     const pullIndicator = document.getElementById('pullIndicator');
     let startY = 0;
@@ -3462,14 +3115,11 @@
     if (!isTouchDevice) return;
     
     document.addEventListener('touchstart', function(e) {
-      if (window.scrollY <= 0 && !isRefreshing) {
-        startY = e.touches[0].clientY;
-      }
+      if (window.scrollY <= 0 && !isRefreshing) startY = e.touches[0].clientY;
     }, { passive: true });
     
     document.addEventListener('touchmove', function(e) {
       if (window.scrollY > 0 || isRefreshing || startY === 0) return;
-      
       const currentY = e.touches[0].clientY;
       const pullDistance = currentY - startY;
       
@@ -3477,7 +3127,6 @@
         isPulling = true;
         const progress = Math.min(pullDistance / 150, 1);
         const translateY = Math.min(pullDistance - 5, 60);
-        
         pullIndicator.style.top = translateY + 'px';
         
         if (progress > 0.7) {
@@ -3493,11 +3142,7 @@
     }, { passive: true });
     
     document.addEventListener('touchend', function(e) {
-      if (!isPulling || isRefreshing || startY === 0) {
-        startY = 0;
-        return;
-      }
-      
+      if (!isPulling || isRefreshing || startY === 0) { startY = 0; return; }
       const pullDistance = e.changedTouches[0].clientY - startY;
       startY = 0;
       
@@ -3508,7 +3153,8 @@
         pullIndicator.querySelector('.icon').textContent = '';
         pullIndicator.style.top = '60px';
         
-        refreshAllData().finally(() => {
+        invalidateCache();
+        loadInitialData().finally(() => {
           isRefreshing = false;
           setTimeout(() => {
             pullIndicator.style.top = '-70px';
@@ -3523,38 +3169,8 @@
         pullIndicator.querySelector('.text').textContent = 'Tarik untuk refresh';
         pullIndicator.querySelector('.icon').textContent = '↓';
       }
-      
       isPulling = false;
     }, { passive: true });
-  }
-
-  // ==================== REFRESH ALL DATA ====================
-  async function refreshAllData() {
-    try {
-      const promises = [
-        loadSaldo(),
-        loadWarga(),
-        loadIuran(),
-        loadPengeluaran(),
-        loadCatatan(),
-        loadLaporanKeuangan(),
-        loadUpdateIuran()
-      ];
-      
-      if (currentUser && currentUser.role === 'admin') {
-        promises.push(loadKelolaWarga());
-        promises.push(loadDetailIuran());
-      }
-      
-      await Promise.all(promises);
-      
-      document.getElementById('lastUpdate').textContent = new Date().toLocaleString('id-ID');
-      
-      return { success: true };
-    } catch (error) {
-      console.error('Error refreshing data:', error);
-      return { success: false, error: error.message };
-    }
   }
 
   // ==================== INITIALIZATION ====================
@@ -3577,19 +3193,12 @@
       login();
     });
     
-    // Setup password toggle
     setupPasswordToggle();
-    
-    // Setup pull-to-refresh
     setupPullToRefresh();
   });
 
-  // Auto refresh saldo setiap 30 detik
-  setInterval(function() {
-    if (currentUser) {
-      loadSaldo();
-    }
-  }, 30000);
+  // ❌ HAPUS auto-refresh saldo setiap 30 detik (penyebab lemot!)
+  // User bisa refresh manual dengan pull-to-refresh atau reload halaman
 </script>
 </body>
 </html>
